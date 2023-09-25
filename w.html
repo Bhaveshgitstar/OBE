@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  table {
+    font-family: "Times New Roman", serif;
+    font-size: 11pt;
+  }
+  th, td {
+    text-align: left;
+    padding: 8px;
+  }
+</style>
+</head>
+<body>
+
+<table>
+  <tr>
+    <th>Components</th>
+    <th>Maximum Marks</th>
+    <th>Assigned Value</th>
+  </tr>
+  <tr>
+    <td>T1</td>
+    <td>20</td>
+    <td><input type="number" id="T1" value="0" oninput="calculateTotalMarks()"></td>
+  </tr>
+  <tr>
+    <td>T2</td>
+    <td>20</td>
+    <td><input type="number" id="T2" value="0" oninput="calculateTotalMarks()"></td>
+  </tr>
+  <tr>
+    <td>End Term</td>
+    <td>35</td>
+    <td><input type="number" id="EndTerm" value="0" oninput="calculateTotalMarks()"></td>
+  </tr>
+  <tr>
+    <td>TA (Attendance: 10, Assignment/Quiz/Mini-Project: 15)</td>
+    <td>25</td>
+    <td><input type="number" id="TA" value="0" oninput="calculateTotalMarks()"></td>
+  </tr>
+  <tr>
+    <td>Total</td>
+    <td>100</td>
+    <td id="Total">0</td>
+  </tr>
+</table>
+
+<script>
+function calculateTotalMarks() {
+  var T1 = parseFloat(document.getElementById('T1').value);
+  var T2 = parseFloat(document.getElementById('T2').value);
+  var EndTerm = parseFloat(document.getElementById('EndTerm').value);
+  var TA = parseFloat(document.getElementById('TA').value);
+
+  var totalMarks = T1 + T2 + EndTerm + TA;
+  document.getElementById('Total').textContent = totalMarks;
+}
+</script>
+
+</body>
+</html>

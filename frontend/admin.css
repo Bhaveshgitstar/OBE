@@ -1,0 +1,352 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif; /* Professional font */
+}
+.home-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f05a15; /* Dark blue */
+    color: #fff;
+    text-decoration: none; /* Remove underlines from links */
+    border-radius: 5px;
+    font-size: 16px;
+    margin-left: 1550px; /* Add space to the right */
+}
+
+/* Style the home button on hover */
+.home-button:hover {
+    background-color: #f05a15; /* Slightly darker blue on hover */
+}
+
+/* Define the animation keyframes */
+@keyframes moveContactUs {
+    0% {
+        transform: translateX(0px);
+    }
+    0% {
+        transform: translateX(0px); /* Adjust the distance and direction of movement */
+    }
+    100% {
+        transform: translateX(-775px);
+    }
+}
+
+
+/* Apply the animation to the contact-us-container */
+.contact-us-container {
+    text-decoration: overline;
+    text-decoration: #1593e7;
+    animation: moveContactUs 3s linear infinite; /* Adjust the duration as needed */
+    text-align: center; /* Center the "Contact Us" text horizontally */
+    margin-top: 675px; /* Add some margin between the form and the text */
+}
+/* Define styles for the left and right containers */
+.left-container {
+    float: left;
+    width: 50%;
+    padding: 20px;
+}
+
+.right-container {
+    float: right;
+    width: 50%;
+    padding: 20px;
+}
+
+/* Clear the floats to prevent layout issues */
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+/* Animation for the heading in the left container */
+@keyframes headingAnimation {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-20px);
+    }
+}
+
+/* Style for the heading animation */
+.upward-heading {
+    animation: headingAnimation 1s ease infinite alternate;
+}
+
+/* Additional styles can be placed here */
+
+
+
+
+/* Center the admin login form */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f5f5f5; /* Light gray or any color of your choice */
+}
+
+.container {
+    background-color: #f5f5f5; /* Light gray or any color of your choice */
+}
+
+/* Style the box heading */
+.box-heading {
+    background-color: #1593e7; /* Background color */
+    color: #fff; /* Text color */
+    padding: 8px; /* Add padding for spacing */
+    text-align: center; /* Center the text */
+    margin: 10px 0; /* Add margin for spacing between headings */
+    margin-top:0px;
+    margin-bottom: 50px;
+}
+
+
+/* Style the navigation strip */
+.navigation-strip {
+    background-color: #003366; /* Professional dark blue color */
+    color: #fff;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+}
+
+/* Style the menu icon */
+.menu-icon {
+    cursor: pointer;
+    font-size: 24px;
+    color: #fff;
+    display: block;
+    margin-right: 20px; /* Add space to the right */
+}
+
+/* Style the menu options container */
+.menu-options {
+    flex-direction: column;
+    background-color: #003366; /* Match the navigation strip background color */
+    position: absolute;
+    top: 50px; /* Adjusted position */
+    left: 20px; /* Adjusted position */
+    z-index: 1000;
+    display: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+/* Style individual menu options */
+.menu-option {
+    padding: 10px;
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Style the user info popup */
+.user-info-popup {
+    position: absolute;
+    top: 75px;
+    right: 20px;
+    background-color: #fff;
+    color: #333;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    display: none;
+}
+
+/* Style the user info button */
+.user-info-button {
+    cursor: pointer;
+    text-decoration: underline;
+    color: #fff;
+}
+
+/* Show the user info popup on button hover */
+.user-info-button:hover + .user-info-popup {
+    display: block;
+}
+
+/* Show the menu icon on smaller screens */
+@media (max-width: 768px) {
+    .menu-icon {
+        display: block;
+    }
+
+    .menu-options {
+        position: static;
+        display: none;
+    }
+}
+
+/* Style headings */
+h2 {
+    text-align: center;
+    text-decoration: underline;
+    margin: 20px 0;
+}
+
+/* Center the content */
+.text-center {
+    text-align: center;
+}
+
+/* Add some margin to the bottom of the buttons */
+.table-buttons {
+    margin-bottom: 20px;
+}
+
+/* Adjust margin for table rows */
+#syllabus-data tr:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+
+
+/* Add margins to tables */
+
+
+/* Adjust margin for table rows */
+#syllabus-data tr:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+/* Style tables */
+.table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 5 auto; /* Center the table horizontally and add margin from the sides */
+    margin-top: 20px; /* Add top margin */
+}
+
+.table th,
+.table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+/* Style table header */
+.table thead th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+/* Style alternating rows */
+.table tbody tr:nth-child(even) {
+    background-color: #f7f7f7;
+}
+
+/* Style buttons */
+button {
+    background-color: #003366; /* Dark blue */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #002855; /* Slightly darker blue on hover */
+}
+
+/* Style form elements */
+/* Reset some default styles for consistency */
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif; /* Professional font */
+}
+
+form {
+    max-width: 450px;
+    width: 100%;
+    padding: 140px;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+
+.form-container {
+    max-width: 450px;
+    width: 100%;
+    margin: 100px auto; /* Adjust margin from the top and center horizontally */
+    padding: 20px; /* Adjust padding to control the space inside the form */
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+form h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+form input[type="text"],
+form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+}
+
+form button[type="submit"] {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #003366;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.form-group.text-center {
+    text-align: center;
+}
+
+/* Style the button */
+.form-group.text-center button[type="submit"] {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #003366;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+form button[type="submit"]:hover {
+
+    background-color: #002855;
+}
+
+form .form-group {
+    margin-bottom: 15px;
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="admin.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+    <title>Teacher Login</title>
+</head>
+<body>
+    <!-- Navigation Strip -->
+    <div class="navigation-strip">
+        <!-- Home Button -->
+        <a href="/" class="home-button">Home</a>
+    </div>
+
+    <!-- Admin Login Form -->
+    <form action="/teacher-login" method="POST">
+        <h2 class="box-heading">Teacher Login</h2>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        </div>
+
+        <!-- <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY_HERE"></div> -->
+        <div class="form-group text-center">
+            <button type="submit">Login</button>
+        </div>
+        <div class="form-group text-center">
+            <!-- Add Forgot Password and Create Account Links -->
+            <a href="/forgot-password" class="/forgot-password">Forgot Password?</a> &nbsp;
+            <a href="/forgot-username" class="/forgot-username">Forgot Username?</a>
+        </div>
+        <div class="form-group text-center">
+            <a href="/create-account" class="/create-account">Create Account</a>
+
+        </div>
+    </form>
+    <div class="contact-us-container">
+        <div id="contact-us-line">Contact Us</div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,150 @@
+mongod --bind_ip_all --port 27018 --dbpath C:\mongodb_data
+
+
+
+function fetchT1attainmentData() {
+    $.ajax({
+        url: '/api/t1attainment', // Update the URL to match your Express route for T1attainment data
+        type: 'GET',
+        dataType: 'json',
+
+        success: function(data) {
+            const attainmentData = $('#attainment-data');
+            attainmentData.empty();
+            let totalQ1 = 0;
+            let totalQ2 = 0;
+            let totalQ3 = 0;
+            let totalQ4 = 0;
+            let totalQ5 = 0;
+            let totalQ6 = 0;
+
+            data.forEach(record => {
+                let row = `
+                    <tr data-record-id="${record._id}">
+                `;
+
+                // Iterate over the property names of the record object and create a <td> element for each property
+                Object.keys(record).forEach(property => {
+                    row += `<td>${record[property]}</td>`;
+                });
+
+                row += `
+                        <td class="action-buttons">
+                            <button class="btn btn-info update-buttonat">Edit</button>
+                            <button class="btn btn-danger delete-buttonat">Delete</button>
+                            <button class="btn btn-primary save-buttonatu" style="display: none;">Save</button>
+                        </td>
+                    </tr>
+                `;
+
+                attainmentData.append(row);
+
+                // Calculate totals for Q1 to Q6
+                totalQ1 += record.Q1;
+                totalQ2 += record.Q2;
+                totalQ3 += record.Q3;
+                totalQ4 += record.Q4;
+                totalQ5 += record.Q5;
+                totalQ6 += record.Q6;
+            });
+        },
+        error: function(error) {
+            console.error('Error fetching data:', error);
+        }
+    });
+}
+
+
+
+CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, 'attainment1')
+CourseOutcomeModule.collection.updateMany({}, {
+    $set: {
+        "email": "newvalue"
+    }
+}, {
+    multi: true
+});
+
+
+function addColumns() {
+    // Get the number of columns to add from the input field.
+    const numColumns = document.getElementById('num-columns').value;
+
+    // Create an array of column names.
+    const columnNames = [];
+    for (let i = 0; i < numColumns; i++) {
+        columnNames.push(prompt(`Enter the name of column ${i + 1}: `));
+    }
+
+    // Get the table element.
+    const table = document.getElementById('attainment-table');
+
+    // Get the Q6 column header.
+    const q6ColumnHeader = table.querySelector('thead th:nth-child(7)');
+
+    // Add new columns to the table header after the Q6 column header.
+    const headerRow = table.querySelector('thead tr');
+    for (const columnName of columnNames) {
+        const headerCell = document.createElement('th');
+        headerCell.textContent = columnName;
+        headerRow.insertBefore(headerCell, q6ColumnHeader.nextSibling);
+    }
+
+    // Add new columns to the table body after the Q6 column.
+    const tableBody = table.querySelector('tbody');
+    for (const row of tableBody.querySelectorAll('tr')) {
+        const q6Cell = row.querySelector('td:nth-child(7)');
+        for (const columnName of columnNames) {
+            const cell = document.createElement('td');
+            cell.textContent = '0';
+            row.insertBefore(cell, q6Cell.nextSibling);
+        }
+    }
+    $.ajax({
+        url: '/api/updatedb', // Update the URL to match your Express route for T1attainment data
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify({ columnNames }), // Send columnNames as JSON data
+        success: function(response) {
+            console.log('Data saved successfully:', response);
+            // You can add code here to handle the success response
+            // and update your table as needed.
+        },
+        error: function(xhr, status, error) {
+            console.error('Error saving data:', error);
+            console.log('Status:', status);
+            console.log('Response:', xhr.responseText);
+            // You can add error handling code here if needed.
+        }
+    });
+    //   addColumnsToSchema(columnNames);
+}
+
+
+app.post('/api/updatedb', async(req, res) => {
+    const { columnNames } = req.body;
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, 'attainment1');
+
+    // Iterate through the columnNames array and update each column separately
+    const updatePromises = columnNames.map(columnName => {
+        // Create an update object for each column name
+        const updateObject = {};
+        updateObject[columnName] = "0";
+
+        // Use updateMany to update all documents in the collection for this column
+        return CourseOutcomeModule.collection.updateMany({}, { $set: updateObject });
+    });
+
+    // Use Promise.all to wait for all updates to complete
+    Promise.all(updatePromises)
+        .then(results => {
+            // Handle the results if needed
+            res.send("Update successful");
+        })
+        .catch(error => {
+            // Handle the error if something goes wrong
+            console.error(error);
+            res.status(500).send("Update failed");
+        });
+});

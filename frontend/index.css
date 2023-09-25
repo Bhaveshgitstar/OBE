@@ -1,0 +1,126 @@
+/* Reset default styles */
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Navigation Strip */
+.navigation-strip {
+    background-color: #003366;
+    color: #fff;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.home-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f05a15;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-left: 1550px; /* Adjust as needed */
+}
+
+.home-button:hover {
+    background-color: #f05a15;
+}
+
+/* Animation */
+@keyframes moveContactUs {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(-775px);
+    }
+}
+
+.contact-us-container {
+    text-decoration: overline;
+    text-decoration: #1593e7;
+    animation: moveContactUs 3s linear infinite;
+    text-align: center;
+    margin-top: 675px;
+}
+
+/* Left and Right Containers */
+.left-container,
+.right-container {
+    float: left;
+    width: 50%;
+    padding: 20px;
+}
+
+/* Animation for the heading in the left container */
+.upward-heading {
+    animation: headingAnimation 1s ease infinite alternate;
+}
+
+/* Form Styles */
+.form-container {
+    max-width: 450px;
+    width: 100%;
+    margin: 100px auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+form h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+form input[type="text"],
+form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+}
+
+.form-group.text-center {
+    text-align: center;
+}
+
+.form-group.text-center button[type="submit"] {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #003366;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+form button[type="submit"]:hover {
+    background-color: #002855;
+}
+
+form .form-group {
+    margin-bottom: 15px;
+}

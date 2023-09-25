@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="admin.css"> <!-- Include your CSS file -->
+    <title>Home Page</title>
+    <style>
+        .home-button {
+            text-decoration: none;
+            color: white;
+        }
+        .content-container {
+            display: flex;
+            justify-content: space-between;
+            padding: 50px;
+        }
+        .left-container {
+            left: -50px;
+            right:0px;
+            width: 60%; /* Adjust as needed */
+            background-color: white;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            padding: 60px;
+            position: relative; /* Added for positioning the new container */
+        }
+        .left-container:first-child {
+            margin-right: 5%; /* Create a small gap between containers */
+        }
+        @keyframes headingAnimation {
+            0% {
+                transform: translateY(40px);
+            }
+            100% {
+                transform: translateY(-40px);
+            }
+        }
+        .upward-heading {
+            animation: headingAnimation 2s ease infinite alternate;
+        }
+        h1 {
+            margin-top: 0;
+        }
+        p {
+            margin: 10px 0;
+        }
+        .form-group {
+            margin: 10px 0;
+        }
+        button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        h2 {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .contact-us-container {
+            color: #333;
+            text-align: center;
+            padding: 20px 0;
+        }
+        /* New container styles */
+        .about-container {
+            position: absolute;
+            bottom: 90px; /* Adjust as needed */
+            left: 40px;
+            right:20px;
+            width: 35%;
+            background-color:white;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            color: #333;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Strip -->
+    <div class="navigation-strip">
+        <!-- Home Button (You are already on the home page) -->
+        <a href="/" class="home-button">About us</a>
+    </div>
+
+    <!-- Home Page Content -->
+    <div class="content-container">
+        <!-- Left Container - Latest News -->
+        <div class="left-container">
+            <h2 class="upward-heading">Latest News</h2>
+            <!-- Content for the Latest News goes here -->
+        </div>
+
+        <!-- Left Container - Latest Circulars -->
+        <div class="left-container">
+            <h2 class="upward-heading">Latest Circulars</h2>
+            <!-- Content for the Latest Circulars goes here -->
+        </div>
+
+        <!-- New Container for About Options -->
+        <div class="about-container">
+            <p>About Admin</p>
+            <p>About Teacher</p>
+            <p>About Coordinator</p>
+        </div>
+    </div>
+
+    <!-- Right Container -->
+    <div class="right-container">
+        <!-- Original content for the right container here -->
+        <h1>OBE Accreditation Platform</h1>
+        <form action="/login" method="POST">
+            <div class="form-group ">
+                <a>Choose your role to continue:</a>
+            </div>
+            <div class="form-group">
+                <input type="radio" id="coordinator" name="role" value="coordinator" required>
+                <label for="coordinator">Coordinator</label>
+            </div>
+            <div class="form-group">
+                <input type="radio" id="admin" name="role" value="admin" required>
+                <label for="admin">Admin</label>
+            </div>
+            <div class="form-group">
+                <input type="radio" id="teacher" name="role" value="teacher" required>
+                <label for="teacher">Teacher</label>
+            </div>
+            <div class="form-group text-center">
+            <button type="submit">Continue</button>
+        </div>
+        </form>
+    </div>
+
+    <div class="contact-us-container">
+        <div id="contact-us-line">Contact Us</div>
+    </div>
+</body>
+</html>
