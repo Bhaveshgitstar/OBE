@@ -109,9 +109,23 @@ const attainmentT1Schema = new mongoose.Schema(
         Total: Number,
         Attainment1: Number,
         Attainment2: Number,
-        Attainment3: Number
-
-
+        Attainment3: Number,
+        COQ1: String,
+        COQ2: String,
+        COQ3: String,
+        COQ4: String,
+        COQ5: String,
+        COQ6: String,
+        COQ7: String,
+        COQ8: String,
+        COQ9: String,
+        COQ10: String,
+        COQ11: String,
+        COQ12: String,
+        COQ13: String,
+        COAttainment1: String,
+        COAttainment2: String,
+        COAttainment3: String
     },
     { versionKey: false }
 );

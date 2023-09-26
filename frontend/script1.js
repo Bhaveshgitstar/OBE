@@ -300,6 +300,7 @@ function fetchT1attainmentData() {
             const attainmentData = $('#attainment-data');
             attainmentData.empty();
 
+
             if (data.length > 0) {
                 // Create an array of column headers based on the keys of the first record
                 const tableHeaders = Object.keys(data[0]);
@@ -896,7 +897,7 @@ function addEmptyRow3() {
 
     const numColumns = rows.eq(rows.length - 7).find('td').length; // Determine the number of columns dynamically
 
-    let emptyRow = '<tr>';
+    let emptyRow = '<tbody><tr>';
     for (let i = 0; i < numColumns-1; i++) {
         if (i === 0) {
             emptyRow += `<td contenteditable="false">${newModuleNo}</td>`;
@@ -904,7 +905,7 @@ function addEmptyRow3() {
             emptyRow += '<td contenteditable="true"></td>';
         }
     }
-    emptyRow += '</tr>';
+    emptyRow += '</tr></tbody>';
 
     $('#attainment-data').append(emptyRow);
 }
