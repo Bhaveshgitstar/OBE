@@ -3,7 +3,13 @@ window.onload = function() {
 };
 
 $(document).ready(() => {
-    fetchT1attainmentData();
+    fetchT1attainmentData()
+    .then(fetchT1CO)
+    .then(fetchT1CO2)
+    .then(fetchT1attainmentData2)
+    .catch(function(error) {
+        console.error('Error:', error);
+    });
     fetchcdData();
     fetchusername();
     fetchcourse();
@@ -211,7 +217,13 @@ function updateRowat(recordId, row) {
         data: JSON.stringify(updatedData),
         success: function(response) {
             console.log('Data updated successfully:', response);
-            fetchT1attainmentData();
+            fetchT1attainmentData()
+            .then(fetchT1CO)
+            .then(fetchT1CO2)
+            .then(fetchT1attainmentData2)
+            .catch(function(error) {
+                console.error('Error:', error);
+            });
             row.find('.q-input').trigger('input');
         },
         error: function(error) {
@@ -232,7 +244,13 @@ function deleteRowat(moduleId) {
         type: 'DELETE',
         success: function() {
             console.log('Data deleted successfully');
-            fetchT1attainmentData();
+            fetchT1attainmentData()
+            .then(fetchT1CO)
+            .then(fetchT1CO2)
+            .then(fetchT1attainmentData2)
+            .catch(function(error) {
+                console.error('Error:', error);
+            });
         },
         error: function(error) {
             console.error('Error deleting data:', error);
@@ -258,6 +276,7 @@ function fetchuserrole(){
 }
 
 function fetchusername(){
+    
     $.ajax({
         url: '/api/get-username',
         type: 'GET',
@@ -288,9 +307,139 @@ function fetchcourse(){
         }
     });
 }
+function fetchT1CO2(){
+    return new Promise((resolve, reject) => {
+    $.ajax({
+        url: '/api/t1co', // Update the URL to match your Express route for T1attainment data
+        type: 'GET',
+        dataType: 'json',
+
+        success: function(dataco) {
+            const attainmentDataco2 = $('#attainment-data');
+            tableHtml = '<tbody>';
+                            const tableHeaders = Object.keys(dataco[0]);
+                // Create an array for Q columns and sort them numerically
+                const qColumns = tableHeaders.filter(header => /^Q\d+$/.test(header));
+                qColumns.sort((a, b) => {
+                    const aNumber = parseInt(a.slice(1));
+                    const bNumber = parseInt(b.slice(1));
+                    return aNumber - bNumber;
+                });
+                const aColumns = tableHeaders.filter(header => /^Attainment\d+$/.test(header));
+                aColumns.sort((a, b) => {
+                    const aNumber = parseInt(a.slice(1));
+                    const bNumber = parseInt(b.slice(1));
+                    return aNumber - bNumber;
+                });
+
+                const desiredOrder = ['ModuleNo', 'RollNo', 'Name', 'Batch', ...qColumns, 'Total', ...aColumns];
 
 
-function fetchT1attainmentData() {
+            dataco.forEach((record, index) => {
+                tableHtml += '<tr data-record-id="' + record._id + '">';
+                    // For the first and second records, you can add placeholders or empty cells
+                    
+
+                    desiredOrder.forEach(header => {
+                        if (tableHeaders.includes(header)) {
+                            if ( /^Q\d+$/.test(header)) {
+                                tableHtml += `<td><strong>${record[header]}</strong></td>`;      
+                            } 
+                             else {
+                                tableHtml += `<td></td>`;
+                            }
+                        }
+                        
+                    });
+                    tableHtml += `<td></td>`;
+
+                    tableHtml += '</tr>';
+                
+    
+        
+            });
+            
+            tableHtml += '</tbody>';
+            attainmentDataco2.append(tableHtml);
+        
+        
+            resolve(); 
+        },
+        error: function(error) {
+            console.error('Error fetching data:', error);
+            reject(error);
+        }
+    });});
+}
+
+function fetchT1CO(){
+    return new Promise((resolve, reject) => {
+    $.ajax({
+        url: '/api/t1co', // Update the URL to match your Express route for T1attainment data
+        type: 'GET',
+        dataType: 'json',
+
+        success: function(dataco) {
+            const attainmentDataco = $('#attainment-data');
+            tableHtml = '<tbody>';
+                            const tableHeaders = Object.keys(dataco[0]);
+                // Create an array for Q columns and sort them numerically
+                const qColumns = tableHeaders.filter(header => /^Q\d+$/.test(header));
+                qColumns.sort((a, b) => {
+                    const aNumber = parseInt(a.slice(1));
+                    const bNumber = parseInt(b.slice(1));
+                    return aNumber - bNumber;
+                });
+                const aColumns = tableHeaders.filter(header => /^Attainment\d+$/.test(header));
+                aColumns.sort((a, b) => {
+                    const aNumber = parseInt(a.slice(1));
+                    const bNumber = parseInt(b.slice(1));
+                    return aNumber - bNumber;
+                });
+
+                const desiredOrder = ['ModuleNo', 'RollNo', 'Name', 'Batch', ...qColumns, 'Total', ...aColumns];
+
+
+            dataco.forEach((record, index) => {
+                tableHtml += '<tr data-record-id="' + record._id + '">';
+                    // For the first and second records, you can add placeholders or empty cells
+                    
+
+                    desiredOrder.forEach(header => {
+                        if (tableHeaders.includes(header)) {
+                            if ( /^Q\d+$/.test(header)) {
+                                tableHtml += `<td><strong>${record[header]}</strong></td>`;      
+                            } 
+                             else {
+                                tableHtml += `<td></td>`;
+                            }
+                        }
+                        
+                    });
+                    tableHtml += `<td></td>`;
+
+                    tableHtml += '</tr>';
+                
+    
+        
+            });
+            
+            tableHtml += '</tbody>';
+            attainmentDataco.append(tableHtml);
+            resolve();
+        
+        
+        
+        },
+        error: function(error) {
+            console.error('Error fetching data:', error);
+            reject(error);
+        }
+    });});
+}
+
+function fetchT1attainmentData2(){
+    return new Promise((resolve, reject) => {
     $.ajax({
         url: '/api/t1attainment', // Update the URL to match your Express route for T1attainment data
         type: 'GET',
@@ -298,13 +447,11 @@ function fetchT1attainmentData() {
 
         success: function(data) {
             const attainmentData = $('#attainment-data');
-            attainmentData.empty();
 
 
             if (data.length > 0) {
                 // Create an array of column headers based on the keys of the first record
                 const tableHeaders = Object.keys(data[0]);
-
                 // Create an array for Q columns and sort them numerically
                 const qColumns = tableHeaders.filter(header => /^Q\d+$/.test(header));
                 qColumns.sort((a, b) => {
@@ -322,48 +469,37 @@ function fetchT1attainmentData() {
                 // Specify the desired order of columns (S.No, RollNo, Name, Batch, Q1 to Qn, Total, Attainment, Action)
                 const desiredOrder = ['ModuleNo', 'RollNo', 'Name', 'Batch', ...qColumns, 'Total', ...aColumns];
 
-                // Create the table header row
-                let tableHtml = '<thead><tr>';
-                desiredOrder.forEach(header => {
-                    if (tableHeaders.includes(header)) {
-                        if (header === 'ModuleNo') {
-                            tableHtml += '<th>S.No</th>';
-                        } else {
-                            tableHtml += `<th>${header}</th>`;
-                        }
-                    }
-                });
-                tableHtml += '<th>Action</th></tr></thead>';
-                attainmentData.append(tableHtml);
-
-                // Create the table body
                 tableHtml = '<tbody>';
                 data.forEach((record, index) => {
                     tableHtml += '<tr data-record-id="' + record._id + '">';
-
-                    desiredOrder.forEach(header => {
-                        if (tableHeaders.includes(header)) {
-                            if (header === 'ModuleNo') {
-                                tableHtml += `<td>${index + 1}</td>`;
-                            } else {
-                                tableHtml += `<td>${record[header]}</td>`;
+                        desiredOrder.forEach(header => {
+                            if (tableHeaders.includes(header)) {
+                                if (header === 'ModuleNo') {
+                                    tableHtml += `<td>${index+ 1-2}</td>`;
+                                } else {
+                                    tableHtml += `<td>${record[header]}</td>`;
+                                }
                             }
-                        }
-                    });
-                    tableHtml += `
-                    <td class="action-buttons">
-                        <button class="btn btn-info update-buttonat">Edit</button>
-                        <button class="btn btn-danger delete-buttonat">Delete</button>
-                        <button class="btn btn-primary save-buttonatu" style="display: none;">Save</button>
-                    </td>`;
-
+                        });
+                        tableHtml += `
+                        <td class="action-buttons">
+                            <button class="btn btn-info update-buttonat">Edit</button>
+                            <button class="btn btn-danger delete-buttonat">Delete</button>
+                            <button class="btn btn-primary save-buttonatu" style="display: none;">Save</button>
+                        </td>`;
+                
                     tableHtml += '</tr>';
+                
+                    
+        
+            
                 });
+                
                 tableHtml += '</tbody>';
                 attainmentData.append(tableHtml);
 
                 // Calculate and add summary rows
-                const totalStudents = data.length;
+                const totalStudents = data.length ;
                 const averageMarks = calculateAverageMarks(data);
                 const studentsAboveTarget1 = calculateStudentsAboveTarget1(data);
                 const studentsAboveTarget2 = calculateStudentsAboveTarget2(data);
@@ -414,11 +550,72 @@ function fetchT1attainmentData() {
                 // Handle the case where there is no data
                 attainmentData.html('<p>No data available.</p>');
             }
+            resolve();
         },
         error: function(error) {
             console.error('Error fetching data:', error);
+            reject(error);
         }
     });
+    });
+}
+function fetchT1attainmentData() {
+    return new Promise((resolve, reject) => {
+    $.ajax({
+        url: '/api/t1attainment', // Update the URL to match your Express route for T1attainment data
+        type: 'GET',
+        dataType: 'json',
+
+        success: function(data) {
+            const attainmentData = $('#attainment-data');
+            attainmentData.empty();
+
+            if (data.length > 0) {
+                // Create an array of column headers based on the keys of the first record
+                const tableHeaders = Object.keys(data[0]);
+                // Create an array for Q columns and sort them numerically
+                const qColumns = tableHeaders.filter(header => /^Q\d+$/.test(header));
+                qColumns.sort((a, b) => {
+                    const aNumber = parseInt(a.slice(1));
+                    const bNumber = parseInt(b.slice(1));
+                    return aNumber - bNumber;
+                });
+                const aColumns = tableHeaders.filter(header => /^Attainment\d+$/.test(header));
+                aColumns.sort((a, b) => {
+                    const aNumber = parseInt(a.slice(1));
+                    const bNumber = parseInt(b.slice(1));
+                    return aNumber - bNumber;
+                });
+
+                // Specify the desired order of columns (S.No, RollNo, Name, Batch, Q1 to Qn, Total, Attainment, Action)
+                const desiredOrder = ['ModuleNo', 'RollNo', 'Name', 'Batch', ...qColumns, 'Total', ...aColumns];
+
+                // Create the table header row
+                let tableHtml = '<thead><tr>';
+                desiredOrder.forEach(header => {
+                    if (tableHeaders.includes(header)) {
+                        if (header === 'ModuleNo') {
+                            tableHtml += '<th>S.No</th>';
+                        } else {
+                            tableHtml += `<th>${header}</th>`;
+                        }
+                    }
+                });
+                tableHtml += '<th>Action</th></tr></thead>';
+                attainmentData.append(tableHtml);
+
+
+            } else {
+                // Handle the case where there is no data
+                attainmentData.html('<p>No data available.</p>');
+            }
+            resolve();
+        },
+        error: function(error) {
+            console.error('Error fetching data:', error);
+            reject(error);
+        }
+    });});
 }
 
 
@@ -437,11 +634,11 @@ function calculateStudentsAboveTarget2(data) {
 
 function calculatePercentageAboveTarget1(data) {
     const aboveTargetCount = calculateStudentsAboveTarget1(data);
-    return ((aboveTargetCount / data.length) * 100).toFixed(2) + '%';
+    return ((aboveTargetCount / (data.length)) * 100).toFixed(2) + '%';
 }
 function calculatePercentageAboveTarget2(data) {
     const aboveTargetCount = calculateStudentsAboveTarget2(data);
-    return ((aboveTargetCount / data.length) * 100).toFixed(2) + '%';
+    return ((aboveTargetCount / (data.length)) * 100).toFixed(2) + '%';
 }
 
 function calculateCOAttainment(data) {
@@ -478,196 +675,6 @@ function calculateStudentsAppeared(data) {
     return presentStudents;
 }
 
-
-
-
-
-
-/*function fetchT1attainmentData() {
-    $.ajax({
-        url: '/api/t1attainment', // Update the URL to match your Express route for T1attainment data
-        type: 'GET',
-        dataType: 'json',
-
-        success: function(data) {
-            const attainmentData = $('#attainment-data');
-            attainmentData.empty();
-            let totalstudents=0;
-            let absentstudent=0;
-            let presentstudent=0;
-            let avgmarks=0;
-            let totalmarks=0;
-            let coat1=0;
-            let coat2=0;
-            let totalat1student=0;
-            let totalat2student=0;
-            let pertotalat1student=0;
-            let pertotalat2student=0;
-            
-
-
-            data.forEach(record => {
-                const row = `
-                    <tr data-record-id="${record._id}">
-                        <td>${record.ModuleNo}</td>
-                        <td>${record.RollNo}</td>
-                        <td>${record.Name}</td>
-                        <td>${record.Batch}</td>
-                        <td>${record.Q1}</td>
-                        <td>${record.Q2}</td>+
-                        <td>${record.Q3}</td>
-                        <td>${record.Q4}</td>
-                        <td>${record.Q5}</td>
-                        <td>${record.Q6}</td>
-                        <td>${record.Total}</td>
-                        <td>${record.Attainment1}</td>
-                        <td>${record.Attainment2}</td>
-                        <td class="action-buttons">
-                            <button class="btn btn-info update-buttonat">Edit</button>
-                            <button class="btn btn-danger delete-buttonat">Delete</button>
-                            <button class="btn btn-primary save-buttonatu" style="display: none;">Save</button>
-                        </td>
-                    </tr>
-                `;
-                totalstudents=totalstudents+1;
-                totalmarks=totalmarks+record.Total;
-                if(record.Total===0){
-                    absentstudent=absentstudent+1;
-                }
-                if(record.Attainment1>=50){
-                    totalat1student=totalat1student+1;
-                }
-                if(record.Attainment2>=50){
-                    totalat2student=totalat2student+1;
-                }
-                attainmentData.append(row);
-            });
-
-            presentstudent=totalstudents-absentstudent;
-            avgmarks=totalmarks/totalstudents;
-            pertotalat1student=(totalat1student/totalstudents)*100;
-            pertotalat2student=(totalat2student/totalstudents)*100;
-
-            if(pertotalat1student>=80){
-                coat1=3;
-            }
-            else if(pertotalat1student<80 && pertotalat1student>=70){
-                coat1=2;
-            }
-            else if(pertotalat1student<70 && pertotalat1student>=60){
-                coat1=1;
-            }
-            else{
-                coat1=0;
-            }
-
-            if(pertotalat2student>=80){
-                coat2=3;
-            }
-            else if(pertotalat2student<80 && pertotalat2student>=70){
-                coat2=2;
-            }
-            else if(pertotalat2student<70 && pertotalat2student>=60){
-                coat2=1;
-            }
-            else{
-                coat2=0;
-            }*/
-
-       /*     const totalRow = `
-            <tr id="total-lectures-row">
-                <th colspan="10">Average Marks</th>
-                <th>${avgmarks}</th>
-                <th></th> 
-                <th></th>
-                <th></th><!-- Empty cell for actions -->
-            </tr>-
-            <tr id="total-lectures-row">
-            <th colspan="11">No. of Students Scored > = Target % (50%)</th>
-            <th>${totalat1student}</th>
-            <th>${totalat2student}</th>
-            <th></th> <!-- Empty cell for actions -->
-            </tr>-
-            <tr id="total-lectures-row">
-            <th colspan="11">% of Students Scored > = Target % (50%)</th>
-            <th>${pertotalat1student}</th>
-            <th>${pertotalat2student}</th>
-            <th></th> <!-- Empty cell for actions -->
-            </tr>-
-            <tr id="total-lectures-row">
-            <th colspan="11">CO Attainment Levels}</th>
-            <th>${coat1}</th>
-            <th>${coat2}</th>
-            <th></th> <!-- Empty cell for actions -->
-           </tr>-
-           <tr id="total-lectures-row">
-           <th colspan="11">Total Students </th>
-           <th>${totalstudents}</th>
-           <th>${totalstudents}</th>
-           <th></th> <!-- Empty cell for actions -->
-           </tr>-
-            <tr id="total-lectures-row">
-            <th colspan="11">No. of Students Appeared in T1</th>
-            <th>${presentstudent}</th>
-            <th>${presentstudent}</th>
-            <th></th> <!-- Empty cell for actions -->
-            </tr>-
-
-        `;
-
-         attainmentData.append(totalRow);*/
-       /* },
-        
-        error: function(error) {
-            console.error('Error fetching data:', error);
-        }
-    });
-}*/
-
-/*function addColumnsq(noc) {
-    // Get the number of columns to add from the input field.
-
-    // Create an array of column names.
-    let columnName;
-    cno = noc - 4 + 1;
-    columnName = "Q" + 16;
-
-    // Get the table element.
-    const table = document.getElementById('attainment-table');
-
-    // Add new columns to the table after the last data cell in each row.
-    const rows = table.querySelectorAll('tr');
-    rows.forEach((row) => {
-        const lastDataCell = row.querySelector('td:last-child');
-        if (lastDataCell) {
-            const cell = document.createElement('td');
-            cell.textContent = '0';
-            row.insertBefore(cell, lastDataCell.nextSibling);
-        }
-    });
-
-    $.ajax({
-        url: '/api/updatedb', // Update the URL to match your Express route for T1attainment data
-        type: 'POST',
-        dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify({ columnName }), // Send columnNames as JSON data
-        success: function(response) {
-            console.log('Data saved successfully:', response);
-            // You can add code here to handle the success response
-            // and update your table as needed.
-        },
-        error: function(xhr, status, error) {
-            console.error('Error saving data:', error);
-            console.log('Status:', status);
-            console.log('Response:', xhr.responseText);
-            // You can add error handling code here if needed.
-        }
-    });
-
-    noc = noc + 1;
-    return noc;
-}*/
 let cno=0;
 function addColumnsq(noc) {
     // Get the table element.
@@ -723,6 +730,13 @@ function addColumnsq(noc) {
             console.log('Data saved successfully:', response);
             // You can add code here to handle the success response
             // and update your table as needed.
+            fetchT1attainmentData()
+            .then(fetchT1CO)
+            .then(fetchT1CO2)
+            .then(fetchT1attainmentData2)
+            .catch(function(error) {
+                console.error('Error:', error);
+            });
         },
         error: function(xhr, status, error) {
             console.error('Error saving data:', error);
@@ -905,7 +919,7 @@ function addEmptyRow3() {
             emptyRow += '<td contenteditable="true"></td>';
         }
     }
-    emptyRow += '</tr></tbody>';
+    emptyRow += '<td></td></tr></tbody>';
 
     $('#attainment-data').append(emptyRow);
 }
@@ -1038,7 +1052,13 @@ function saveDataToServer3() {
         data: JSON.stringify(newData),
         success: function(response) {
             console.log('Data saved successfully:', response);
-            fetchT1attainmentData(); // Refresh table with updated data
+            fetchT1attainmentData()
+            .then(fetchT1CO)
+            .then(fetchT1CO2)
+            .then(fetchT1attainmentData2)
+            .catch(function(error) {
+                console.error('Error:', error);
+            });// Refresh table with updated data
         },
         error: function(xhr, status, error) {
             console.error('Error saving data:', error);

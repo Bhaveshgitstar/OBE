@@ -109,23 +109,33 @@ const attainmentT1Schema = new mongoose.Schema(
         Total: Number,
         Attainment1: Number,
         Attainment2: Number,
-        Attainment3: Number,
-        COQ1: String,
-        COQ2: String,
-        COQ3: String,
-        COQ4: String,
-        COQ5: String,
-        COQ6: String,
-        COQ7: String,
-        COQ8: String,
-        COQ9: String,
-        COQ10: String,
-        COQ11: String,
-        COQ12: String,
-        COQ13: String,
-        COAttainment1: String,
-        COAttainment2: String,
-        COAttainment3: String
+        Attainment3: Number
+    },
+    { versionKey: false }
+);
+const attainmentT1Schemaco = new mongoose.Schema(
+    {
+        ModuleNo: String,
+        RollNo: String,
+        Name: String,
+        Batch: String,
+        Q1: String,
+        Q2: String,
+        Q3: String,
+        Q4: String,
+        Q5: String,
+        Q6: String,
+        Q7: String,
+        Q8: String,
+        Q9: String,
+        Q10: String,
+        Q11: String,
+        Q12: String,
+        Q13: String,
+        Total: Number,
+        Attainment1: Number,
+        Attainment2: Number,
+        Attainment3: Number
     },
     { versionKey: false }
 );
@@ -324,6 +334,18 @@ app.get('/api/t1attainment', async (req, res) => {
         const c= req.session.user.Course+"_at";
         const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
         const modules = await CourseOutcomeModule.find();
+        res.json(modules);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ error: 'Error fetching data' });
+    }
+});
+
+app.get('/api/t1co', async (req, res) => {
+    try {
+        const c= req.session.user.Course+"_t1co";
+        const attainmentT1Schemac = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
+        const modules = await attainmentT1Schemac.find();
         res.json(modules);
     } catch (error) {
         console.error('Error fetching data:', error);
