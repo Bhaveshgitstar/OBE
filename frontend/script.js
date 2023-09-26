@@ -265,7 +265,7 @@ function fetchSyllabusData() {
                     <th colspan="3">Total Lectures</th>
                     <th>${totalLectures}</th>
                     <th></th> <!-- Empty cell for actions -->
-                </tr>
+                </tr>-
             `;
 
             syllabusData.append(totalRow);
