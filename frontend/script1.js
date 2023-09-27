@@ -310,7 +310,7 @@ function fetchcourse(){
 function fetchT1CO2(){
     return new Promise((resolve, reject) => {
     $.ajax({
-        url: '/api/t1co', // Update the URL to match your Express route for T1attainment data
+        url: '/api/t1marks', // Update the URL to match your Express route for T1attainment data
         type: 'GET',
         dataType: 'json',
 
@@ -407,7 +407,7 @@ function fetchT1CO(){
 
                     desiredOrder.forEach(header => {
                         if (tableHeaders.includes(header)) {
-                            if ( /^Q\d+$/.test(header)) {
+                            if ( /^Q\d+$/.test(header)|| /^Attainment\d+$/.test(header)) {
                                 tableHtml += `<td><strong>${record[header]}</strong></td>`;      
                             } 
                              else {
@@ -676,15 +676,65 @@ function calculateStudentsAppeared(data) {
 }
 
 let cno=0;
+function updatenewco(columnName,co){
+    $.ajax({
+        url: '/api/updatedbco', // Update the URL to match your Express route for T1attainment data
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify({ columnName,co }), // Send columnNames as JSON data
+        success: function(response) {
+            console.log('Data saved successfully:', response);
+            // You can add code here to handle the success response
+            // and update your table as needed.
+        },
+        error: function(xhr, status, error) {
+            console.error('Error saving data:', error);
+            console.log('Status:', status);
+            console.log('Response:', xhr.responseText);
+            // You can add error handling code here if needed.
+        }
+    });
+
+
+}
+function updatenewmarks(columnName,marks){
+    
+    $.ajax({
+        url: '/api/updatedbmarks', // Update the URL to match your Express route for T1attainment data
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify({ columnName,marks }), // Send columnNames as JSON data
+        success: function(response) {
+            console.log('Data saved successfully:', response);
+            // You can add code here to handle the success response
+            // and update your table as needed.
+        },
+        error: function(xhr, status, error) {
+            console.error('Error saving data:', error);
+            console.log('Status:', status);
+            console.log('Response:', xhr.responseText);
+            // You can add error handling code here if needed.
+        }
+    });
+
+
+}
 function addColumnsq(noc) {
     // Get the table element.
     let columnName;
     cno = noc - 4 + 1;
     columnName = "Q" + cno;
     const table = document.getElementById('attainment-table');
+    
 
     // Find the rows to which you want to add the column (up to totalRows - 5).
     const rows = table.querySelectorAll('tbody tr');
+    const co=prompt(`Enter the CO for question ${columnName}: `);
+    const marks=prompt(`Enter the marks for question ${columnName}: `);
+    updatenewco(columnName,co);
+    updatenewmarks(columnName,marks);
     const numRowsToAddTo = Math.max(0, rows.length - 6);
 
     // Add a new cell to the selected rows.
@@ -989,6 +1039,46 @@ function addEmptyRow3() {
     });
 }
 */
+
+function fetchatindices(atIndices) {
+    const rows = $('#attainment-data tr');
+    const row = rows.eq(1);
+    const cells = row.find('td');
+    
+    for (let i = cells.length - 3; i < cells.length - 1; i++) {
+        const cellText = cells.eq(i).text().trim();
+        atIndices.push(cellText);
+    }
+    
+    // Log the entire array
+    console.log(atIndices);
+
+    return atIndices;
+}
+
+function fetchcoIndices(coIndices){
+    const rows = $('#attainment-data tr');
+    const row=rows.eq(1);
+    const cells = row.find('td');
+    for (let i = 4; i < cells.length - 4; i++) {
+        const cellText = cells.eq(i).text().trim();
+        coIndices.push(cellText);
+    }
+    console.log(coIndices);
+    return coIndices;
+
+}
+function fetchmarks(qmarks){
+    const rows = $('#attainment-data tr');
+    const row=rows.eq(2);
+    const cells = row.find('td');
+    for (let i = 4; i < cells.length - 4; i++) {
+        const cellText = cells.eq(i).text().trim();
+        qmarks.push(cellText);
+    }
+    return qmarks;
+
+}
 function saveDataToServer3() {
     const rows = $('#attainment-data tr');
     const lastRow = rows.last(); // Get the last added row
@@ -1000,21 +1090,52 @@ function saveDataToServer3() {
 
     // Determine if Q1 to Qn contain the string "A" or "?"
     const qIndices = [];
+    let coIndices = [];
+    let atIndices = [];
+    coIndices = fetchcoIndices(coIndices);
+    console.log(coIndices);
+    atIndices = fetchatindices(atIndices);
+    console.log(atIndices);
+    let qmarks = [];
+    qmarks = fetchmarks(qmarks);
+    console.log(qmarks);
     const qValues = [];
-
-    for (let i = 4; i < cells.length; i++) {
+    
+    for (let i = 4; i < cells.length - 4; i++) {
         const cellText = cells.eq(i).text().trim();
-        qIndices.push(i);
-        
+        qIndices.push(i - 4);
         qValues.push(cellText);
     }
     
     const containsAOrQuestionMark = qValues.some(value => value === "A");
-
-    // Calculate at1 and at2 values
-    const at1 = containsAOrQuestionMark ? 0 : qIndices.slice(0, 3).reduce((acc, index) => acc + parseFloat(qValues[index] || 0), 0);
-    const at2 = containsAOrQuestionMark ? 0 : qIndices.slice(3,6).reduce((acc, index) => acc + parseFloat(qValues[index] || 0), 0);
-
+    
+    // Initialize at1 to atn with zeros
+    const at = Array(atIndices.length).fill(0);
+    const marks = Array(atIndices.length).fill(0);
+   
+    // Calculate at1 to atn only when coIndices and atIndices match
+    for (let i = 0; i < atIndices.length; i++) {
+        const atIndex = atIndices[i];
+        let atValue=0.0;
+        let atmarks=0.0;
+    
+        // Check if coIndices has a corresponding entry and it matches
+        for (let j = 4; j < cells.length - 4; j++) {
+        if (coIndices[j-4] === atIndex) {
+            console.log(coIndices[j-4]);
+            console.log(atIndex);
+           atValue+=parseFloat(qValues[j-4]||0);
+           atmarks+=parseFloat(qmarks[j-4]||0);
+        }
+        console.log(atValue);
+        console.log(atmarks);
+        at[i] = atValue;
+        marks[i]=atmarks;
+    }
+    }
+    
+    // at now contains at1 to atn values based on matching indices between coIndices and atIndices
+    
     // Calculate attainment1 and attainment2 values
     let attainment1, attainment2;
 
@@ -1022,8 +1143,8 @@ function saveDataToServer3() {
         attainment1 = 0;
         attainment2 = 0;
     } else {
-        attainment1 = ((at1 / 11) * 100).toFixed(1);
-        attainment2 = ((at2 / 9) * 100).toFixed(1);
+        attainment1 = ((at[0] / marks[0]) * 100).toFixed(1);
+        attainment2 = ((at[1] /marks[1]) * 100).toFixed(1);
     }
 
 

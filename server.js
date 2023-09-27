@@ -133,9 +133,9 @@ const attainmentT1Schemaco = new mongoose.Schema(
         Q12: String,
         Q13: String,
         Total: Number,
-        Attainment1: Number,
-        Attainment2: Number,
-        Attainment3: Number
+        Attainment1:  String,
+        Attainment2: String,
+        Attainment3: String
     },
     { versionKey: false }
 );
@@ -292,6 +292,48 @@ app.post('/api/updatedb', async (req, res) => {
             res.status(500).json({ error: "Update failed" });
         });
 });
+app.post('/api/updatedbco', async (req, res) => {
+    const { columnName,co } = req.body;
+    const c= req.session.user.Course+"_t1co";
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
+
+    // Create an update object for the single column name
+    const updateObject = {};
+    updateObject[columnName] = co;
+
+    // Use updateMany to update all documents in the collection for this column
+    CourseOutcomeModule.collection.updateMany({}, { $set: updateObject })
+        .then(result => {
+            // Handle the result if needed
+            res.json({ message: "Update successful" });
+        })
+        .catch(error => {
+            // Handle the error if something goes wrong
+            console.error(error);
+            res.status(500).json({ error: "Update failed" });
+        });
+});
+app.post('/api/updatedbmarks', async (req, res) => {
+    const { columnName,marks } = req.body;
+    const c= req.session.user.Course+"_t1marks";
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
+
+    // Create an update object for the single column name
+    const updateObject = {};
+    updateObject[columnName] = marks;
+
+    // Use updateMany to update all documents in the collection for this column
+    CourseOutcomeModule.collection.updateMany({}, { $set: updateObject })
+        .then(result => {
+            // Handle the result if needed
+            res.json({ message: "Update successful" });
+        })
+        .catch(error => {
+            // Handle the error if something goes wrong
+            console.error(error);
+            res.status(500).json({ error: "Update failed" });
+        });
+});
 
 
 app.get('/api/get-usercourse', async (req, res) => {
@@ -346,6 +388,18 @@ app.get('/api/t1co', async (req, res) => {
         const c= req.session.user.Course+"_t1co";
         const attainmentT1Schemac = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
         const modules = await attainmentT1Schemac.find();
+        res.json(modules);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ error: 'Error fetching data' });
+    }
+});
+
+app.get('/api/t1marks', async (req, res) => {
+    try {
+        const c= req.session.user.Course+"_t1marks";
+        const attainmentT1Schemamarks = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
+        const modules = await attainmentT1Schemamarks.find();
         res.json(modules);
     } catch (error) {
         console.error('Error fetching data:', error);
