@@ -512,7 +512,7 @@ function fetchT1attainmentData2(){
                         desiredOrder.forEach(header => {
                             if (tableHeaders.includes(header)) {
                                 if (header === 'ModuleNo') {
-                                    tableHtml += `<td>${index+ 1-2}</td>`;
+                                    tableHtml += `<td>${index+ 1}</td>`;
                                 } else {
                                     tableHtml += `<td>${record[header]}</td>`;
                                 }

@@ -132,7 +132,7 @@ body.dark {
   content: "Dashboard";
 }
 .menu_editor::before {
-  content: "Course Allotment";
+  content: "Course Mapping";
 }
 .menu_setting::before {
   content: "Settings";
