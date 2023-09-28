@@ -8,69 +8,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        /* Sidebar Styles */
-        .w3-sidebar {
-            height: 100%;
-            width: 250px;
-            position: fixed;
-            z-index: 5;
-            top: 0;
-            left: -250px;
-            background-color: #333;
-            color: white;
-            overflow-x: hidden;
-            transition: 0.3s;
-        }
-    
-        .w3-sidebar a {
-            padding: 10px 15px;
-            text-decoration: none;
-            font-size: 18px;
-            color: white;
-            display: block;
-        }
-    
-        .w3-sidebar a:hover {
-            background-color: #555;
-        }
-    
-        /* Overlay Styles */
-        .w3-overlay {
-            position: fixed;
-            display: none;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 4;
-        }
-    </style>
-    
-</head>
-<body>
-    <!-- Sidebar -->
-    <div class="w3-sidebar w3-bar-block" style="display:none;z-index:5" id="mySidebar">
-        <button class="w3-bar-item w3-button" onclick="w3_close()">Close</button>
-        <a href="#" class="w3-bar-item w3-button">Link 1</a>
-        <a href="#" class="w3-bar-item w3-button">Link 2</a>
-        <a href="#" class="w3-bar-item w3-button">Link 3</a>
-    </div>
-
-    <!-- Overlay -->
-    <div class="w3-overlay" onclick="w3_close()" style="cursor:pointer" id="myOverlay"></div>
+    <link rel="stylesheet" href="admincontorl.css">
 
     <!-- Navigation Strip -->
     <div class="navigation-strip">
         <!-- Hamburger Icon to Open Sidebar -->
-        <button class="w3-button w3-xxlarge" onclick="w3_open()">&#9776;</button>
 
-        <!-- Logo 
-        <img class="logo" src="LOGO.jpg" alt="Flowers in Chania">-->
+    
+        <img class="logo" src="LOGO.jpg" alt="Flowers in Chania">
+        <i class="bx bx-menu" id="sidebarOpen"></i>
 
         <!-- Menu Options -->
         <div class="navbar_content">
@@ -78,7 +24,6 @@
             <i class='bx bx-sun' id="darkLight"></i>
             <i class='bx bx-bell' ></i>
             <i class='bx bx-sun' id="darkLight"></i>
-            <img src="images/profile.jpg" alt="" class="profile" />
           </div>
           <span class="user-info-button">User Info</span>
 
@@ -90,6 +35,117 @@
             <div><h8 id="course_code">Course Name</h8></div>
         </div>
     </div>
+
+        <!-- sidebar -->
+        <nav class="sidebar">
+            <div class="menu_content">
+              <ul class="menu_items">
+                <div class="menu_title menu_dahsboard"></div>
+                <!-- duplicate or remove this li tag if you want to add or remove navlink with submenu -->
+                <!-- start -->
+                <li class="item">
+                  <div href="#" class="nav_link submenu_item">
+                    <span class="navlink_icon">
+                      <i class="bx bx-home-alt"></i>
+                    </span>
+                    <span class="navlink">Home</span>
+                    <i class="bx bx-chevron-right arrow-left"></i>
+                  </div>
+      
+                  <ul class="menu_items submenu">
+                    <a href="#" class="nav_link sublink">Nav Sub Link</a>
+                    <a href="#" class="nav_link sublink">Nav Sub Link</a>
+                    <a href="#" class="nav_link sublink">Nav Sub Link</a>
+                    <a href="#" class="nav_link sublink">Nav Sub Link</a>
+                  </ul>
+                </li>
+                <!-- end -->
+      
+                <!-- duplicate this li tag if you want to add or remove  navlink with submenu -->
+                <!-- start -->
+                <li class="item">
+                  <div href="#" class="nav_link submenu_item">
+                    <span class="navlink_icon">
+                      <i class="bx bx-grid-alt"></i>
+                    </span>
+                    <span class="navlink">Overview</span>
+                    <i class="bx bx-chevron-right arrow-left"></i>
+                  </div>
+      
+                  <ul class="menu_items submenu">
+                    <a href="#" class="nav_link sublink">Nav Sub Link</a>
+                    <a href="#" class="nav_link sublink">Nav Sub Link</a>
+                    <a href="#" class="nav_link sublink">Nav Sub Link</a>
+                    <a href="#" class="nav_link sublink">Nav Sub Link</a>
+                  </ul>
+                </li>
+                <!-- end -->
+              </ul>
+      
+              <ul class="menu_items">
+                <div class="menu_title menu_editor"></div>
+                <!-- duplicate these li tag if you want to add or remove navlink only -->
+                <!-- Start -->
+                <li class="item">
+                  <a href="#" class="nav_link">
+                    <span class="navlink_icon">
+                      <i class="bx bxs-magic-wand"></i>
+                    </span>
+                    <span class="navlink">Course Coodinator</span>
+                  </a>
+                </li>
+                <!-- End -->
+      
+                <li class="item">
+                  <a href="#" class="nav_link">
+                    <span class="navlink_icon">
+                      <i class="bx bx-loader-circle"></i>
+                    </span>
+                    <span class="navlink">Filters</span>
+                  </a>
+                </li>
+                <li class="item">
+                  <a href="#" class="nav_link">
+                    <span class="navlink_icon">
+                      <i class="bx bx-filter"></i>
+                    </span>
+                    <span class="navlink">Filter</span>
+                  </a>
+                </li>
+                <li class="item">
+                  <a href="#" class="nav_link">
+                    <span class="navlink_icon">
+                      <i class="bx bx-cloud-upload"></i>
+                    </span>
+                    <span class="navlink">Upload new</span>
+                  </a>
+                </li>
+              </ul>
+              <ul class="menu_items">
+                <div class="menu_title menu_setting"></div>
+                <li class="item">
+                  <a href="#" class="nav_link">
+                    <span class="navlink_icon">
+                      <i class="bx bx-flag"></i>
+                    </span>
+                    <span class="navlink">Logout</span>
+                  </a>
+                </li>
+                
+      
+              <!-- Sidebar Open / Close -->
+              <div class="bottom_content">
+                <div class="bottom expand_sidebar">
+                  <span> Expand</span>
+                  <i class='bx bx-log-in' ></i>
+                </div>
+                <div class="bottom collapse_sidebar">
+                  <span> Collapse</span>
+                  <i class='bx bx-log-out'></i>
+                </div>
+              </div>
+            </div>
+          </nav>
 
     <div class="container mt-5"></div>
     <div class="box-heading1">
@@ -252,24 +308,11 @@
     <!-- Add more buttons for additional pages as needed -->
 </div>
 
-<script src="dataval.js"></script>
-<script src="script1.js"></script>
+<script src="script2.js"></script>
 <script>
     function printPage() {
         // Call the window.print() method to initiate printing
         window.print();
-    }
-</script>
-
-<script>
-    function w3_open() {
-        document.getElementById("mySidebar").style.left = "0";
-        document.getElementById("myOverlay").style.display = "block";
-    }
-
-    function w3_close() {
-        document.getElementById("mySidebar").style.left = "-250px";
-        document.getElementById("myOverlay").style.display = "none";
     }
 </script>
 </body>
