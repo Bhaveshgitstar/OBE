@@ -161,10 +161,64 @@ function updateRowat(recordId, row) {
         Name: cells.eq(2).text(),
         Batch: cells.eq(3).text()
     };
+    
 
     const qIndices = [];
+    let coIndices = [];
+    let atIndices = [];
+    coIndices = fetchcoIndices(coIndices);
+    console.log(coIndices);
+    atIndices = fetchatindices(atIndices);
+    console.log(atIndices);
+    let qmarks = [];
+    qmarks = fetchmarks(qmarks);
+    console.log(qmarks);
+    const qValues = [];
+    
     for (let i = 4; i < cells.length - 4; i++) {
+        const cellText = cells.eq(i).text().trim();
         qIndices.push(i);
+        qValues.push(cellText);
+    }
+    
+    const containsAOrQuestionMark = qValues.some(value => value === "A");
+    
+    // Initialize at1 to atn with zeros
+    const at = Array(atIndices.length).fill(0);
+    const marks = Array(atIndices.length).fill(0);
+   
+    // Calculate at1 to atn only when coIndices and atIndices match
+    for (let i = 0; i < atIndices.length; i++) {
+        const atIndex = atIndices[i];
+        let atValue=0.0;
+        let atmarks=0.0;
+    
+        // Check if coIndices has a corresponding entry and it matches
+        for (let j = 4; j < cells.length - 4; j++) {
+        if (coIndices[j-4] === atIndex) {
+            console.log(coIndices[j-4]);
+            console.log(atIndex);
+           atValue+=parseFloat(qValues[j-4]||0);
+           atmarks+=parseFloat(qmarks[j-4]||0);
+        }
+        console.log(atValue);
+        console.log(atmarks);
+        at[i] = atValue;
+        marks[i]=atmarks;
+    }
+    }
+    
+    // at now contains at1 to atn values based on matching indices between coIndices and atIndices
+    
+    // Calculate attainment1 and attainment2 values
+    let attainment1, attainment2;
+
+    if (containsAOrQuestionMark) {
+        attainment1 = 0;
+        attainment2 = 0;
+    } else {
+        attainment1 = ((at[0] / marks[0]) * 100).toFixed(1);
+        attainment2 = ((at[1] /marks[1]) * 100).toFixed(1);
     }
 
     // Calculate Total based on Q1 to Qn values
@@ -172,24 +226,7 @@ function updateRowat(recordId, row) {
         const qValue = parseFloat(cells.eq(index).text());
         return isNaN(qValue) ? acc : acc + qValue;
     }, 0);
-
-    // Calculate at1 and at2 values
-    const at1Indices = qIndices.slice(0, 3);
-    const at2Indices = qIndices.slice(3,6);
     
-    const at1 = at1Indices.reduce((acc, index) => {
-        const qValue = parseFloat(cells.eq(index).text());
-        return isNaN(qValue) ? acc : acc + qValue;
-    }, 0);
-    
-    const at2 = at2Indices.reduce((acc, index) => {
-        const qValue = parseFloat(cells.eq(index).text());
-        return isNaN(qValue) ? acc : acc + qValue;
-    }, 0);
-
-    // Calculate attainment1 and attainment2 values
-    const attainment1 = ((at1 / 11) * 100).toFixed(1);
-    const attainment2 = ((at2 / 9) * 100).toFixed(1);
 
     // Update the UI with new values
     cells.eq(cells.length - 3).text(total);
