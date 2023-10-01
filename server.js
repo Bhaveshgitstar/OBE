@@ -170,6 +170,23 @@ app.post('/admin-login', async (req, res) => {
     }
 });
 
+app.get('/adminhome', async (req, res) => {
+    try {
+                res.sendFile(path.join(__dirname, 'frontend', 'adminhome.html'));
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+app.get('/adminmapping', async (req, res) => {
+    try {
+                res.sendFile(path.join(__dirname, 'frontend', 'admincontrol.html'));
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
 app.post('/coordinator-login', async (req, res) => {
     try {
         const user = await EduUser.findOne({ username: req.body.username });
