@@ -31,8 +31,30 @@ app.use(session({
     secret: 'your-secret-key',
     resave: false,
     saveUninitialized: false,
-    store: store
+    cookie: {
+        secure: false,
+        maxAge: 30 * 60 * 1000, // 30 minutes (adjust as needed)
+    }
 }));
+
+function checkSessionTimeout(req, res, next) {
+    console.log('Session:', req.session);
+    if (req.session.user && req.session.cookie.maxAge <= 0) {
+        console.log('Session has timed out');
+        // Session has timed out
+        req.session.destroy((err) => {
+            if (err) {
+                console.error('Error destroying session:', err);
+            }
+            res.redirect('/logout'); // Redirect to the home page or login page
+        });
+    } else {
+        next(); // Continue with the request
+    }
+}
+
+// Apply the middleware to routes that require an active session
+
 
 // User schema for educational_platform
 const eduUserSchema = new mongoose.Schema({
@@ -141,18 +163,23 @@ const attainmentT1Schemaco = new mongoose.Schema(
 );
 app.use(express.static(path.join(__dirname, 'frontend')));
 
-app.use(session({
-    secret: 'your-secret-key',
-    resave: false,
-    saveUninitialized: true,
-}));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'adminlogin.html'));
 });
 
+app.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Error destroying session:', err);
+        } else {
+            res.redirect('/'); // Redirect the user to the home page or another appropriate page
+        }
+    });
+});
 
-app.post('/admin-login', async (req, res) => {
+
+app.post('/admin-login',checkSessionTimeout, async (req, res) => {
     try {
         const user = await EduUser.findOne({ username: req.body.username });
         if (user && await bcrypt.compare(req.body.password, user.password)) {
@@ -170,7 +197,7 @@ app.post('/admin-login', async (req, res) => {
     }
 });
 
-app.get('/adminhome', async (req, res) => {
+app.get('/adminhome',checkSessionTimeout, async (req, res) => {
     try {
                 res.sendFile(path.join(__dirname, 'frontend', 'adminhome.html'));
            
@@ -179,7 +206,7 @@ app.get('/adminhome', async (req, res) => {
     }
 });
 
-app.get('/adminmapping', async (req, res) => {
+app.get('/adminmapping',checkSessionTimeout, async (req, res) => {
     try {
                 res.sendFile(path.join(__dirname, 'frontend', 'admincontrol.html'));
            
