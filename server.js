@@ -158,7 +158,7 @@ app.post('/admin-login', async (req, res) => {
         if (user && await bcrypt.compare(req.body.password, user.password)) {
             req.session.user = user;
             if (req.session.user.Role === "Admin") {
-                res.sendFile(path.join(__dirname, 'frontend', 'admincontrol.html'));
+                res.sendFile(path.join(__dirname, 'frontend', 'adminhome.html'));
             } else {
                 res.send("Invalid User");
             }
