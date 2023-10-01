@@ -4,6 +4,24 @@ html, body {
   padding: 0;
   font-family: Arial, Helvetica, sans-serif; /* Professional font */
 }
+.contact-us-container {
+  text-decoration: overline;
+  text-decoration: #1593e7;
+  animation: moveContactUs 3s linear infinite; /* Adjust the duration as needed */
+  text-align: center; /* Center the "Contact Us" text horizontally */
+/* Add some margin between the form and the text */
+}
+@keyframes moveContactUs {
+  0% {
+      transform: translateX(0px);
+  }
+  0% {
+      transform: translateX(0px); /* Adjust the distance and direction of movement */
+  }
+  100% {
+      transform: translateX(-775px);
+  }
+}
 
 #cd_table input[type="text"],
 #cd_table input[type="number"] {

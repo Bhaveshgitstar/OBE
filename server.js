@@ -164,6 +164,8 @@ const attainmentT1Schemaco = new mongoose.Schema(
 app.use(express.static(path.join(__dirname, 'frontend')));
 
 
+
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'adminlogin.html'));
 });
