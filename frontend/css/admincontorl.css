@@ -5,6 +5,26 @@ html, body {
     font-family: Arial, Helvetica, sans-serif; /* Professional font */
 }
 
+.contact-us-container {
+  text-decoration: overline;
+  text-decoration: #1593e7;
+  animation: moveContactUs 5s linear infinite; /* Adjust the duration as needed */
+  text-align: center; /* Center the "Contact Us" text horizontally */
+/* Add some margin between the form and the text */
+}
+
+@keyframes moveContactUs {
+  0% {
+      transform: translateX(0px);
+  }
+  0% {
+      transform: translateX(800px); /* Adjust the distance and direction of movement */
+  }
+  100% {
+      transform: translateX(-300px);
+  }
+}
+
 #cd_table input[type="text"],
 #cd_table input[type="number"] {
     width: 100%; /* Set the width to 100% to make them fill the cell */

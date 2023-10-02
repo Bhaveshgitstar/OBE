@@ -1,5 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const multer = require('multer');
+const readXlsxFile = require('read-excel-file/node');
 const bodyParser = require('body-parser');
 const path = require('path');
 const bcrypt = require('bcrypt');
@@ -162,6 +164,7 @@ const attainmentT1Schemaco = new mongoose.Schema(
     { versionKey: false }
 );
 app.use(express.static(path.join(__dirname, 'frontend')));
+const upload = multer({ dest: 'uploads/' });
 
 
 
@@ -201,7 +204,7 @@ app.post('/admin-login',checkSessionTimeout, async (req, res) => {
 
 app.get('/adminhome',checkSessionTimeout, async (req, res) => {
     try {
-                res.sendFile(path.join(__dirname, 'frontend', 'adminhome.html'));
+        res.sendFile(path.join(__dirname, 'frontend', 'adminhome.html'));
            
     } catch (error) {
         res.status(500).send(error.message);
@@ -210,7 +213,7 @@ app.get('/adminhome',checkSessionTimeout, async (req, res) => {
 
 app.get('/adminmapping',checkSessionTimeout, async (req, res) => {
     try {
-                res.sendFile(path.join(__dirname, 'frontend', 'admincontrol.html'));
+        res.sendFile(path.join(__dirname, 'frontend', 'admincontrol.html'));
            
     } catch (error) {
         res.status(500).send(error.message);

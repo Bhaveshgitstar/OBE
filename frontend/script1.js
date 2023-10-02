@@ -502,7 +502,6 @@ function fetchT1attainmentData2(){
                     const bNumber = parseInt(b.slice(1));
                     return aNumber - bNumber;
                 });
-
                 // Specify the desired order of columns (S.No, RollNo, Name, Batch, Q1 to Qn, Total, Attainment, Action)
                 const desiredOrder = ['ModuleNo', 'RollNo', 'Name', 'Batch', ...qColumns, 'Total', ...aColumns];
 

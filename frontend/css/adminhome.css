@@ -7,19 +7,20 @@ html, body {
 .contact-us-container {
   text-decoration: overline;
   text-decoration: #1593e7;
-  animation: moveContactUs 3s linear infinite; /* Adjust the duration as needed */
+  animation: moveContactUs 5s linear infinite; /* Adjust the duration as needed */
   text-align: center; /* Center the "Contact Us" text horizontally */
 /* Add some margin between the form and the text */
 }
+
 @keyframes moveContactUs {
   0% {
       transform: translateX(0px);
   }
   0% {
-      transform: translateX(0px); /* Adjust the distance and direction of movement */
+      transform: translateX(800px); /* Adjust the distance and direction of movement */
   }
   100% {
-      transform: translateX(-775px);
+      transform: translateX(-300px);
   }
 }
 
