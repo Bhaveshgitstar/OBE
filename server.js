@@ -7,12 +7,16 @@ const path = require('path');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
 const MongoDBSession = require('connect-mongodb-session')(session);
+const fs = require('fs');
+const excel = require('exceljs');
+
+
 
 const app = express();
 app.use(bodyParser.json());
 
 // Establish the connection to the educational_platform database
-const educationalPlatformDb = mongoose.createConnection('mongodb://localhost:27017/educational_platform', { useNewUrlParser: true, useUnifiedTopology: true });
+const educationalPlatformDb = mongoose.createConnection('mongodb://localhost:27018/educational_platform', { useNewUrlParser: true, useUnifiedTopology: true });
 
 educationalPlatformDb.once('open', () => {
     console.log('Connected to educational_platform database');
@@ -24,7 +28,7 @@ educationalPlatformDb.on('error', (err) => {
 
 // Session store
 const store = new MongoDBSession({
-    uri: 'mongodb://localhost:27017/educational_platform_sessions',
+    uri: 'mongodb://localhost:27018/educational_platform_sessions',
     collection: 'sessions'
 });
 
@@ -64,12 +68,14 @@ const eduUserSchema = new mongoose.Schema({
     password: String,
     User: String,
     Role: String,
-    Course: String
+    Course: String,
+    Department:String
+
 });
 const EduUser = educationalPlatformDb.model('User', eduUserSchema);
 
 // Establish the connection to the course_outcome database
-const courseOutcomeDb = mongoose.createConnection('mongodb://localhost:27017/course_outcome', { useNewUrlParser: true, useUnifiedTopology: true });
+const courseOutcomeDb = mongoose.createConnection('mongodb://localhost:27018/course_outcome', { useNewUrlParser: true, useUnifiedTopology: true });
 
 courseOutcomeDb.once('open', () => {
     console.log('Connected to course_outcome database');
@@ -105,8 +111,8 @@ const cdSchema = new mongoose.Schema(
         co_name: String,
         credits: Number,
         contact_hours: String,
-        coordinators:String,
-        teachers:String
+        coordinators: Array,
+        teachers:Array
     },
     { versionKey: false }
 );
@@ -163,6 +169,20 @@ const attainmentT1Schemaco = new mongoose.Schema(
     },
     { versionKey: false }
 );
+
+const courseschema = new mongoose.Schema({
+    co_code: String,
+    sem: String,
+    co_name: String,
+    credits: Number,
+    contact_hours: String,
+    coordinators: [String], // Assuming coordinators is an array of strings
+    teachers: [String],
+    Branch: String,
+    NBAcode: String,
+    Year: Number,
+},
+{ versionKey: false });
 app.use(express.static(path.join(__dirname, 'frontend')));
 const upload = multer({ dest: 'uploads/' });
 
@@ -172,6 +192,322 @@ const upload = multer({ dest: 'uploads/' });
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'adminlogin.html'));
 });
+
+const createSchema = (headers) => {
+    const schemaFields = {
+        ModuleNo: String,
+        RollNo: String,
+        Name: String,
+        Batch: String,
+        Total: Number,
+        Attainment1: Number,
+        Attainment2: Number
+    };
+
+    headers.forEach((header, index) => {
+        if (header.toLowerCase().startsWith('q')) {
+            const questionNumber = header.match(/Q(\d+)/i);
+            if (questionNumber) {
+                const fieldName = `Q${questionNumber[1]}`;
+                schemaFields[fieldName] = Number; // Store as a Number
+            }
+        }
+        if(header.match(/^Total(\d+)/i)){
+                const fieldName = 'Total';
+                schemaFields[fieldName] = Number; 
+                console.log(fieldName)// Store as a Number
+        }
+    
+});
+
+    return new mongoose.Schema(schemaFields, { versionKey: false });
+};
+function isValidNumber(value) {
+    // Check if the value is a valid number
+    return !isNaN(parseFloat(value)) && isFinite(value);
+}
+
+app.get('/generate-sample-excel', async (req, res) => {
+    try {
+        const c= req.session.user.Course+"_at";
+        const AttainmentModel = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
+        const firstDocument = await AttainmentModel.findOne();
+
+        if (!firstDocument) {
+            throw new Error('No documents found in the collection.');
+        }
+
+        // Extract the schema fields from the first document
+        const schemaFields = Object.keys(firstDocument.toObject());
+
+        // Create an array to hold the columns in the desired order
+        const columnsInOrder = [];
+
+        // Iterate through the schema fields and add them to columnsInOrder
+
+
+        // Add other fields as needed
+        columnsInOrder.push('ModuleNo', 'RollNo', 'Name', 'Batch');
+
+        schemaFields.forEach((field) => {
+            // Check if the field is a "Q" field (e.g., Q1, Q2, Q3)
+            if (field.match(/^Q\d+$/i)) {
+                // Add the "Q" field to columnsInOrder
+                columnsInOrder.push(field);
+            }
+        });
+        
+        columnsInOrder.push('Total');
+
+        schemaFields.forEach((field) => {
+            // Check if the field is a "Q" field (e.g., Q1, Q2, Q3)
+            if (field.match(/^Attainment\d+$/i)) {
+                // Add the "Q" field to columnsInOrder
+                columnsInOrder.push(field);
+            }
+        });
+
+
+
+        const workbook = new excel.Workbook();
+        const worksheet = workbook.addWorksheet('SampleData');
+
+        // Define cell border styles
+        const borderStyle = {
+            style: 'thin',
+            color: { argb: '000000' }, // Black color for borders
+        };
+
+        // Apply borders to header row
+        const headerRow = worksheet.addRow(columnsInOrder);
+        headerRow.eachCell((cell) => {
+            cell.border = {
+                top: borderStyle,
+                left: borderStyle,
+                bottom: borderStyle,
+                right: borderStyle,
+            };
+        });
+
+        // Add 20 empty rows to the worksheet and apply borders
+        for (let i = 0; i < 20; i++) {
+            const emptyRow = worksheet.addRow([]);
+            emptyRow.eachCell((cell) => {
+                cell.border = {
+                    top: borderStyle,
+                    left: borderStyle,
+                    bottom: borderStyle,
+                    right: borderStyle,
+                };
+            });
+        }
+
+        const timestamp = new Date().getTime();
+        const filename = `sample_excel_${timestamp}.xlsx`;
+
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', `attachment; filename=${filename}`);
+
+        await workbook.xlsx.write(res);
+        res.end();
+    } catch (error) {
+        console.error('Error generating sample Excel:', error);
+        res.status(500).send('Error generating Excel file');
+    }
+});
+
+
+app.post('/upload', upload.single('file'), (req, res) => {
+    const c= req.session.user.Course+"_at";
+    readXlsxFile(req.file.path)
+        .then(async (rows) => {
+            try {
+
+                await courseOutcomeDb.collection(c).deleteMany({});
+
+                let headerIndex = -1;
+                let headers = [];
+                let foundHeader = false;
+
+                // Find the header row with the "SRMO" column
+                for (let i = 0; i < rows.length; i++) {
+                    const row = rows[i];
+
+                    if (!row) {
+                        // Skip null or empty rows
+                        continue;
+                    }
+
+                    if (row.includes('Sr.No.') && row.includes('Roll No.') && row.includes('Name')) {
+                        // Save the index of the header row
+                        headerIndex = i;
+                        headers = row.map((header) => header.trim());
+                        foundHeader = true;
+                        break;
+                    }
+                }
+
+                if (!foundHeader) {
+                    throw new Error('Header row not found in the Excel file.');
+                }
+
+                const AttainmentModel = courseOutcomeDb.model('CourseOutcomeModule', createSchema(headers), c);
+
+                const documents = [];
+
+                for (let i = headerIndex + 1; i < rows.length; i++) {
+                    const row = rows[i];
+
+                    if (!row) {
+                        // Skip null or empty rows
+                        continue;
+                    }
+
+                    const rowData = {};
+// ...
+    headers.forEach((header, index) => {
+    const questionNumber = header.match(/Q(\d+)/i);
+    const total = header.match(/^Total(\d+)/i); // Check for "Total" at the beginning
+
+    if (questionNumber) {
+        const fieldName = `Q${questionNumber[1]}`;
+        rowData[fieldName] = isValidNumber(row[index]) ? parseFloat(row[index]) : 0;
+    } else if (total) {
+        const fieldName = 'Total';
+        rowData[fieldName] = isValidNumber(row[index]) ? parseFloat(row[index]) : 0;
+    } else if (header.toLowerCase() === 'sr.no.') {
+        rowData['ModuleNo'] = row[index];
+    } else if (header.toLowerCase() === 'roll no.') {
+        rowData['RollNo'] = row[index];
+    } else {
+        rowData[header] = row[index];
+    }
+    });
+// ...
+                    documents.push(rowData);
+                }
+
+                console.log('Documents:', documents);
+
+                const insertResult = await AttainmentModel.insertMany(documents);
+
+
+                res.send({ rowCount: insertResult.length });
+            } catch (error) {
+                console.error('MongoDB Error:', error);
+                res.status(500).send('Error inserting data into MongoDB');
+            }
+        })
+        .catch((error) => {
+            console.error('Excel Parsing Error:', error);
+            res.status(500).send('Error parsing Excel file');
+        });
+});
+
+// Express route to fetch subject options based on selected year and semester
+app.get('/subjects', async(req, res) => {
+    const selectedYear = parseInt(req.query.year, 10); // Parse the query parameter as an integer
+    const selectedSemester = req.query.semester;
+    const course = educationalPlatformDb.model('CourseOutcomeModule',courseschema,"courses");
+
+    try {
+        // Query the database for subjects matching the selected year and semester
+        const subjectOptions = await course.find({
+            Year: selectedYear,
+            sem: selectedSemester
+        });
+
+        res.json(subjectOptions); // Send the subject options as a JSON response
+    } catch (error) {
+        console.error('Error fetching subjects:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+// Express route to fetch data based on selected values
+app.get('/fetch-data', async (req, res) => {
+    const dept = req.query.department;
+    const teacher = educationalPlatformDb.model('CourseOutcomeModule', eduUserSchema, 'users');
+
+    try {
+        const teachers = await teacher.find({ Department: dept });
+        res.json(teachers); // Send the teachers as a JSON response (array of documents)
+    } catch (error) {
+        console.error('Error fetching teachers:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+app.post('/set-teachers', async (req, res) => {
+    const teacherNames = req.body.name; // An array of selected teacher names
+    const courseId = req.body.courseid; // The ID of the course to update
+    const courses = educationalPlatformDb.model('CourseOutcomeModule',courseschema,"courses");
+    const c=courseId+"_cd";
+    const cd = courseOutcomeDb.model('CourseOutcomeModule',cdSchema,c);
+
+
+    try {
+
+        // Find the course by its ID
+        const course = await courses.findOne({ co_code: courseId });
+        const cd1 = await cd.findOne({ co_code: courseId });
+
+        if (!course) {
+            return res.status(404).json({ success: false, message: 'Course not found.' });
+        }
+
+        cd1.teachers = course.teachers.concat(teacherNames);
+
+
+        // Add the selected teacher names to the "coordinators" array
+        course.teachers = course.teachers.concat(teacherNames);
+
+        // Save the updated course document
+        await course.save();
+        await cd1.save()/
+
+        res.json({ success: true, message: 'teachers added successfully.' });
+    } catch (error) {
+        console.error('Error adding teachers:', error);
+        res.status(500).json({ success: false, error: 'Internal server error' });
+    }
+});
+
+app.post('/set-coordinators', async (req, res) => {
+    const teacherNames = req.body.name; // An array of selected teacher names
+    const courseId = req.body.courseid; // The ID of the course to update
+    const courses = educationalPlatformDb.model('CourseOutcomeModule',courseschema,"courses");
+    const c=courseId+"_cd";
+    const cd = courseOutcomeDb.model('CourseOutcomeModule',cdSchema,c);
+
+
+    try {
+
+        // Find the course by its ID
+        const course = await courses.findOne({ co_code: courseId });
+        const cd1 = await cd.findOne({ co_code: courseId });
+
+        if (!course) {
+            return res.status(404).json({ success: false, message: 'Course not found.' });
+        }
+
+        cd1.coordinators = course.coordinators.concat(teacherNames);
+
+
+        // Add the selected teacher names to the "coordinators" array
+        course.coordinators = course.coordinators.concat(teacherNames);
+
+        // Save the updated course document
+        await course.save();
+        await cd1.save()/
+
+        res.json({ success: true, message: 'Coordinators added successfully.' });
+    } catch (error) {
+        console.error('Error adding coordinators:', error);
+        res.status(500).json({ success: false, error: 'Internal server error' });
+    }
+});
+
 
 app.get('/logout', (req, res) => {
     req.session.destroy((err) => {
@@ -211,6 +547,39 @@ app.get('/adminhome',checkSessionTimeout, async (req, res) => {
     }
 });
 
+app.get('/coursehome',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'coursehome.html'));
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+app.get('/teacherhome',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'teacherhome.html'));
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+app.get('/courseoutcome',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'course.html'));
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+app.get('/attainmentt1',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'attainment1.html'));
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
 app.get('/adminmapping',checkSessionTimeout, async (req, res) => {
     try {
         res.sendFile(path.join(__dirname, 'frontend', 'admincontrol.html'));
@@ -219,13 +588,23 @@ app.get('/adminmapping',checkSessionTimeout, async (req, res) => {
         res.status(500).send(error.message);
     }
 });
+
+app.get('/adminmapping2',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'admincontrol2.html'));
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
 app.post('/coordinator-login', async (req, res) => {
     try {
         const user = await EduUser.findOne({ username: req.body.username });
         if (user && await bcrypt.compare(req.body.password, user.password)) {
             req.session.user = user;
             if (req.session.user.Role === "Coordinator") {
-                res.sendFile(path.join(__dirname, 'frontend', 'course.html'));
+                res.sendFile(path.join(__dirname, 'frontend', 'coursehome.html'));
             } else {
                 res.send("Invalid User");
             }
@@ -285,7 +664,7 @@ app.post('/teacher-login', async (req, res) => {
             const role = req.session.user.Role;
 
             if (req.session.user.Role === "Teacher") {
-                res.sendFile(path.join(__dirname, 'frontend', 'attainment1.html'));
+                res.sendFile(path.join(__dirname, 'frontend', 'teacherhome.html'));
             } else {
                 res.send("Invalid User");
             }

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/admincontorl.css">
+
+    <!-- Navigation Strip -->
+    <div class="navigation-strip">
+      <!-- Hamburger Icon to Open Sidebar -->
+
+  
+      <img class="logo" src="LOGO.jpg" alt="Flowers in Chania">
+      <i class="bx bx-menu" id="sidebarOpen"></i>
+
+      <!-- Menu Options -->
+      <div class="navbar_content">
+          <i class="bi bi-grid"></i>
+          <i class='bx bx-sun' id="darkLight"></i>
+          <i class='bx bx-bell' ></i>
+          <i class='bx bx-sun' id="darkLight"></i>
+        </div>
+        <div class="contact-us-container">
+            Welcome<h4 id="username">User Name</h4></h4>
+        </div>
+        <span class="user-info-button">User Info</span>
+
+      <!-- User Info Popup -->
+      <div class="user-info-popup">
+          <!-- Add user information here -->
+          <h4 id="username1">User Name</h4>
+          <div><h7 id="userrole">User Role</h7></div>
+          <div><h8 id="course_code">Course Name</h8></div>
+      </div>
+  </div>
+
+      <!-- sidebar -->
+      <nav class="sidebar">
+          <div class="menu_content">
+            <ul class="menu_items">
+              <div class="menu_title menu_dahsboard"></div>
+              <!-- duplicate or remove this li tag if you want to add or remove navlink with submenu -->
+              <!-- start -->
+              <li class="item">
+                <a href="/adminhome" class="nav_link">
+                  <span class="navlink_icon">
+                    <i class="bx bx-home-alt"></i>
+                  </span>
+                  <span class="navlink">Home</span></a>
+              </li>
+              <!-- end -->
+    
+              <!-- duplicate this li tag if you want to add or remove  navlink with submenu -->
+              <!-- start -->
+              <li class="item">
+                <div href="#" class="nav_link submenu_item">
+                  <span class="navlink_icon">
+                    <i class="bx bx-user"></i>
+                  </span>
+                  <span class="navlink">Course Mapping</span>
+                  <i class="bx bx-chevron-right arrow-left"></i>
+                </div>
+    
+                <ul class="menu_items submenu">
+                  <a href="/adminmapping" class="nav_link sublink">Coordinator Mapping</a>
+                  <a href="/adminmapping2" class="nav_link sublink">Teacher Mapping</a>
+                </ul>
+              </li>
+            </ul> 
+    
+            <ul class="menu_items">
+              <div class="menu_title menu_setting"></div>
+              <li class="item">
+                <a href="/logout" class="nav_link">
+                  <span class="navlink_icon">
+                    <i class="bx bx-log-out"></i>
+                  </span>
+                  <span class="navlink">Logout</span>
+                </a>
+              </li>
+              
+    
+            <!-- Sidebar Open / Close -->
+            <div class="bottom_content">
+              <div class="bottom expand_sidebar">
+                <span> Expand</span>
+                <i class='bx bx-log-in' ></i>
+              </div>
+              <div class="bottom collapse_sidebar">
+                <span> Collapse</span>
+                <i class='bx bx-log-out'></i>
+              </div>
+            </div>
+          </div>
+        </nav>
+
+    <div class="container mt-5"></div>
+    <div class="box-heading1">
+        <h5>COURSE TEACHERS ALLOTMENT</h5>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-12 d-flex mb-3">
+                <div class="col-md-3">
+                    <!-- Academic Year Select -->
+                    <select class="form-select" name="academic-year" id="academicYearDropdown">
+                        <option value="" disabled selected>Select Year</option> 
+                        <option id="year1" value=1>Year 1</option>
+                        <option id="year2" value=2>Year 2</option>
+                        <option id="year3" value=3>Year 3</option>
+                        <option id="year4" value=4>Year 4</option>
+                        <!-- Add more academic years as needed -->
+                    </select>
+                </div>
+    
+                <div class="col-md-3">
+                    <!-- Department Select -->
+                    <select class="form-select" name="department" id="deptDropdown">
+                        <option value="" disabled selected>Select Department</option> 
+                        <option value="CSE">CSE</option>
+                        <option value="IT">IT</option>
+                        <option value="ECE">ECE</option>
+                        <!-- Add more departments as needed -->
+                    </select>
+                </div>
+                
+                <div class="col-md-3">
+                    <!-- Semester Select -->
+                    <select class="form-select" name="semester" id="semesterDropdown">
+                        <option value="" disabled selected>Select Semester</option> <!-- Placeholder option -->
+                        <option value="2023EVENSEM">2023EVENSEM</option>
+                        <option value="2023ODDSEM">2023ODDSEM</option>
+                    </select>
+                </div>
+    
+                <div class="col-md-3">
+                    <!-- Subject Select -->
+                    <select class="form-select" name="subject" id="subjectDropdown">
+                        <option value="" disabled selected>Select Subject Code</option> 
+                        <!-- Add more subjects as needed -->
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Button -->
+                <button class="btn btn-info get-data2-button">Get Data</button>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <table class="table" id="cor-table">
+        <thead>
+    
+    
+        </thead>
+        <tbody id="cor-data">
+            <!-- Data will be added here dynamically -->
+        </tbody>
+    </table>
+
+    <div class="row mt-3">
+        <div class="centered-button">
+            <!-- Button to set selected teachers as coordinators -->
+            <button class="btn btn-success" id="setteacherButton">Set as Teachers</button>
+        </div>
+    </div>
+    
+
+    <div class="table-buttons text-end mt-3">
+        <button class="print-button" onclick="printPage()">Print</button>
+    </div>
+
+    <div class="footer">
+        <p>Copyright © 2023 OBE Accreditation. All rights reserved.</p>
+        <p>Address: JIIT-128, Sector 128, Noida, Uttar Pradesh, India</p>
+        <p>Email: contact@example.com</p>
+    </div>
+    <div class="footer-container">
+        <section class="footer-subscription">
+            <p class="footer-subscription-heading">
+                Join our Gmail Channel for regular Updates.
+            </p>
+            <p class="footer-subscription-text">
+                You can unsubscribe at any time.
+            </p>
+            <div class="input-areas">
+                <form id="subscription-form">
+                    <input
+                        class="footer-input"
+                        name="email"
+                        type="email"
+                        placeholder="Your Email"
+                    />
+                    <button type="submit" class="btn btn--outline">Subscribe</button>
+                </form>
+            </div>
+        </section>
+        <div class="footer-links">
+            <div class="footer-link-wrapper">
+                <div class="footer-link-items">
+                    <h2>About Us</h2>
+                    <a href="/sign-up">How it works</a>
+                    <a href="/">Clients</a>
+                    <a href="/">F</a>
+                    <a href="/">Investors</a>
+                    <a href="/">Terms of Service</a>
+                </div>
+                <div class="footer-link-items">
+                    <h2>Contact Us</h2>
+                    <a href="/">Contact</a>
+                    <a href="/">Support</a>
+                    <a href="/">Destinations</a>
+                    <a href="/">Sponsorships</a>
+                </div>
+            </div>
+            <div class="footer-link-wrapper">
+                <div class="footer-link-items">
+                    <h2>Videos</h2>
+                    <a href="/">Submit Video</a>
+                    <a href="/">Ambassadors</a>
+                    <a href="/">Agency</a>
+                    <a href="/">Influencer</a>
+                </div>
+                <div class="footer-link-items">
+                    <h2>Social Media</h2>
+                    <a href="/">Instagram</a>
+                    <a href="/">Facebook</a>
+                    <a href="/">Youtube</a>
+                    <a href="/">Twitter</a>
+                </div>
+            </div>
+        </div>
+        <section class="social-media">
+            <div class="social-media-wrap">
+                <div class="footer-logo">
+                    <a href="/" class="social-logo">
+                        <i class="fab fa-typo3"></i>
+                    </a>
+                </div>
+                <small class="website-rights">OBE Accreditation © 2023</small>
+                <div class="social-icons">
+                    <a
+                        class="social-icon-link facebook"
+                        href="/"
+                        target="_blank"
+                        aria-label="Facebook"
+                    >
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a
+                        class="social-icon-link instagram"
+                        href="/"
+                        target="_blank"
+                        aria-label="Instagram"
+                    >
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a
+                        class="social-icon-link youtube"
+                        href="/"
+                        target="_blank"
+                        aria-label="Youtube"
+                    >
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a
+                        class="social-icon-link twitter"
+                        href="/"
+                        target="_blank"
+                        aria-label="Twitter"
+                    >
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a
+                        class="social-icon-link twitter"
+                        href="/"
+                        target="_blank"
+                        aria-label="LinkedIn"
+                    >
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Add more buttons for additional pages as needed -->
+</div>
+
+<script src="script2.js"></script>
+<script>
+    function printPage() {
+        // Call the window.print() method to initiate printing
+        window.print();
+    }
+</script>
+</body>
+</html>

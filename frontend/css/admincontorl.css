@@ -1,8 +1,11 @@
 /* Reset some default styles for consistency */
 html, body {
-    margin: 10px;
-    padding: 0;
-    font-family: Arial, Helvetica, sans-serif; /* Professional font */
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 50px;
+  margin-right: 10px;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif; /* Professional font */
 }
 
 .contact-us-container {
@@ -24,6 +27,8 @@ html, body {
       transform: translateX(-300px);
   }
 }
+
+
 
 #cd_table input[type="text"],
 #cd_table input[type="number"] {
@@ -133,6 +138,17 @@ body.dark {
 .sidebar::-webkit-scrollbar {
   display: none;
 }
+.centered-button {
+  text-align: center; /* Center the button text horizontally */
+}
+
+.col-md-12{
+  margin-top:50px;
+  text-align: center;
+
+}
+
+
 .menu_content {
   position: relative;
 }

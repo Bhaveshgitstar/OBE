@@ -33,7 +33,7 @@
       <!-- User Info Popup -->
       <div class="user-info-popup">
           <!-- Add user information here -->
-          <h4 id="username">User Name</h4>
+          <h4 id="username1">User Name</h4>
           <div><h7 id="userrole">User Role</h7></div>
           <div><h8 id="course_code">Course Name</h8></div>
       </div>
@@ -67,8 +67,8 @@
                 </div>
     
                 <ul class="menu_items submenu">
-                  <a href="/adminmapping" class="nav_link sublink">Role Mapping</a>
-                  <a href="#" class="nav_link sublink">Update Database</a>
+                  <a href="/adminmapping" class="nav_link sublink">Coordinator Mapping</a>
+                  <a href="/adminmapping2" class="nav_link sublink">Teacher Mapping</a>
                 </ul>
               </li>
             </ul> 
@@ -106,38 +106,74 @@
 
     <div class="container mt-5">
         <div class="row">
-            <div class="col-md-4">
-                <!-- Academic Year Select -->
-                <select class="form-select" name="academic-year">
-                    <option value="year1">Year 1</option>
-                    <option value="year2">Year 2</option>
-                    <!-- Add more academic years as needed -->
-                </select>
-            </div>
-            <div class="col-md-4">
-                <!-- Semester Select -->
-                <select class="form-select" name="semester">
-                    <option value="semester1">Semester 1</option>
-                    <option value="semester2">Semester 2</option>
-                    <!-- Add more semesters as needed -->
-                </select>
-            </div>
-            <div class="col-md-4">
-                <!-- Subject Select -->
-                <select class="form-select" name="subject">
-                    <option value="subject1">Subject 1</option>
-                    <option value="subject2">Subject 2</option>
-                    <!-- Add more subjects as needed -->
-                </select>
+            <div class="col-md-12 d-flex mb-3">
+                <div class="col-md-3">
+                    <!-- Academic Year Select -->
+                    <select class="form-select" name="academic-year" id="academicYearDropdown">
+                        <option value="" disabled selected>Select Year</option> 
+                        <option id="year1" value=1>Year 1</option>
+                        <option id="year2" value=2>Year 2</option>
+                        <option id="year3" value=3>Year 3</option>
+                        <option id="year4" value=4>Year 4</option>
+                        <!-- Add more academic years as needed -->
+                    </select>
+                </div>
+    
+                <div class="col-md-3">
+                    <!-- Department Select -->
+                    <select class="form-select" name="department" id="deptDropdown">
+                        <option value="" disabled selected>Select Department</option> 
+                        <option value="CSE">CSE</option>
+                        <option value="IT">IT</option>
+                        <option value="ECE">ECE</option>
+                        <!-- Add more departments as needed -->
+                    </select>
+                </div>
+                
+                <div class="col-md-3">
+                    <!-- Semester Select -->
+                    <select class="form-select" name="semester" id="semesterDropdown">
+                        <option value="" disabled selected>Select Semester</option> <!-- Placeholder option -->
+                        <option value="2023EVENSEM">2023EVENSEM</option>
+                        <option value="2023ODDSEM">2023ODDSEM</option>
+                    </select>
+                </div>
+    
+                <div class="col-md-3">
+                    <!-- Subject Select -->
+                    <select class="form-select" name="subject" id="subjectDropdown">
+                        <option value="" disabled selected>Select Subject Code</option> 
+                        <!-- Add more subjects as needed -->
+                    </select>
+                </div>
             </div>
         </div>
-        <div class="row mt-3">
+        <div class="row">
             <div class="col-md-12">
                 <!-- Button -->
                 <button class="btn btn-info get-data-button">Get Data</button>
             </div>
         </div>
     </div>
+    </div>
+
+    <table class="table" id="cor-table">
+        <thead>
+    
+    
+        </thead>
+        <tbody id="cor-data">
+            <!-- Data will be added here dynamically -->
+        </tbody>
+    </table>
+
+    <div class="row mt-3">
+        <div class="centered-button">
+            <!-- Button to set selected teachers as coordinators -->
+            <button class="btn btn-success" id="setCoordinatorButton">Set as Coordinators</button>
+        </div>
+    </div>
+    
 
     <div class="table-buttons text-end mt-3">
         <button class="print-button" onclick="printPage()">Print</button>

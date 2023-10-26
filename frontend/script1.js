@@ -15,27 +15,43 @@ $(document).ready(() => {
     fetchcourse();
     fetchuserrole();
 
-    const menuIcon = document.getElementById("menu-icon");
-    const menuopt = document.getElementById("menu-option1");
-    const menuOptions1 = document.getElementById("menu-options1");
+const body = document.querySelector("body");
+const darkLight = document.querySelector("#darkLight");
+const sidebar = document.querySelector(".sidebar");
+const submenuItems = document.querySelectorAll(".submenu_item");
+const sidebarOpen = document.querySelector("#sidebarOpen");
+const sidebarClose = document.querySelector(".collapse_sidebar");
+const sidebarExpand = document.querySelector(".expand_sidebar");
 
-    const menuOptions = document.getElementById("menu-options");
+sidebarOpen.addEventListener("click", () => sidebar.classList.toggle("close"));
 
-    menuIcon.addEventListener("click", () => {
-        if (menuOptions.style.display === "block") {
-            menuOptions.style.display = "none";
-        } else {
-            menuOptions.style.display = "block";
-        }
-    });
-    
-    menuopt.addEventListener("click", () => {
-        if (menuOptions1.style.display === "block") {
-            menuOptions1.style.display = "none";
-        } else {
-            menuOptions1.style.display = "block";
-        }
-    });
+sidebarClose.addEventListener("click", () => {
+    sidebar.classList.add("close", "hoverable");
+  });
+  sidebarExpand.addEventListener("click", () => {
+    sidebar.classList.remove("close", "hoverable");
+  });
+  
+  sidebar.addEventListener("mouseenter", () => {
+    if (sidebar.classList.contains("hoverable")) {
+      sidebar.classList.remove("close");
+    }
+  });
+  sidebar.addEventListener("mouseleave", () => {
+    if (sidebar.classList.contains("hoverable")) {
+      sidebar.classList.add("close");
+    }
+  });
+  
+  darkLight.addEventListener("click", () => {
+    body.classList.toggle("dark");
+    if (body.classList.contains("dark")) {
+      document.setI
+      darkLight.classList.replace("bx-sun", "bx-moon");
+    } else {
+      darkLight.classList.replace("bx-moon", "bx-sun");
+    }
+  });
 
     let noc=10;
     let noa=noc+3;
@@ -82,7 +98,56 @@ $(document).ready(() => {
         const moduleId = row.data('record-id');
         deleteRowat(moduleId);
     });
+    submenuItems.forEach((item, index) => {
+        item.addEventListener("click", () => {
+          item.classList.toggle("show_submenu");
+          submenuItems.forEach((item2, index2) => {
+            if (index !== index2) {
+              item2.classList.remove("show_submenu");
+            }
+          });
+        });
+      });
+      
+      if (window.innerWidth < 768) {
+        sidebar.classList.add("close");
+      } else {
+        sidebar.classList.remove("close");
+      }
+      
 });
+
+function confirmUpload() {
+    const fileInput = document.getElementById('file');
+    if (!fileInput.files[0]) {
+        alert('Please select a file.');
+        return;
+    }
+
+    // Optionally, you can ask the user for confirmation here.
+    const confirmation = confirm('Are you sure you want to upload the selected file?');
+    if (!confirmation) {
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', fileInput.files[0]);
+
+    fetch('/upload', {
+        method: 'POST',
+        body: formData,
+    })
+        .then(response => response.json())
+        .then(data => {
+            alert('Upload successful');
+            location.reload(); // Reload the page
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Handle errors here
+        });
+}
+
 
 // ... (rest of your functions, like updateRow, deleteRow, fetchSyllabusData, addEmptyRow, saveDataToServer)
 
@@ -322,6 +387,7 @@ function fetchusername(){
             const username = data.username;
             console.log('Username:', username);
             $('#username').text(username);
+            $('#username1').text(username);
         },
         error: function (error) {
             console.error('Error fetching username', error);
@@ -961,7 +1027,6 @@ function fetchcdData() {
         url: '/api/cd', // Change this URL to match your Express route
         type: 'GET',
         dataType: 'json',
-        
         success: function (data) {
             data.forEach(module => {
                 $('#co_code').text(module.co_code);
@@ -969,7 +1034,15 @@ function fetchcdData() {
                 $('#co_name').text(module.co_name);
                 $('#credits').text(module.credits);
                 $('#contact_hours').text(module.contact_hours);
-                $('#coordinators').text(module.coordinators);
+                
+                // Display coordinators as a comma-separated list
+                if (module.coordinators && module.coordinators.length > 0) {
+                    const coordinatorsList = module.coordinators.join(', ');
+                    $('#coordinators').text(coordinatorsList);
+                } else {
+                    $('#coordinators').text('N/A'); // Handle case when there are no coordinators
+                }
+                
                 $('#teacher').text(module.teachers);
             });
         },
@@ -978,6 +1051,7 @@ function fetchcdData() {
         }
     });
 }
+
 
 let newModuleNo1 = 0;
 

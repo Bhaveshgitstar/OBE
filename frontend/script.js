@@ -11,29 +11,15 @@ $(document).ready(() => {
     fetchcdData();
     updateTotalLectures();
 
+const body = document.querySelector("body");
+const darkLight = document.querySelector("#darkLight");
+const sidebar = document.querySelector(".sidebar");
+const submenuItems = document.querySelectorAll(".submenu_item");
+const sidebarOpen = document.querySelector("#sidebarOpen");
+const sidebarClose = document.querySelector(".collapse_sidebar");
+const sidebarExpand = document.querySelector(".expand_sidebar");
 
-    const menuIcon = document.getElementById("menu-icon");
-    const menuopt = document.getElementById("menu-option1");
-    const menuOptions1 = document.getElementById("menu-options1");
-
-    const menuOptions = document.getElementById("menu-options");
-
-    menuIcon.addEventListener("click", () => {
-        if (menuOptions.style.display === "block") {
-            menuOptions.style.display = "none";
-        } else {
-            menuOptions.style.display = "block";
-        }
-    });
-    
-    menuopt.addEventListener("click", () => {
-        if (menuOptions1.style.display === "block") {
-            menuOptions1.style.display = "none";
-        } else {
-            menuOptions1.style.display = "block";
-        }
-    });
-
+sidebarOpen.addEventListener("click", () => sidebar.classList.toggle("close"));
 
     $('.add-row-button').click(() => {
         addEmptyRow();
@@ -83,6 +69,33 @@ $(document).ready(() => {
             });
     });
     
+    sidebarClose.addEventListener("click", () => {
+        sidebar.classList.add("close", "hoverable");
+      });
+      sidebarExpand.addEventListener("click", () => {
+        sidebar.classList.remove("close", "hoverable");
+      });
+      
+      sidebar.addEventListener("mouseenter", () => {
+        if (sidebar.classList.contains("hoverable")) {
+          sidebar.classList.remove("close");
+        }
+      });
+      sidebar.addEventListener("mouseleave", () => {
+        if (sidebar.classList.contains("hoverable")) {
+          sidebar.classList.add("close");
+        }
+      });
+      
+      darkLight.addEventListener("click", () => {
+        body.classList.toggle("dark");
+        if (body.classList.contains("dark")) {
+          document.setI
+          darkLight.classList.replace("bx-sun", "bx-moon");
+        } else {
+          darkLight.classList.replace("bx-moon", "bx-sun");
+        }
+      });
     $(document).on('click', '.update-button', function () {
         const row = $(this).closest('tr');
         const cells = row.find('td');
@@ -126,19 +139,26 @@ $(document).ready(() => {
         const moduleId = row.data('moduleId');
         updateRow(moduleId, row);
     });
-});
 
-// ... (rest of your functions, like updateRow, deleteRow, fetchSyllabusData, addEmptyRow, saveDataToServer)
-function calculateTotalMarks() {
-    var T1 = parseFloat(document.getElementById('T1').value);
-    var T2 = parseFloat(document.getElementById('T2').value);
-    var EndTerm = parseFloat(document.getElementById('EndTerm').value);
-    var TA = parseFloat(document.getElementById('TA').value);
+
+  submenuItems.forEach((item, index) => {
+    item.addEventListener("click", () => {
+      item.classList.toggle("show_submenu");
+      submenuItems.forEach((item2, index2) => {
+        if (index !== index2) {
+          item2.classList.remove("show_submenu");
+        }
+      });
+    });
+  });
   
-    var totalMarks = T1 + T2 + EndTerm + TA;
-    document.getElementById('Total').textContent = totalMarks;
+  if (window.innerWidth < 768) {
+    sidebar.classList.add("close");
+  } else {
+    sidebar.classList.remove("close");
   }
-
+  
+  });
 
 function updateRow(moduleId, row) {
     const cells = row.find('td');
@@ -276,9 +296,6 @@ function fetchSyllabusData() {
     });
 }
 
-
-
-
 function fetchcdData() {
     $.ajax({
         url: '/api/cd', // Change this URL to match your Express route
@@ -313,6 +330,7 @@ function fetchusername(){
             const username = data.username;
             console.log('Username:', username);
             $('#username').text(username);
+            $('#username1').text(username);
         },
         error: function (error) {
             console.error('Error fetching username', error);
