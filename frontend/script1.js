@@ -445,7 +445,7 @@ function fetchT1CO2(){
 
                     desiredOrder.forEach(header => {
                         if (tableHeaders.includes(header)) {
-                            if ( /^Q\d+$/.test(header)) {
+                            if ( /^Q\d+$/.test(header)||header=='Total') {
                                 tableHtml += `<td><strong>${record[header]}</strong></td>`;      
                             } 
                              else {
@@ -1182,7 +1182,7 @@ function fetchmarks(qmarks){
     const rows = $('#attainment-data tr');
     const row=rows.eq(2);
     const cells = row.find('td');
-    for (let i = 4; i < cells.length - 4; i++) {
+    for (let i = 4; i < cells.length - 3; i++) {
         const cellText = cells.eq(i).text().trim();
         qmarks.push(cellText);
     }

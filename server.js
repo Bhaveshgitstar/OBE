@@ -556,6 +556,15 @@ app.get('/coursehome',checkSessionTimeout, async (req, res) => {
     }
 });
 
+app.get('/courseexam',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'courseexam.html'));
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
 app.get('/teacherhome',checkSessionTimeout, async (req, res) => {
     try {
         res.sendFile(path.join(__dirname, 'frontend', 'teacherhome.html'));
