@@ -589,6 +589,47 @@ app.get('/attainmentt1',checkSessionTimeout, async (req, res) => {
         res.status(500).send(error.message);
     }
 });
+app.get('/attainmentt2',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'attainment2.html'));
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+app.get('/attainmentt3',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'attainment3.html'));
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+app.get('/attainmentta',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'attainmenta.html'));
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+app.get('/atcourseexit',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'atcourseexit.html'));
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+app.get('/atcopsomap',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'atcopsomap.html'));
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
 app.get('/adminmapping',checkSessionTimeout, async (req, res) => {
     try {
         res.sendFile(path.join(__dirname, 'frontend', 'admincontrol.html'));

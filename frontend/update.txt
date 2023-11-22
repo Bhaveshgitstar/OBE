@@ -10,6 +10,7 @@ function fetchT1attainmentData() {
 
         success: function(data) {
             const attainmentData = $('#attainment-data');
+            
             attainmentData.empty();
             let totalQ1 = 0;
             let totalQ2 = 0;
