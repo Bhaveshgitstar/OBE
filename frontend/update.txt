@@ -1,4 +1,4 @@
-mongod --bind_ip_all --port 27017 --dbpath C:\mongodb_data
+mongod --bind_ip_all --port 27018 --dbpath C:\mongodb_data
 
 
 
