@@ -133,7 +133,7 @@ function confirmUpload() {
     const formData = new FormData();
     formData.append('file', fileInput.files[0]);
 
-    fetch('/upload', {
+    fetch('/uploadt2', {
         method: 'POST',
         body: formData,
     })

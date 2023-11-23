@@ -404,6 +404,94 @@ app.post('/upload', upload.single('file'), (req, res) => {
         });
 });
 
+
+app.post('/uploadt2', upload.single('file'), (req, res) => {
+    const c= req.session.user.Course+"_at2";
+    readXlsxFile(req.file.path)
+        .then(async (rows) => {
+            try {
+
+                await courseOutcomeDb.collection(c).deleteMany({});
+
+                let headerIndex = -1;
+                let headers = [];
+                let foundHeader = false;
+
+                // Find the header row with the "SRMO" column
+                for (let i = 0; i < rows.length; i++) {
+                    const row = rows[i];
+
+                    if (!row) {
+                        // Skip null or empty rows
+                        continue;
+                    }
+
+                    if (row.includes('Sr.No.') && row.includes('Roll No.') && row.includes('Name')) {
+                        // Save the index of the header row
+                        headerIndex = i;
+                        headers = row.map((header) => header.trim());
+                        foundHeader = true;
+                        break;
+                    }
+                }
+
+                if (!foundHeader) {
+                    throw new Error('Header row not found in the Excel file.');
+                }
+
+                const AttainmentModel = courseOutcomeDb.model('CourseOutcomeModule', createSchema(headers), c);
+
+                const documents = [];
+
+                for (let i = headerIndex + 1; i < rows.length; i++) {
+                    const row = rows[i];
+
+                    if (!row) {
+                        // Skip null or empty rows
+                        continue;
+                    }
+
+                    const rowData = {};
+// ...
+    headers.forEach((header, index) => {
+    const questionNumber = header.match(/Q(\d+)/i);
+    const total = header.match(/^Total(\d+)/i); // Check for "Total" at the beginning
+
+    if (questionNumber) {
+        const fieldName = `Q${questionNumber[1]}`;
+        rowData[fieldName] = isValidNumber(row[index]) ? parseFloat(row[index]) : 0;
+    } else if (total) {
+        const fieldName = 'Total';
+        rowData[fieldName] = isValidNumber(row[index]) ? parseFloat(row[index]) : 0;
+    } else if (header.toLowerCase() === 'sr.no.') {
+        rowData['ModuleNo'] = row[index];
+    } else if (header.toLowerCase() === 'roll no.') {
+        rowData['RollNo'] = row[index];
+    } else {
+        rowData[header] = row[index];
+    }
+    });
+// ...
+                    documents.push(rowData);
+                }
+
+                console.log('Documents:', documents);
+
+                const insertResult = await AttainmentModel.insertMany(documents);
+
+
+                res.send({ rowCount: insertResult.length });
+            } catch (error) {
+                console.error('MongoDB Error:', error);
+                res.status(500).send('Error inserting data into MongoDB');
+            }
+        })
+        .catch((error) => {
+            console.error('Excel Parsing Error:', error);
+            res.status(500).send('Error parsing Excel file');
+        });
+});
+
 // Express route to fetch subject options based on selected year and semester
 app.get('/subjects', async(req, res) => {
     const selectedYear = parseInt(req.query.year, 10); // Parse the query parameter as an integer
