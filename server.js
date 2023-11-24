@@ -201,7 +201,9 @@ const createSchema = (headers) => {
         Batch: String,
         Total: Number,
         Attainment1: Number,
-        Attainment2: Number
+        Attainment2: Number,
+        Attainment3: Number,
+        Attainment4: Number
     };
 
     headers.forEach((header, index) => {
@@ -949,6 +951,18 @@ app.get('/api/t1attainment', async (req, res) => {
     }
 });
 
+app.get('/api/t2attainment', async (req, res) => {
+    try {
+        const c= req.session.user.Course+"_at2";
+        const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
+        const modules = await CourseOutcomeModule.find();
+        res.json(modules);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ error: 'Error fetching data' });
+    }
+});
+
 app.get('/api/t1co', async (req, res) => {
     try {
         const c= req.session.user.Course+"_t1co";
@@ -961,7 +975,31 @@ app.get('/api/t1co', async (req, res) => {
     }
 });
 
+app.get('/api/t2co', async (req, res) => {
+    try {
+        const c= req.session.user.Course+"_t2co";
+        const attainmentT1Schemac = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
+        const modules = await attainmentT1Schemac.find();
+        res.json(modules);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ error: 'Error fetching data' });
+    }
+});
+
 app.get('/api/t1marks', async (req, res) => {
+    try {
+        const c= req.session.user.Course+"_t1marks";
+        const attainmentT1Schemamarks = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
+        const modules = await attainmentT1Schemamarks.find();
+        res.json(modules);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ error: 'Error fetching data' });
+    }
+});
+
+app.get('/api/t2marks', async (req, res) => {
     try {
         const c= req.session.user.Course+"_t1marks";
         const attainmentT1Schemamarks = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
@@ -1002,6 +1040,20 @@ app.post('/api/modules', async (req, res) => {
  app.post('/api/t1attainment', async (req, res) => {
     // const { ModuleNo, ModuleTitle, Topics, NoOfLectures } = req.body;
     const c= req.session.user.Course+"_at";
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
+    const newModule = new CourseOutcomeModule(req.body);
+     try {
+         await newModule.save();
+         res.json(newModule);
+     } catch (error) {
+         console.error('Error saving data:', error);
+         res.status(500).json({ error: 'Error saving data' });
+     }
+ });
+
+ app.post('/api/t2attainment', async (req, res) => {
+    // const { ModuleNo, ModuleTitle, Topics, NoOfLectures } = req.body;
+    const c= req.session.user.Course+"_at2";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
     const newModule = new CourseOutcomeModule(req.body);
      try {
@@ -1058,6 +1110,20 @@ app.put('/api/t1attainment/:id', async (req, res) => {
     }
 });
 
+app.put('/api/t2attainment/:id', async (req, res) => {
+    const c= req.session.user.Course+"_at2";
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
+    const moduleId = req.params.id;
+    const updatedModule = req.body;
+    
+    try {
+        await CourseOutcomeModule.findByIdAndUpdate(moduleId, updatedModule);
+        res.json(updatedModule);
+    } catch (error) {
+        console.error('Error updating data:', error);
+        res.status(500).json({ error: 'Error updating data' });
+    }
+});
 app.put('/api/course/:id', async (req, res) => {
     const c= req.session.user.Course;
     const course = courseOutcomeDb.model('CourseOutcomeModule', courseSchema, c);
@@ -1103,6 +1169,22 @@ app.delete('/api/courses/:id', async (req, res) => {
 });
 
 app.delete('/api/t1attainment/:id', async (req, res) => {
+    const c= req.session.user.Course+"_at";
+    const course = courseOutcomeDb.model('CourseOutcomeModule', courseSchema, c);
+    const moduleId = req.params.id;
+    
+    try {
+        await course.findByIdAndDelete(moduleId);
+        res.json({ message: 'Data deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting data:', error);
+        res.status(500).json({ error: 'Error deleting data' });
+    }
+});
+
+
+
+app.delete('/api/t2attainment/:id', async (req, res) => {
     const c= req.session.user.Course+"_at";
     const course = courseOutcomeDb.model('CourseOutcomeModule', courseSchema, c);
     const moduleId = req.params.id;
