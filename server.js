@@ -143,6 +143,60 @@ const attainmentT1Schema = new mongoose.Schema(
     },
     { versionKey: false }
 );
+
+const copoSchema = new mongoose.Schema({
+    COs: String,
+    T1: Number,
+    T2: Number,
+    T3: Number,
+    'T-AVG': Number, // Avg. of T1, T2, and T3
+    Project: Number,
+    Quiz: Number,
+    'Assgn-AVG': Number, // Avg. of Assignments/Project
+    'Direct Attainment': Number, // 60% T-AVG + 20% Assgn-AVG
+    'Student Feedback': String, // Assuming this is a string, update it according to your needs
+    Final: Number, // Direct + 20% Indirect
+    CIE: Number,
+    SIE: Number,
+
+}, { versionKey: false });
+const coposoSchema = new mongoose.Schema({
+    COs: String,
+    COAttainments: Number,
+    PO1: Number,
+    PO2: Number,
+    PO3: Number,
+    PO4: Number,
+    PO5: Number,
+    PO6: Number,
+    PO7: Number,
+    PO8: Number,
+    PO9: Number,
+    PO10: Number,
+    PO11: Number,
+    PO12: Number,
+    PSO1: Number,
+    PSO2: Number
+}, { versionKey: false });
+const coposoatSchema = new mongoose.Schema({
+    Course: String,
+    PO1: Number,
+    PO2: Number,
+    PO3: Number,
+    PO4: Number,
+    PO5: Number,
+    PO6: Number,
+    PO7: Number,
+    PO8: Number,
+    PO9: Number,
+    PO10: Number,
+    PO11: Number,
+    PO12: Number,
+    PSO1: Number,
+    PSO2: Number
+}, { versionKey: false });
+
+
 const attainmentT1Schemaco = new mongoose.Schema(
     {
         ModuleNo: String,
@@ -963,6 +1017,82 @@ app.get('/api/t2attainment', async (req, res) => {
     }
 });
 
+app.get('/api/copo', async(req, res) => {
+    try {
+        const c = req.session.user.Course + "_copo";
+        const copoModule = courseOutcomeDb.model('CourseOutcomeModule', copoSchema, c);
+
+        const modules = await copoModule.find();
+        res.json(modules);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ error: 'Error fetching data' });
+    }
+});
+app.get('/api/coposo', async(req, res) => {
+    try {
+        const c = req.session.user.Course + "_coposo";
+        const copoModule = courseOutcomeDb.model('CourseOutcomeModule', coposoSchema, c);
+
+        const modules = await copoModule.find();
+        res.json(modules);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ error: 'Error fetching data' });
+    }
+});
+app.get('/api/coposoat', async(req, res) => {
+    try {
+        const c = req.session.user.Course + "_coposoat";
+        const copoModule = courseOutcomeDb.model('CourseOutcomeModule', coposoatSchema, c);
+
+        const modules = await copoModule.find();
+        res.json(modules);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ error: 'Error fetching data' });
+    }
+});
+
+app.post('/api/copo', async(req, res) => {
+    // const { ModuleNo, ModuleTitle, Topics, NoOfLectures } = req.body;
+    const c = req.session.user.Course + "_copo";
+    const copoModule = courseOutcomeDb.model('CourseOutcomeModule', copoSchema, c);
+    const newModule = new copoModule(req.body);
+    try {
+        await newModule.save();
+        res.json(newModule);
+    } catch (error) {
+        console.error('Error saving data:', error);
+        res.status(500).json({ error: 'Error saving data' });
+    }
+});
+app.post('/api/coposo', async(req, res) => {
+    // const { ModuleNo, ModuleTitle, Topics, NoOfLectures } = req.body;
+    const c = req.session.user.Course + "_coposo";
+    const copoModule = courseOutcomeDb.model('CourseOutcomeModule', coposoSchema, c);
+    const newModule = new copoModule(req.body);
+    try {
+        await newModule.save();
+        res.json(newModule);
+    } catch (error) {
+        console.error('Error saving data:', error);
+        res.status(500).json({ error: 'Error saving data' });
+    }
+});
+app.post('/api/coposoat', async(req, res) => {
+    // const { ModuleNo, ModuleTitle, Topics, NoOfLectures } = req.body;
+    const c = req.session.user.Course + "_coposoat";
+    const copoModule = courseOutcomeDb.model('CourseOutcomeModule', coposoatSchema, c);
+    const newModule = new copoModule(req.body);
+    try {
+        await newModule.save();
+        res.json(newModule);
+    } catch (error) {
+        console.error('Error saving data:', error);
+        res.status(500).json({ error: 'Error saving data' });
+    }
+});
 app.get('/api/t1co', async (req, res) => {
     try {
         const c= req.session.user.Course+"_t1co";
@@ -1079,7 +1209,48 @@ app.post('/api/modules', async (req, res) => {
      }
  });
 
+ app.put('/api/copo/:id', async(req, res) => {
+    const c = req.session.user.Course + "_at";
+    const copoModule = courseOutcomeDb.model('CourseOutcomeModule', copoSchema, c);
+    const moduleId = req.params.id;
+    const updatedModule = req.body;
 
+    try {
+        await copoModule.findByIdAndUpdate(moduleId, updatedModule);
+        res.json(updatedModule);
+    } catch (error) {
+        console.error('Error updating data:', error);
+        res.status(500).json({ error: 'Error updating data' });
+    }
+});
+app.put('/api/coposo/:id', async(req, res) => {
+    const c = req.session.user.Course + "_coposo";
+    const copoModule = courseOutcomeDb.model('CourseOutcomeModule', coposoSchema, c);
+    const moduleId = req.params.id;
+    const updatedModule = req.body;
+
+    try {
+        await copoModule.findByIdAndUpdate(moduleId, updatedModule);
+        res.json(updatedModule);
+    } catch (error) {
+        console.error('Error updating data:', error);
+        res.status(500).json({ error: 'Error updating data' });
+    }
+});
+app.put('/api/coposoat/:id', async(req, res) => {
+    const c = req.session.user.Course + "_coposoat";
+    const copoModule = courseOutcomeDb.model('CourseOutcomeModule', coposoatSchema, c);
+    const moduleId = req.params.id;
+    const updatedModule = req.body;
+
+    try {
+        await copoModule.findByIdAndUpdate(moduleId, updatedModule);
+        res.json(updatedModule);
+    } catch (error) {
+        console.error('Error updating data:', error);
+        res.status(500).json({ error: 'Error updating data' });
+    }
+});
 
 app.put('/api/module/:id', async (req, res) => {
     const c= req.session.user.Course+"_co";
@@ -1182,6 +1353,32 @@ app.delete('/api/t1attainment/:id', async (req, res) => {
     }
 });
 
+app.delete('/api/copo/:id', async(req, res) => {
+    const c = req.session.user.Course + "_copo";
+    const course = courseOutcomeDb.model('CourseOutcomeModule', copoSchema, c);
+    const moduleId = req.params.id;
+
+    try {
+        await course.findByIdAndDelete(moduleId);
+        res.json({ message: 'Data deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting data:', error);
+        res.status(500).json({ error: 'Error deleting data' });
+    }
+});
+app.delete('/api/coposo/:id', async(req, res) => {
+    const c = req.session.user.Course + "_coposo";
+    const course = courseOutcomeDb.model('CourseOutcomeModule', coposoSchema, c);
+    const moduleId = req.params.id;
+
+    try {
+        await course.findByIdAndDelete(moduleId);
+        res.json({ message: 'Data deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting data:', error);
+        res.status(500).json({ error: 'Error deleting data' });
+    }
+});
 
 
 app.delete('/api/t2attainment/:id', async (req, res) => {
