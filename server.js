@@ -914,6 +914,8 @@ app.post('/api/updatedb', async (req, res) => {
             res.status(500).json({ error: "Update failed" });
         });
 });
+
+
 app.post('/api/updatedbco', async (req, res) => {
     const { columnName,co } = req.body;
     const c= req.session.user.Course+"_t1co";
@@ -1180,6 +1182,42 @@ app.post('/api/modules', async (req, res) => {
          res.status(500).json({ error: 'Error saving data' });
      }
  });
+
+ const FormSchema = new mongoose.Schema({
+    numQuestions: Number,
+    marksPerQuestion: [Number],
+    numCOs: Number,
+    coValues: [Number]
+});
+
+app.post('/api/submitcot1', async (req, res) => {
+    const c= req.session.user.Course+"_t1co";
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule',attainmentT1Schema, c);
+    await CourseOutcomeModule.deleteMany({});
+    const formData = new CourseOutcomeModule(req.body);
+    try {
+        await formData.save();
+        res.status(201).send({ message: 'Data saved successfully', data: formData });
+    } catch (error) {
+        console.error('Error saving data:', error);
+        res.status(500).send({ message: 'Error saving data', error: error });
+    }
+});
+
+app.post('/api/submitmarkst1', async (req, res) => {
+    const c= req.session.user.Course+"_t1marks";
+    
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule',attainmentT1Schema, c);
+    await CourseOutcomeModule.deleteMany({});
+    const formData = new CourseOutcomeModule(req.body);
+    try {
+        await formData.save();
+        res.status(201).send({ message: 'Data saved successfully', data: formData });
+    } catch (error) {
+        console.error('Error saving data:', error);
+        res.status(500).send({ message: 'Error saving data', error: error });
+    }
+});
 
  app.post('/api/t2attainment', async (req, res) => {
     // const { ModuleNo, ModuleTitle, Topics, NoOfLectures } = req.body;

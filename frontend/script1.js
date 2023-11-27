@@ -239,8 +239,18 @@ function updateRowat(recordId, row) {
     qmarks = fetchmarks(qmarks);
     console.log(qmarks);
     const qValues = [];
+
+    const headerCells = $('#attainment-data thead th');
+    let totalIndex = headerCells.length; // Default to the length of the header cells
+    headerCells.each(function(index) {
+        if ($(this).text().trim() === "Total") {
+            totalIndex = index;
+            return false; // Break out of the loop
+        }
+    });
+    console.log(totalIndex);
     
-    for (let i = 4; i < cells.length - 4; i++) {
+    for (let i = 4; i <totalIndex; i++) {
         const cellText = cells.eq(i).text().trim();
         qIndices.push(i);
         qValues.push(cellText);
@@ -272,44 +282,38 @@ function updateRowat(recordId, row) {
         marks[i]=atmarks;
     }
     }
-    
-    // at now contains at1 to atn values based on matching indices between coIndices and atIndices
-    
-    // Calculate attainment1 and attainment2 values
-    let attainment1, attainment2;
+    // ... [previous code remains unchanged]
 
-    if (containsAOrQuestionMark) {
-        attainment1 = 0;
-        attainment2 = 0;
-    } else {
-        attainment1 = ((at[0] / marks[0]) * 100).toFixed(1);
-        attainment2 = ((at[1] /marks[1]) * 100).toFixed(1);
+// Calculate attainment values dynamically
+const attainmentValues = [];
+if (!containsAOrQuestionMark) {
+    for (let i = 0; i < atIndices.length; i++) {
+        attainmentValues.push(((at[i] / marks[i]) * 100).toFixed(1));
     }
+} else {
+    for (let i = 0; i < atIndices.length; i++) {
+        attainmentValues.push(0);
+    }
+}
 
-    // Calculate Total based on Q1 to Qn values
-    const total = qIndices.reduce((acc, index) => {
-        const qValue = parseFloat(cells.eq(index).text());
-        return isNaN(qValue) ? acc : acc + qValue;
-    }, 0);
-    
+// Update the UI with new attainment values
+attainmentValues.forEach((attainment, index) => {
+    cells.eq(cells.length - atIndices.length - 1 + index).text(attainment);
+});
 
-    // Update the UI with new values
-    cells.eq(cells.length - 3).text(total);
-    cells.eq(cells.length - 2).text(attainment1);
-    cells.eq(cells.length - 1).text(attainment2);
+const total = qIndices.reduce((acc, index) => {
+    const qValue = parseFloat(cells.eq(index).text());
+    return isNaN(qValue) ? acc : acc + qValue;
+}, 0);
 
-    // Update the Total in the updatedData object
-    updatedData.Total = total;
-    
-    // Add Q values to updatedData dynamically
-    qIndices.forEach((index, i) => {
-        const qValue = parseFloat(cells.eq(index).text());
-        updatedData[`Q${i + 1}`] = isNaN(qValue) ? 0 : qValue;
-    });
 
-    // Update the data and trigger an input event to handle saving the updated data
-    updatedData.Attainment1 = parseFloat(attainment1);
-    updatedData.Attainment2 = parseFloat(attainment2);
+// Update the UI with new values
+cells.eq(cells.length - 3).text(total);
+// Update the Total and Attainment values in the updatedData object
+updatedData.Total = total;
+attainmentValues.forEach((attainment, index) => {
+    updatedData[`Attainment${index + 1}`] = parseFloat(attainment);
+});
 
     $.ajax({
         url: `/api/t1attainment/${recordId}`, // Update the URL to match your Express route for T1attainment data
@@ -703,7 +707,7 @@ function fetchT1attainmentData() {
                         }
                     }
                 });
-                tableHtml += '<th>Action</th></tr></thead>';
+                tableHtml += '<th class="action1">Action</th></tr></thead>';
                 attainmentData.append(tableHtml);
 
 
@@ -1154,8 +1158,17 @@ function fetchatindices(atIndices) {
     const rows = $('#attainment-data tr');
     const row = rows.eq(1);
     const cells = row.find('td');
+
+    const headerCells = $('#attainment-data thead th');
+    let totalIndex = headerCells.length; // Default to the length of the header cells
+    headerCells.each(function(index) {
+        if ($(this).text().trim() === "Total") {
+            totalIndex = index;
+            return false; // Break out of the loop
+        }
+    });
     
-    for (let i = cells.length - 3; i < cells.length - 1; i++) {
+    for (let i = totalIndex+1; i < cells.length - 1; i++) {
         const cellText = cells.eq(i).text().trim();
         atIndices.push(cellText);
     }
@@ -1168,13 +1181,26 @@ function fetchatindices(atIndices) {
 
 function fetchcoIndices(coIndices){
     const rows = $('#attainment-data tr');
+    const lastRow = rows.last(); // Get the last added row
     const row=rows.eq(1);
     const cells = row.find('td');
-    for (let i = 4; i < cells.length - 4; i++) {
+
+    // Find the index of the "Total" header
+    const headerCells = $('#attainment-data thead th');
+    let totalIndex = headerCells.length; // Default to the length of the header cells
+    headerCells.each(function(index) {
+        if ($(this).text().trim() === "Total") {
+            totalIndex = index;
+            return false; // Break out of the loop
+        }
+    });
+    console.log(totalIndex);
+
+    // Now modify your loop to use totalIndex
+    for (let i = 4; i < totalIndex; i++) {
         const cellText = cells.eq(i).text().trim();
         coIndices.push(cellText);
     }
-    console.log(coIndices);
     return coIndices;
 
 }
@@ -1182,13 +1208,23 @@ function fetchmarks(qmarks){
     const rows = $('#attainment-data tr');
     const row=rows.eq(2);
     const cells = row.find('td');
-    for (let i = 4; i < cells.length - 3; i++) {
+    const headerCells = $('#attainment-data thead th');
+    let totalIndex = headerCells.length; // Default to the length of the header cells
+    headerCells.each(function(index) {
+        if ($(this).text().trim() === "Total") {
+            totalIndex = index;
+            return false; // Break out of the loop
+        }
+    });
+    console.log(totalIndex);
+    for (let i = 4; i <  totalIndex; i++) {
         const cellText = cells.eq(i).text().trim();
         qmarks.push(cellText);
     }
     return qmarks;
 
 }
+
 function saveDataToServer3() {
     const rows = $('#attainment-data tr');
     const lastRow = rows.last(); // Get the last added row
@@ -1211,7 +1247,15 @@ function saveDataToServer3() {
     console.log(qmarks);
     const qValues = [];
     
-    for (let i = 4; i < cells.length - 4; i++) {
+    const headerCells = $('#attainment-data thead th');
+    let totalIndex = headerCells.length; // Default to the length of the header cells
+    headerCells.each(function(index) {
+        if ($(this).text().trim() === "Total") {
+            totalIndex = index;
+            return false; // Break out of the loop
+        }
+    });
+    for (let i = 4; i < totalIndex; i++) {
         const cellText = cells.eq(i).text().trim();
         qIndices.push(i - 4);
         qValues.push(cellText);
@@ -1247,33 +1291,60 @@ function saveDataToServer3() {
     // at now contains at1 to atn values based on matching indices between coIndices and atIndices
     
     // Calculate attainment1 and attainment2 values
-    let attainment1, attainment2;
+// ... (previous code remains unchanged)
 
-    if (containsAOrQuestionMark) {
-        attainment1 = 0;
-        attainment2 = 0;
-    } else {
-        attainment1 = ((at[0] / marks[0]) * 100).toFixed(1);
-        attainment2 = ((at[1] /marks[1]) * 100).toFixed(1);
+// Calculate attainment values dynamically
+const attainmentValues = [];
+if (!containsAOrQuestionMark) {
+    for (let i = 0; i < atIndices.length; i++) {
+        attainmentValues.push(((at[i] / marks[i]) * 100).toFixed(1));
     }
+} else {
+    for (let i = 0; i < atIndices.length; i++) {
+        attainmentValues.push(0);
+    }
+}
+
+// Assign attainment values dynamically to respective variables
+const attainmentVariables = [];
+for (let i = 0; i < attainmentValues.length; i++) {
+    attainmentVariables.push(`attainment${i + 1}`);
+}
+
+attainmentVariables.forEach((variable, index) => {
+    if (attainmentValues[index]) {
+        window[variable] = attainmentValues[index];
+    } else {
+        window[variable] = 0;
+    }
+});
+
+// Now attainment1, attainment2, ... variables hold the calculated values
+
+const newData = {
+    ModuleNo: newModuleNo,
+    RollNo: cells.eq(1).text(),
+    Name: cells.eq(2).text(),
+    Batch: cells.eq(3).text(),
+    ...qIndices.reduce((acc, index, i) => {
+        const qValue = qValues[index];
+        acc[`Q${i + 1}`] = containsAOrQuestionMark ? qValue : parseFloat(qValue || 0);
+        return acc;
+    }, {}),
+    Total: containsAOrQuestionMark
+        ? 0
+        : qIndices.reduce((acc, index) => acc + parseFloat(cells.eq(4 + index).text() || 0), 0),
+    // Dynamically add attainment values to newData
+    ...attainmentVariables.reduce((acc, variable, index) => {
+        acc[`Attainment${index + 1}`] = window[variable];
+        return acc;
+    }, {})
+};
+
+// ... (remaining code remains unchanged)
 
 
-    const newData = {
-        ModuleNo: newModuleNo,
-        RollNo: cells.eq(1).text(),
-        Name: cells.eq(2).text(),
-        Batch: cells.eq(3).text(),
-        ...qIndices.reduce((acc, index, i) => {
-            const qValue = qValues[index];
-            acc[`Q${i + 1}`] = containsAOrQuestionMark ? qValue : parseFloat(qValue || 0);
-            return acc;
-        }, {}),
-        Total: containsAOrQuestionMark
-            ? 0
-            : qIndices.reduce((acc, index) => acc + parseFloat(cells.eq(4 + index).text() || 0), 0),
-        Attainment1: attainment1,
-        Attainment2: attainment2
-    };
+    
     
     $.ajax({
         url: '/api/t1attainment', // Update the URL to match your Express route for T1attainment data

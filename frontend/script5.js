@@ -70,7 +70,13 @@ $(document).ready(() => {
         }
     });
 
+    let noc = 10;
+    let noa = noc + 3;
 
+    $(document).on('input', '.q-input', function() {
+        const row = $(this).closest('tr');
+        calculateAttainment1ForRow(row);
+    });
 
     $('.add-row-buttonat').click(() => {
         addEmptyRow3();
@@ -78,6 +84,14 @@ $(document).ready(() => {
 
     $('.save-buttonat').click(() => {
         saveDataToServer3();
+    });
+    $('.add-qcolumn-buttonat').click(() => {
+        noc = addColumnsq(noc);
+        fetchT1attainmentData();
+        noa = noa + 1;
+    });
+    $('.add-acolumn-buttonat').click(() => {
+        noa = addColumnsa(noa);
     });
 
 
@@ -224,34 +238,111 @@ function confirmUpload() {
 function updateRowat(recordId, row) {
     const cells = row.find('td');
     const updatedData = {
-        COs: cells.eq(0).text(),
-        COAttainments: parseFloat(cells.eq(1).text()),
-        PO1: parseFloat(cells.eq(2).text()),
-        PO2: parseFloat(cells.eq(3).text()),
-        PO3: parseFloat(cells.eq(4).text()),
-        PO4: parseFloat(cells.eq(5).text()),
-        PO5: parseFloat(cells.eq(6).text()),
-        PO6: parseFloat(cells.eq(7).text()),
-        PO7: parseFloat(cells.eq(8).text()),
-        PO8: parseFloat(cells.eq(9).text()),
-        PO9: parseFloat(cells.eq(10).text()),
-        PO10: parseFloat(cells.eq(11).text()),
-        PO11: parseFloat(cells.eq(12).text()),
-        PO12: parseFloat(cells.eq(13).text()),
-        PSO1: parseFloat(cells.eq(14).text()),
-        PSO2: parseFloat(cells.eq(15).text())
+        ModuleNo: parseInt(cells.eq(0).text()),
+        RollNo: cells.eq(1).text(),
+        Name: cells.eq(2).text(),
+        Batch: cells.eq(3).text()
     };
 
+
+    const qIndices = [];
+    let coIndices = [];
+    let atIndices = [];
+    coIndices = fetchcoIndices(coIndices);
+    console.log(coIndices);
+    atIndices = fetchatindices(atIndices);
+    console.log(atIndices);
+    let qmarks = [];
+    qmarks = fetchmarks(qmarks);
+    console.log(qmarks);
+    const qValues = [];
+
+    for (let i = 4; i < cells.length - 4; i++) {
+        const cellText = cells.eq(i).text().trim();
+        qIndices.push(i);
+        qValues.push(cellText);
+    }
+
+    const containsAOrQuestionMark = qValues.some(value => value === "A");
+
+    // Initialize at1 to atn with zeros
+    const at = Array(atIndices.length).fill(0);
+    const marks = Array(atIndices.length).fill(0);
+
+    // Calculate at1 to atn only when coIndices and atIndices match
+    for (let i = 0; i < atIndices.length; i++) {
+        const atIndex = atIndices[i];
+        let atValue = 0.0;
+        let atmarks = 0.0;
+
+        // Check if coIndices has a corresponding entry and it matches
+        for (let j = 4; j < cells.length - 4; j++) {
+            if (coIndices[j - 4] === atIndex) {
+                console.log(coIndices[j - 4]);
+                console.log(atIndex);
+                atValue += parseFloat(qValues[j - 4] || 0);
+                atmarks += parseFloat(qmarks[j - 4] || 0);
+            }
+            console.log(atValue);
+            console.log(atmarks);
+            at[i] = atValue;
+            marks[i] = atmarks;
+        }
+    }
+
+    // at now contains at1 to atn values based on matching indices between coIndices and atIndices
+
+    // Calculate attainment1 and attainment2 values
+    let attainment1, attainment2;
+
+    if (containsAOrQuestionMark) {
+        attainment1 = 0;
+        attainment2 = 0;
+    } else {
+        attainment1 = ((at[0] / marks[0]) * 100).toFixed(1);
+        attainment2 = ((at[1] / marks[1]) * 100).toFixed(1);
+    }
+
+    // Calculate Total based on Q1 to Qn values
+    const total = qIndices.reduce((acc, index) => {
+        const qValue = parseFloat(cells.eq(index).text());
+        return isNaN(qValue) ? acc : acc + qValue;
+    }, 0);
+
+
+    // Update the UI with new values
+    cells.eq(cells.length - 3).text(total);
+    cells.eq(cells.length - 2).text(attainment1);
+    cells.eq(cells.length - 1).text(attainment2);
+
+    // Update the Total in the updatedData object
+    updatedData.Total = total;
+
+    // Add Q values to updatedData dynamically
+    qIndices.forEach((index, i) => {
+        const qValue = parseFloat(cells.eq(index).text());
+        updatedData[`Q${i + 1}`] = isNaN(qValue) ? 0 : qValue;
+    });
+
     // Update the data and trigger an input event to handle saving the updated data
+    updatedData.Attainment1 = parseFloat(attainment1);
+    updatedData.Attainment2 = parseFloat(attainment2);
+
     $.ajax({
-        url: `/api/coposo/${recordId}`, // Update the URL to match your Express route for coposo data
+        url: `/api/t1attainment/${recordId}`, // Update the URL to match your Express route for T1attainment data
         type: 'PUT',
         dataType: 'json',
         contentType: 'application/json',
         data: JSON.stringify(updatedData),
         success: function(response) {
             console.log('Data updated successfully:', response);
-            // Add any additional actions or fetch data calls here
+            fetchT1attainmentData()
+                .then(fetchT1CO)
+                .then(fetchT1CO2)
+                .then(fetchT1attainmentData2)
+                .catch(function(error) {
+                    console.error('Error:', error);
+                });
             row.find('.q-input').trigger('input');
         },
         error: function(error) {
@@ -261,21 +352,21 @@ function updateRowat(recordId, row) {
 
     // Restore UI state
     cells.attr('contenteditable', 'false');
-    row.find('.save-buttonatu').hide();
+    row.find('.save-buttonuat').hide();
     row.find('.update-buttonat').show();
     row.find('.delete-buttonat').show();
 }
 
 function deleteRowat(moduleId) {
     $.ajax({
-        url: `/api/coposo/${moduleId}`, // Change this URL to match your Express route
+        url: `/api/t1attainment/${moduleId}`, // Change this URL to match your Express route
         type: 'DELETE',
         success: function() {
             console.log('Data deleted successfully');
-            fetchcoposoData()
-                .then(function() {
-                    return fetchcoposoData2();
-                })
+            fetchT1attainmentData()
+                .then(fetchT1CO)
+                .then(fetchT1CO2)
+                .then(fetchT1attainmentData2)
                 .catch(function(error) {
                     console.error('Error:', error);
                 });
@@ -337,64 +428,311 @@ function fetchcourse() {
     });
 }
 
+function fetchT1CO2() {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: '/api/t1marks', // Update the URL to match your Express route for T1attainment data
+            type: 'GET',
+            dataType: 'json',
+
+            success: function(dataco) {
+                const attainmentDataco2 = $('#attainment-data');
+                tableHtml = '<tbody>';
+                const tableHeaders = Object.keys(dataco[0]);
+                // Create an array for Q columns and sort them numerically
+                const qColumns = tableHeaders.filter(header => /^Q\d+$/.test(header));
+                qColumns.sort((a, b) => {
+                    const aNumber = parseInt(a.slice(1));
+                    const bNumber = parseInt(b.slice(1));
+                    return aNumber - bNumber;
+                });
+                const aColumns = tableHeaders.filter(header => /^Attainment\d+$/.test(header));
+                aColumns.sort((a, b) => {
+                    const aNumber = parseInt(a.slice(1));
+                    const bNumber = parseInt(b.slice(1));
+                    return aNumber - bNumber;
+                });
+
+                const desiredOrder = ['ModuleNo', 'RollNo', 'Name', 'Batch', ...qColumns, 'Total', ...aColumns];
 
 
-// function fetchcopoCO2() {
-//     return new Promise((resolve, reject) => {
-//         $.ajax({
-//             url: '/api/copo',
-//             type: 'GET',
-//             dataType: 'json',
+                dataco.forEach((record, index) => {
+                    tableHtml += '<tr data-record-id="' + record._id + '">';
+                    // For the first and second records, you can add placeholders or empty cells
 
-//             success: function(dataco) {
-//                 const attainmentDataco2 = $('#copo-data');
-//                 let tableHtml = '<thead><tr>';
-//                 const tableHeaders = Object.keys(dataco[0]);
 
-//                 const qColumns = tableHeaders.filter(header => /^Q\d+$/.test(header));
-//                 qColumns.sort((a, b) => parseInt(a.slice(1)) - parseInt(b.slice(1)));
+                    desiredOrder.forEach(header => {
+                        if (tableHeaders.includes(header)) {
+                            if (/^Q\d+$/.test(header) || header == 'Total') {
+                                tableHtml += `<td><strong>${record[header]}</strong></td>`;
+                            } else {
+                                tableHtml += `<td></td>`;
+                            }
+                        }
 
-//                 const aColumns = tableHeaders.filter(header => /^Attainment\d+$/.test(header));
-//                 aColumns.sort((a, b) => parseInt(a.slice(1)) - parseInt(b.slice(1)));
+                    });
+                    tableHtml += `<td></td>`;
 
-//                 const desiredOrder = ['ModuleNo', 'RollNo', 'Name', 'Batch', ...qColumns, 'Total', ...aColumns];
-
-//                 // Create the table header row
-//                 desiredOrder.forEach(header => {
-//                     tableHtml += `<th>${header}</th>`;
-//                 });
-//                 tableHtml += '<th>Action</th></tr></thead><tbody>';
-
-//                 // Create table body rows
-//                 dataco.forEach((record, index) => {
-//                     tableHtml += '<tr data-record-id="' + record._id + '">';
-
-//                     desiredOrder.forEach(header => {
-//                         if (tableHeaders.includes(header)) {
-//                             tableHtml += `<td>${record[header]}</td>`;
-//                         }
-//                     });
-
-//                     // Additional column for Action (you can modify this based on your requirements)
-//                     tableHtml += '<td><button class="edit-button">Edit</button></td>';
-//                     tableHtml += '</tr>';
-//                 });
-
-//                 tableHtml += '</tbody>';
-//                 attainmentDataco2.html(tableHtml);
-
-//                 resolve();
-//             },
-//             error: function(error) {
-//                 console.error('Error fetching data:', error);
-//                 reject(error);
-//             }
-//         });
-//     });
-// }
+                    tableHtml += '</tr>';
 
 
 
+                });
+
+                tableHtml += '</tbody>';
+                attainmentDataco2.append(tableHtml);
+
+
+                resolve();
+            },
+            error: function(error) {
+                console.error('Error fetching data:', error);
+                reject(error);
+            }
+        });
+    });
+}
+
+function fetchcopoCO2() {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: '/api/copo',
+            type: 'GET',
+            dataType: 'json',
+
+            success: function(dataco) {
+                const attainmentDataco2 = $('#copo-data');
+                let tableHtml = '<thead><tr>';
+                const tableHeaders = Object.keys(dataco[0]);
+
+                const qColumns = tableHeaders.filter(header => /^Q\d+$/.test(header));
+                qColumns.sort((a, b) => parseInt(a.slice(1)) - parseInt(b.slice(1)));
+
+                const aColumns = tableHeaders.filter(header => /^Attainment\d+$/.test(header));
+                aColumns.sort((a, b) => parseInt(a.slice(1)) - parseInt(b.slice(1)));
+
+                const desiredOrder = ['ModuleNo', 'RollNo', 'Name', 'Batch', ...qColumns, 'Total', ...aColumns];
+
+                // Create the table header row
+                desiredOrder.forEach(header => {
+                    tableHtml += `<th>${header}</th>`;
+                });
+                tableHtml += '<th>Action</th></tr></thead><tbody>';
+
+                // Create table body rows
+                dataco.forEach((record, index) => {
+                    tableHtml += '<tr data-record-id="' + record._id + '">';
+
+                    desiredOrder.forEach(header => {
+                        if (tableHeaders.includes(header)) {
+                            tableHtml += `<td>${record[header]}</td>`;
+                        }
+                    });
+
+                    // Additional column for Action (you can modify this based on your requirements)
+                    tableHtml += '<td><button class="edit-button">Edit</button></td>';
+                    tableHtml += '</tr>';
+                });
+
+                tableHtml += '</tbody>';
+                attainmentDataco2.html(tableHtml);
+
+                resolve();
+            },
+            error: function(error) {
+                console.error('Error fetching data:', error);
+                reject(error);
+            }
+        });
+    });
+}
+
+function fetchT1CO() {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: '/api/t1co', // Update the URL to match your Express route for T1attainment data
+            type: 'GET',
+            dataType: 'json',
+
+            success: function(dataco) {
+                const attainmentDataco = $('#attainment-data');
+                tableHtml = '<tbody>';
+                const tableHeaders = Object.keys(dataco[0]);
+                // Create an array for Q columns and sort them numerically
+                const qColumns = tableHeaders.filter(header => /^Q\d+$/.test(header));
+                qColumns.sort((a, b) => {
+                    const aNumber = parseInt(a.slice(1));
+                    const bNumber = parseInt(b.slice(1));
+                    return aNumber - bNumber;
+                });
+                const aColumns = tableHeaders.filter(header => /^Attainment\d+$/.test(header));
+                aColumns.sort((a, b) => {
+                    const aNumber = parseInt(a.slice(1));
+                    const bNumber = parseInt(b.slice(1));
+                    return aNumber - bNumber;
+                });
+
+                const desiredOrder = ['ModuleNo', 'RollNo', 'Name', 'Batch', ...qColumns, 'Total', ...aColumns];
+
+
+                dataco.forEach((record, index) => {
+                    tableHtml += '<tr data-record-id="' + record._id + '">';
+                    // For the first and second records, you can add placeholders or empty cells
+
+
+                    desiredOrder.forEach(header => {
+                        if (tableHeaders.includes(header)) {
+                            if (/^Q\d+$/.test(header) || /^Attainment\d+$/.test(header)) {
+                                tableHtml += `<td><strong>${record[header]}</strong></td>`;
+                            } else {
+                                tableHtml += `<td></td>`;
+                            }
+                        }
+
+                    });
+                    tableHtml += `<td></td>`;
+
+                    tableHtml += '</tr>';
+
+
+
+                });
+
+                tableHtml += '</tbody>';
+                attainmentDataco.append(tableHtml);
+                resolve();
+
+
+
+            },
+            error: function(error) {
+                console.error('Error fetching data:', error);
+                reject(error);
+            }
+        });
+    });
+}
+
+function fetchT1attainmentData2() {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: '/api/t1attainment', // Update the URL to match your Express route for T1attainment data
+            type: 'GET',
+            dataType: 'json',
+
+            success: function(data) {
+                const attainmentData = $('#attainment-data');
+
+
+                if (data.length > 0) {
+                    // Create an array of column headers based on the keys of the first record
+                    const tableHeaders = Object.keys(data[0]);
+                    // Create an array for Q columns and sort them numerically
+                    const qColumns = tableHeaders.filter(header => /^Q\d+$/.test(header));
+                    qColumns.sort((a, b) => {
+                        const aNumber = parseInt(a.slice(1));
+                        const bNumber = parseInt(b.slice(1));
+                        return aNumber - bNumber;
+                    });
+                    const aColumns = tableHeaders.filter(header => /^Attainment\d+$/.test(header));
+                    aColumns.sort((a, b) => {
+                        const aNumber = parseInt(a.slice(1));
+                        const bNumber = parseInt(b.slice(1));
+                        return aNumber - bNumber;
+                    });
+                    // Specify the desired order of columns (S.No, RollNo, Name, Batch, Q1 to Qn, Total, Attainment, Action)
+                    const desiredOrder = ['ModuleNo', 'RollNo', 'Name', 'Batch', ...qColumns, 'Total', ...aColumns];
+
+                    tableHtml = '<tbody>';
+                    data.forEach((record, index) => {
+                        tableHtml += '<tr data-record-id="' + record._id + '">';
+                        desiredOrder.forEach(header => {
+                            if (tableHeaders.includes(header)) {
+                                if (header === 'ModuleNo') {
+                                    tableHtml += `<td>${index+ 1}</td>`;
+                                } else {
+                                    tableHtml += `<td>${record[header]}</td>`;
+                                }
+                            }
+                        });
+                        tableHtml += `
+                        <td class="action-buttons">
+                            <button class="btn btn-info update-buttonat">Edit</button>
+                            <button class="btn btn-danger delete-buttonat">Delete</button>
+                            <button class="btn btn-primary save-buttonatu" style="display: none;">Save</button>
+                        </td>`;
+
+                        tableHtml += '</tr>';
+
+
+
+
+                    });
+
+                    tableHtml += '</tbody>';
+                    attainmentData.append(tableHtml);
+
+                    // Calculate and add summary rows
+                    const totalStudents = data.length;
+                    const averageMarks = calculateAverageMarks(data);
+                    const studentsAboveTarget1 = calculateStudentsAboveTarget1(data);
+                    const studentsAboveTarget2 = calculateStudentsAboveTarget2(data);
+                    const percentageAboveTarget1 = calculatePercentageAboveTarget1(data);
+                    const percentageAboveTarget2 = calculatePercentageAboveTarget2(data);
+                    const coAttainment = calculateCOAttainment(data);
+                    const studentsAppeared = calculateStudentsAppeared(data);
+
+                    const summaryRow = `
+                    <tbody>
+                        <tr>
+                            <th colspan="4">Total Students:</th>
+                            <td colspan="${qColumns.length + 4}">${totalStudents}</td>
+                    
+                        </tr>
+                        <tr>
+                            <th colspan="4">Average Marks:</th>
+                            <td colspan="${qColumns.length + 4}">${averageMarks}</td>
+                        
+                        </tr>
+                        <tr>
+                            <th colspan="4">No. of Students Scored >= Target % (50%):</th>
+                            <td colspan="${(qColumns.length + 4) -4}">${studentsAboveTarget1}</td>
+                            <td colspan="4">${studentsAboveTarget2}</td>
+                    
+                        </tr>
+                        <tr>
+                            <th colspan="4">% of Students Scored >= Target % (50%):</th>
+                            <td colspan="${(qColumns.length + 4)-4}">${percentageAboveTarget1}</td>
+                            <td colspan="4">${percentageAboveTarget2}</td>
+        
+                        </tr>
+                        <tr>
+                            <th colspan="4">CO Attainment Levels:</th>
+                            <td colspan="${qColumns.length + 4}">${coAttainment}</td>
+                        
+                        </tr>
+                        <tr>
+                            <th colspan="4">No. of Students Appeared in T1:</th>
+                            <td colspan="${qColumns.length + 4}">${studentsAppeared}</td>
+                    
+                        </tr>
+                    </tbody>
+                `;
+
+                    attainmentData.append(summaryRow);
+                } else {
+                    // Handle the case where there is no data
+                    attainmentData.html('<p>No data available.</p>');
+                }
+                resolve();
+            },
+            error: function(error) {
+                console.error('Error fetching data:', error);
+                reject(error);
+            }
+        });
+    });
+}
 
 function fetchcopoData2() {
     return new Promise((resolve, reject) => {
@@ -468,17 +806,10 @@ function fetchcoposoData2() {
                         desiredOrder.forEach(header => {
                             tableHtml += `<td>${record[header]}</td>`;
                         });
-                        tableHtml += `
-                        <td class="action-buttons">
-                            <button class="btn btn-info update-buttonat">Edit</button>
-                            <button class="btn btn-danger delete-buttonat">Delete</button>
-                            <button class="btn btn-primary save-buttonatu" style="display: none;">Save</button>
-                        </td>`;
 
-
+                        tableHtml += '</tr>';
                     });
 
-                    tableHtml += '</tr>';
                     tableHtml += '</tbody>';
                     attainmentData.append(tableHtml);
 
@@ -772,7 +1103,7 @@ function fetchcoposoData() {
                     filteredHeaders.forEach(header => {
                         tableHtml += `<th>${header}</th>`;
                     });
-                    tableHtml += '<th>Action</th></tr></thead>';
+
                     attainmentData.append(tableHtml);
                 } else {
                     attainmentData.html('<p>No data available.</p>');
@@ -830,8 +1161,87 @@ function fetchcoposoatData() {
 
 
 
+function calculateAverageMarks(data) {
+    const totalMarks = data.reduce((acc, record) => acc + record.Total, 0);
+    return (totalMarks / data.length).toFixed(2);
+}
+
+function calculateStudentsAboveTarget1(data) {
+    return data.filter(record => record.Attainment1 >= 50).length;
+}
+
+function calculateStudentsAboveTarget2(data) {
+    return data.filter(record => record.Attainment2 >= 50).length;
+}
+
+function calculatePercentageAboveTarget1(data) {
+    const aboveTargetCount = calculateStudentsAboveTarget1(data);
+    return ((aboveTargetCount / (data.length)) * 100).toFixed(2) + '%';
+}
+
+function calculatePercentageAboveTarget2(data) {
+    const aboveTargetCount = calculateStudentsAboveTarget2(data);
+    return ((aboveTargetCount / (data.length)) * 100).toFixed(2) + '%';
+}
+
+function calculateCOAttainment(data) {
+    const attainment1Count = data.filter(record => record.Attainment1 >= 50).length;
+    const attainment2Count = data.filter(record => record.Attainment2 >= 50).length;
+
+    let attainment1Level, attainment2Level;
+
+    if (attainment1Count / data.length >= 0.8) {
+        attainment1Level = 3;
+    } else if (attainment1Count / data.length >= 0.7) {
+        attainment1Level = 2;
+    } else if (attainment1Count / data.length >= 0.6) {
+        attainment1Level = 1;
+    } else {
+        attainment1Level = 0;
+    }
+
+    if (attainment2Count / data.length >= 0.8) {
+        attainment2Level = 3;
+    } else if (attainment2Count / data.length >= 0.7) {
+        attainment2Level = 2;
+    } else if (attainment2Count / data.length >= 0.6) {
+        attainment2Level = 1;
+    } else {
+        attainment2Level = 0;
+    }
+
+    return `${attainment1Level} / ${attainment2Level}`;
+}
+
+function calculateStudentsAppeared(data) {
+    const presentStudents = data.filter(record => record.Total > 0).length;
+    return presentStudents;
+}
+
+let cno = 0;
+
+function updatenewco(columnName, co) {
+    $.ajax({
+        url: '/api/updatedbco', // Update the URL to match your Express route for T1attainment data
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify({ columnName, co }), // Send columnNames as JSON data
+        success: function(response) {
+            console.log('Data saved successfully:', response);
+            // You can add code here to handle the success response
+            // and update your table as needed.
+        },
+        error: function(xhr, status, error) {
+            console.error('Error saving data:', error);
+            console.log('Status:', status);
+            console.log('Response:', xhr.responseText);
+            // You can add error handling code here if needed.
+        }
+    });
 
 
+}
 
 function updatenewmarks(columnName, marks) {
 
@@ -857,6 +1267,204 @@ function updatenewmarks(columnName, marks) {
 
 }
 
+function addColumnsq(noc) {
+    // Get the table element.
+    let columnName;
+    cno = noc - 4 + 1;
+    columnName = "Q" + cno;
+    const table = document.getElementById('copo-table');
+
+
+    // Find the rows to which you want to add the column (up to totalRows - 5).
+    const rows = table.querySelectorAll('tbody tr');
+    const co = prompt(`Enter the CO for question ${columnName}: `);
+    const marks = prompt(`Enter the marks for question ${columnName}: `);
+    updatenewco(columnName, co);
+    updatenewmarks(columnName, marks);
+    const numRowsToAddTo = Math.max(0, rows.length - 6);
+
+    // Add a new cell to the selected rows.
+    rows.forEach((row, index) => {
+        if (index < numRowsToAddTo && index > 0) {
+            const cell = document.createElement('td');
+            cell.textContent = '0';
+            // Insert the new cell after the specified column (noc - 1 since columns are 0-indexed).
+            const targetCell = row.cells[noc - 1];
+            if (targetCell) {
+                row.insertBefore(cell, targetCell.nextSibling);
+            } else {
+                row.appendChild(cell);
+            }
+        }
+    });
+
+    // Add a new header cell for the added column.
+    const headerRow = table.querySelector('thead tr');
+    const headerCell = document.createElement('th');
+    headerCell.textContent = columnName;
+    // Insert the new header cell after the specified column (noc - 1 since columns are 0-indexed).
+    const targetHeaderCell = headerRow.cells[noc - 1];
+    if (targetHeaderCell) {
+        headerRow.insertBefore(headerCell, targetHeaderCell.nextSibling);
+    } else {
+        headerRow.appendChild(headerCell);
+    }
+
+    // Update the header text for the existing column with the specified columnName.
+    const existingHeaderCell = table.querySelector(`thead th[data-column-name="${columnName}"]`);
+    if (existingHeaderCell) {
+        existingHeaderCell.textContent = columnName;
+    }
+
+    $.ajax({
+        url: '/api/updatecopodb', // Update the URL to match your Express route for T1attainment data
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify({ columnName }), // Send columnNames as JSON data
+        success: function(response) {
+            console.log('Data saved successfully:', response);
+            // You can add code here to handle the success response
+            // and update your table as needed.
+            fetchT1attainmentData()
+                .then(fetchT1CO)
+                .then(fetchT1CO2)
+                .then(fetchT1attainmentData2)
+                .catch(function(error) {
+                    console.error('Error:', error);
+                });
+        },
+        error: function(xhr, status, error) {
+            console.error('Error saving data:', error);
+            console.log('Status:', status);
+            console.log('Response:', xhr.responseText);
+            // You can add error handling code here if needed.
+        }
+    });
+    noc = noc + 1;
+    return noc;
+}
+
+
+let ano = 3;
+
+function addColumnsa(noa) {
+    // Get the table element.
+    let columnName;
+    columnName = "Attainment" + ano;
+    const table = document.getElementById('copo-table');
+
+    // Find the rows to which you want to add the column (up to totalRows - 5).
+    const rows = table.querySelectorAll('tbody tr');
+    const numRowsToAddTo = Math.max(0, rows.length - 6);
+
+    // Add a new cell to the selected rows.
+    rows.forEach((row, index) => {
+        if (index < numRowsToAddTo && index > 0) {
+            const cell = document.createElement('td');
+            cell.textContent = '0';
+            // Insert the new cell after the specified column (noc - 1 since columns are 0-indexed).
+            const targetCell = row.cells[noa - 1];
+            if (targetCell) {
+                row.insertBefore(cell, targetCell.nextSibling);
+            } else {
+                row.appendChild(cell);
+            }
+        }
+    });
+
+    // Add a new header cell for the added column.
+    const headerRow = table.querySelector('thead tr');
+    const headerCell = document.createElement('th');
+    headerCell.textContent = columnName;
+    // Insert the new header cell after the specified column (noc - 1 since columns are 0-indexed).
+    const targetHeaderCell = headerRow.cells[noa - 1];
+    if (targetHeaderCell) {
+        headerRow.insertBefore(headerCell, targetHeaderCell.nextSibling);
+    } else {
+        headerRow.appendChild(headerCell);
+    }
+
+    // Update the header text for the existing column with the specified columnName.
+    const existingHeaderCell = table.querySelector(`thead th[data-column-name="${columnName}"]`);
+    if (existingHeaderCell) {
+        existingHeaderCell.textContent = columnName;
+    }
+
+    $.ajax({
+        url: '/api/updatecopodb', // Update the URL to match your Express route for T1attainment data
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify({ columnName }), // Send columnNames as JSON data
+        success: function(response) {
+            console.log('Data saved successfully:', response);
+            // You can add code here to handle the success response
+            // and update your table as needed.
+        },
+        error: function(xhr, status, error) {
+            console.error('Error saving data:', error);
+            console.log('Status:', status);
+            console.log('Response:', xhr.responseText);
+            // You can add error handling code here if needed.
+        }
+    });
+    noa = noa + 1;
+    return noa;
+}
+
+function addColumnsar(noa) {
+    // Get the number of columns to add from the input field.
+
+    // Create an array of column names.
+    let columnName;
+
+    ano = noa - 4 + 1;
+    columnName = "Q" + ano;
+
+    // Get the table element.
+    const table = document.getElementById('copo-table');
+
+    // Get the Q6 column header.
+    const q6ColumnHeader = table.querySelector(`thead th:nth-child(${noa})`);
+
+    // Add new columns to the table header after the Q6 column header.
+    const headerRow = table.querySelector('thead tr');
+    const headerCell = document.createElement('th');
+    headerCell.textContent = columnName;
+    headerRow.insertBefore(headerCell, q6ColumnHeader.nextSibling);
+
+
+    // Add new columns to the table body after the Q6 column.
+    const tableBody = table.querySelector('tbody');
+    for (const row of tableBody.querySelectorAll('tr')) {
+        const q6Cell = row.querySelector(`td:nth-child(${noa})`);
+        const cell = document.createElement('td');
+        cell.textContent = '0';
+        row.insertBefore(cell, q6Cell.nextSibling);
+    }
+    $.ajax({
+        url: '/api/updatecopodb', // Update the URL to match your Express route for T1attainment data
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify({ columnName }), // Send columnNames as JSON data
+        success: function(response) {
+            console.log('Data saved successfully:', response);
+            // You can add code here to handle the success response
+            // and update your table as needed.
+        },
+        error: function(xhr, status, error) {
+            console.error('Error saving data:', error);
+            console.log('Status:', status);
+            console.log('Response:', xhr.responseText);
+            // You can add error handling code here if needed.
+        }
+    });
+    //   addColumnsToSchema(columnNames);
+    noa = noa + 1;
+    return noa;
+}
 
 
 function fetchcdData() {
@@ -893,7 +1501,7 @@ function fetchcdData() {
 let newModuleNo1 = 0;
 
 function addEmptyRow3() {
-    const rows = $('#coposo-data tr');
+    const rows = $('#copo-data tr');
     const lastRow = rows.last();
     // Get the last row
     const cells = lastRow.find('td');
@@ -918,7 +1526,7 @@ function addEmptyRow3() {
     }
     emptyRow += '<td></td></tr></tbody>';
 
-    $('#coposo-data').append(emptyRow);
+    $('#copo-data').append(emptyRow);
 }
 
 
@@ -988,7 +1596,7 @@ function addEmptyRow3() {
 */
 
 function fetchatindices(atIndices) {
-    const rows = $('#coposo-data tr');
+    const rows = $('#copo-data tr');
     const row = rows.eq(1);
     const cells = row.find('td');
 
@@ -1004,7 +1612,7 @@ function fetchatindices(atIndices) {
 }
 
 function fetchcoIndices(coIndices) {
-    const rows = $('#coposo-data tr');
+    const rows = $('#copo-data tr');
     const row = rows.eq(1);
     const cells = row.find('td');
     for (let i = 4; i < cells.length - 4; i++) {
@@ -1017,7 +1625,7 @@ function fetchcoIndices(coIndices) {
 }
 
 function fetchmarks(qmarks) {
-    const rows = $('#coposo-data tr');
+    const rows = $('#copo-data tr');
     const row = rows.eq(2);
     const cells = row.find('td');
     for (let i = 4; i < cells.length - 3; i++) {
@@ -1029,68 +1637,110 @@ function fetchmarks(qmarks) {
 }
 
 function saveDataToServer3() {
-    const rows = $('#coposo-data tr');
+    const rows = $('#copo-data tr');
     const lastRow = rows.last(); // Get the last added row
     const cells = lastRow.find('td');
+    const lastModuleNo = newModuleNo1;
+    const newModuleNo = lastModuleNo + 1;
 
-    // Fixed COs value
-    const newCOs = cells.eq(0).text().trim(); // Assuming COs is in the first cell
+    cells.eq(0).text(newModuleNo);
 
-    // Extract values for each field
-    const COAttainments = parseFloat(cells.eq(1).text().trim());
-    const PO1 = parseFloat(cells.eq(2).text().trim());
-    const PO2 = parseFloat(cells.eq(3).text().trim());
-    const PO3 = parseFloat(cells.eq(4).text().trim());
-    const PO4 = parseFloat(cells.eq(5).text().trim());
-    const PO5 = parseFloat(cells.eq(6).text().trim());
-    const PO6 = parseFloat(cells.eq(7).text().trim());
-    const PO7 = parseFloat(cells.eq(8).text().trim());
-    const PO8 = parseFloat(cells.eq(9).text().trim());
-    const PO9 = parseFloat(cells.eq(10).text().trim());
-    const PO10 = parseFloat(cells.eq(11).text().trim());
-    const PO11 = parseFloat(cells.eq(12).text().trim());
-    const PO12 = parseFloat(cells.eq(13).text().trim());
-    const PSO1 = parseFloat(cells.eq(14).text().trim());
-    const PSO2 = parseFloat(cells.eq(15).text().trim());
+    // Determine if Q1 to Qn contain the string "A" or "?"
+    const qIndices = [];
+    let coIndices = [];
+    let atIndices = [];
+    coIndices = fetchcoIndices(coIndices);
+    console.log(coIndices);
+    atIndices = fetchatindices(atIndices);
+    console.log(atIndices);
+    let qmarks = [];
+    qmarks = fetchmarks(qmarks);
+    console.log(qmarks);
+    const qValues = [];
 
-    // Create newData object
+    for (let i = 4; i < cells.length - 4; i++) {
+        const cellText = cells.eq(i).text().trim();
+        qIndices.push(i - 4);
+        qValues.push(cellText);
+    }
+
+    const containsAOrQuestionMark = qValues.some(value => value === "A");
+
+    // Initialize at1 to atn with zeros
+    const at = Array(atIndices.length).fill(0);
+    const marks = Array(atIndices.length).fill(0);
+
+    // Calculate at1 to atn only when coIndices and atIndices match
+    for (let i = 0; i < atIndices.length; i++) {
+        const atIndex = atIndices[i];
+        let atValue = 0.0;
+        let atmarks = 0.0;
+
+        // Check if coIndices has a corresponding entry and it matches
+        for (let j = 4; j < cells.length - 4; j++) {
+            if (coIndices[j - 4] === atIndex) {
+                console.log(coIndices[j - 4]);
+                console.log(atIndex);
+                atValue += parseFloat(qValues[j - 4] || 0);
+                atmarks += parseFloat(qmarks[j - 4] || 0);
+            }
+            console.log(atValue);
+            console.log(atmarks);
+            at[i] = atValue;
+            marks[i] = atmarks;
+        }
+    }
+
+    // at now contains at1 to atn values based on matching indices between coIndices and atIndices
+
+    // Calculate attainment1 and attainment2 values
+    let attainment1, attainment2;
+
+    if (containsAOrQuestionMark) {
+        attainment1 = 0;
+        attainment2 = 0;
+    } else {
+        attainment1 = ((at[0] / marks[0]) * 100).toFixed(1);
+        attainment2 = ((at[1] / marks[1]) * 100).toFixed(1);
+    }
+
+
     const newData = {
-        COs: newCOs,
-        COAttainments: COAttainments,
-        PO1: PO1,
-        PO2: PO2,
-        PO3: PO3,
-        PO4: PO4,
-        PO5: PO5,
-        PO6: PO6,
-        PO7: PO7,
-        PO8: PO8,
-        PO9: PO9,
-        PO10: PO10,
-        PO11: PO11,
-        PO12: PO12,
-        PSO1: PSO1,
-        PSO2: PSO2
+        ModuleNo: newModuleNo,
+        RollNo: cells.eq(1).text(),
+        Name: cells.eq(2).text(),
+        Batch: cells.eq(3).text(),
+        ...qIndices.reduce((acc, index, i) => {
+            const qValue = qValues[index];
+            acc[`Q${i + 1}`] = containsAOrQuestionMark ? qValue : parseFloat(qValue || 0);
+            return acc;
+        }, {}),
+        Total: containsAOrQuestionMark ?
+            0 : qIndices.reduce((acc, index) => acc + parseFloat(cells.eq(4 + index).text() || 0), 0),
+        Attainment1: attainment1,
+        Attainment2: attainment2
     };
 
     $.ajax({
-        url: '/api/coposo', // Update the URL to match your Express route for coposo data
+        url: '/api/copo', // Update the URL to match your Express route for T1attainment data
         type: 'POST',
         dataType: 'json',
         contentType: 'application/json',
         data: JSON.stringify(newData),
         success: function(response) {
             console.log('Data saved successfully:', response);
-
-
-            // Add any additional actions or fetch data calls here
+            fetchT1attainmentData()
+                .then(fetchT1CO)
+                .then(fetchT1CO2)
+                .then(fetchT1attainmentData2)
+                .catch(function(error) {
+                    console.error('Error:', error);
+                }); // Refresh table with updated data
         },
         error: function(xhr, status, error) {
             console.error('Error saving data:', error);
             console.log('Status:', status);
             console.log('Response:', xhr.responseText);
         }
-
     });
-
 }
