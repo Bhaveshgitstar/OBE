@@ -44,7 +44,6 @@ $('#setteacherButton').click(function () {
 
 });
 
-
 // Add a click event handler for the "Set as Coordinators" button
 $('#setCoordinatorButton').click(function () {
   // Get the selected teacher IDs from the checkboxes

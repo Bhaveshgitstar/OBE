@@ -133,7 +133,7 @@ function confirmUpload() {
     const formData = new FormData();
     formData.append('file', fileInput.files[0]);
 
-    fetch('/upload', {
+    fetch('/uploadt3', {
         method: 'POST',
         body: formData,
     })
@@ -312,7 +312,7 @@ function updateRowat(recordId, row) {
     updatedData.Attainment2 = parseFloat(attainment2);
 
     $.ajax({
-        url: `/api/t1attainment/${recordId}`, // Update the URL to match your Express route for T1attainment data
+        url: `/api/t3attainment/${recordId}`, // Update the URL to match your Express route for T1attainment data
         type: 'PUT',
         dataType: 'json',
         contentType: 'application/json',
@@ -342,7 +342,7 @@ function updateRowat(recordId, row) {
 
 function deleteRowat(moduleId) {
     $.ajax({
-        url: `/api/t1attainment/${moduleId}`, // Change this URL to match your Express route
+        url: `/api/t3attainment/${moduleId}`, // Change this URL to match your Express route
         type: 'DELETE',
         success: function() {
             console.log('Data deleted successfully');
@@ -413,7 +413,7 @@ function fetchcourse(){
 function fetchT1CO2(){
     return new Promise((resolve, reject) => {
     $.ajax({
-        url: '/api/t1marks', // Update the URL to match your Express route for T1attainment data
+        url: '/api/t3marks', // Update the URL to match your Express route for T1attainment data
         type: 'GET',
         dataType: 'json',
 
@@ -478,7 +478,7 @@ function fetchT1CO2(){
 function fetchT1CO(){
     return new Promise((resolve, reject) => {
     $.ajax({
-        url: '/api/t1co', // Update the URL to match your Express route for T1attainment data
+        url: '/api/t3co', // Update the URL to match your Express route for T1attainment data
         type: 'GET',
         dataType: 'json',
 
@@ -544,7 +544,7 @@ function fetchT1CO(){
 function fetchT1attainmentData2(){
     return new Promise((resolve, reject) => {
     $.ajax({
-        url: '/api/t1attainment', // Update the URL to match your Express route for T1attainment data
+        url: '/api/t3attainment', // Update the URL to match your Express route for T1attainment data
         type: 'GET',
         dataType: 'json',
 
@@ -664,7 +664,7 @@ function fetchT1attainmentData2(){
 function fetchT1attainmentData() {
     return new Promise((resolve, reject) => {
     $.ajax({
-        url: '/api/t1attainment', // Update the URL to match your Express route for T1attainment data
+        url: '/api/t3attainment', // Update the URL to match your Express route for T1attainment data
         type: 'GET',
         dataType: 'json',
 

@@ -101,6 +101,19 @@
               </div>
             </div>
           </nav>
+          <div class="upper-container d-flex align-items-center justify-content-start">
+            <div class="institute-logo">
+                <img src="logojiit.jpg" alt="Institute Logo">
+            </div>
+            <div class="institute-details">
+                <h1>Jaypee Institute of Information Technology</h1>
+                <p>Declared Deemed to be University under Sec 3 of UGC Act 1956</p>
+                <p>Exam Event: TEST-1</p>
+            </div>
+        </div>
+        <div class="exam-date">
+            <p>Date & Time: <span id="datePlaceholder"></span> & <span id="timePlaceholder"></span></p>
+        </div>
 
 <div class="container mt-5"></div>
 <div class="box-heading1">
@@ -335,6 +348,41 @@
 <script src="dataval.js"></script>
     <script src="script1.js"></script>
     <script>
+        const currentDate = new Date();
+
+// Define the fixed date you want to display
+const fixedDate = new Date('2023-09-28'); // Set the fixed date here (Year, Month - 1, Day)
+
+// Function to format time with leading zeros
+const formatTime = (value) => (value < 10 ? `0${value}` : value);
+
+// Function to format date as dd/mm/yyyy
+const formatDate = (date) => {
+    const day = formatTime(date.getDate());
+    const month = formatTime(date.getMonth() + 1);
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+};
+
+// Check if the current date is the fixed date
+if (
+    currentDate.getFullYear() === fixedDate.getFullYear() &&
+    currentDate.getMonth() === fixedDate.getMonth() &&
+    currentDate.getDate() === fixedDate.getDate()
+) {
+    // Display the fixed date
+    document.getElementById('datePlaceholder').textContent = formatDate(fixedDate);
+} else {
+    // Display the current date
+    document.getElementById('datePlaceholder').textContent = formatDate(currentDate);
+}
+
+// Display the current time
+const hours = formatTime(currentDate.getHours());
+const minutes = formatTime(currentDate.getMinutes());
+const seconds = formatTime(currentDate.getSeconds());
+
+document.getElementById('timePlaceholder').textContent = `${hours}:${minutes}:${seconds}`;
     function printPage() {
         // Call the window.print() method to initiate printing
         window.print();

@@ -59,10 +59,6 @@ function checkSessionTimeout(req, res, next) {
     }
 }
 
-// Apply the middleware to routes that require an active session
-
-
-// User schema for educational_platform
 const eduUserSchema = new mongoose.Schema({
     username: String,
     password: String,
@@ -285,7 +281,7 @@ function isValidNumber(value) {
 
 app.get('/generate-sample-excel', async (req, res) => {
     try {
-        const c= req.session.user.Course+"_at";
+        const c= req.session.user.Course+"_t1co";
         const AttainmentModel = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
         const firstDocument = await AttainmentModel.findOne();
 
@@ -371,7 +367,182 @@ app.get('/generate-sample-excel', async (req, res) => {
         res.status(500).send('Error generating Excel file');
     }
 });
+app.get('/generate-sample-excelt2', async (req, res) => {
+    try {
+        const c= req.session.user.Course+"_t2co";
+        const AttainmentModel = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
+        const firstDocument = await AttainmentModel.findOne();
 
+        if (!firstDocument) {
+            throw new Error('No documents found in the collection.');
+        }
+
+        // Extract the schema fields from the first document
+        const schemaFields = Object.keys(firstDocument.toObject());
+
+        // Create an array to hold the columns in the desired order
+        const columnsInOrder = [];
+
+        // Iterate through the schema fields and add them to columnsInOrder
+
+
+        // Add other fields as needed
+        columnsInOrder.push('ModuleNo', 'RollNo', 'Name', 'Batch');
+
+        schemaFields.forEach((field) => {
+            // Check if the field is a "Q" field (e.g., Q1, Q2, Q3)
+            if (field.match(/^Q\d+$/i)) {
+                // Add the "Q" field to columnsInOrder
+                columnsInOrder.push(field);
+            }
+        });
+        
+        columnsInOrder.push('Total');
+
+        schemaFields.forEach((field) => {
+            // Check if the field is a "Q" field (e.g., Q1, Q2, Q3)
+            if (field.match(/^Attainment\d+$/i)) {
+                // Add the "Q" field to columnsInOrder
+                columnsInOrder.push(field);
+            }
+        });
+
+
+
+        const workbook = new excel.Workbook();
+        const worksheet = workbook.addWorksheet('SampleData');
+
+        // Define cell border styles
+        const borderStyle = {
+            style: 'thin',
+            color: { argb: '000000' }, // Black color for borders
+        };
+
+        // Apply borders to header row
+        const headerRow = worksheet.addRow(columnsInOrder);
+        headerRow.eachCell((cell) => {
+            cell.border = {
+                top: borderStyle,
+                left: borderStyle,
+                bottom: borderStyle,
+                right: borderStyle,
+            };
+        });
+
+        // Add 20 empty rows to the worksheet and apply borders
+        for (let i = 0; i < 20; i++) {
+            const emptyRow = worksheet.addRow([]);
+            emptyRow.eachCell((cell) => {
+                cell.border = {
+                    top: borderStyle,
+                    left: borderStyle,
+                    bottom: borderStyle,
+                    right: borderStyle,
+                };
+            });
+        }
+
+        const timestamp = new Date().getTime();
+        const filename = `sample_excel_${timestamp}.xlsx`;
+
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', `attachment; filename=${filename}`);
+
+        await workbook.xlsx.write(res);
+        res.end();
+    } catch (error) {
+        console.error('Error generating sample Excel:', error);
+        res.status(500).send('Error generating Excel file');
+    }
+});
+app.get('/generate-sample-excelt3', async (req, res) => {
+    try {
+        const c= req.session.user.Course+"_t3co";
+        const AttainmentModel = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
+        const firstDocument = await AttainmentModel.findOne();
+
+        if (!firstDocument) {
+            throw new Error('No documents found in the collection.');
+        }
+
+        // Extract the schema fields from the first document
+        const schemaFields = Object.keys(firstDocument.toObject());
+
+        // Create an array to hold the columns in the desired order
+        const columnsInOrder = [];
+
+        // Iterate through the schema fields and add them to columnsInOrder
+
+
+        // Add other fields as needed
+        columnsInOrder.push('ModuleNo', 'RollNo', 'Name', 'Batch');
+
+        schemaFields.forEach((field) => {
+            // Check if the field is a "Q" field (e.g., Q1, Q2, Q3)
+            if (field.match(/^Q\d+$/i)) {
+                // Add the "Q" field to columnsInOrder
+                columnsInOrder.push(field);
+            }
+        });
+        
+        columnsInOrder.push('Total');
+
+        schemaFields.forEach((field) => {
+            // Check if the field is a "Q" field (e.g., Q1, Q2, Q3)
+            if (field.match(/^Attainment\d+$/i)) {
+                // Add the "Q" field to columnsInOrder
+                columnsInOrder.push(field);
+            }
+        });
+
+
+
+        const workbook = new excel.Workbook();
+        const worksheet = workbook.addWorksheet('SampleData');
+
+        // Define cell border styles
+        const borderStyle = {
+            style: 'thin',
+            color: { argb: '000000' }, // Black color for borders
+        };
+
+        // Apply borders to header row
+        const headerRow = worksheet.addRow(columnsInOrder);
+        headerRow.eachCell((cell) => {
+            cell.border = {
+                top: borderStyle,
+                left: borderStyle,
+                bottom: borderStyle,
+                right: borderStyle,
+            };
+        });
+
+        // Add 20 empty rows to the worksheet and apply borders
+        for (let i = 0; i < 20; i++) {
+            const emptyRow = worksheet.addRow([]);
+            emptyRow.eachCell((cell) => {
+                cell.border = {
+                    top: borderStyle,
+                    left: borderStyle,
+                    bottom: borderStyle,
+                    right: borderStyle,
+                };
+            });
+        }
+
+        const timestamp = new Date().getTime();
+        const filename = `sample_excel_${timestamp}.xlsx`;
+
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', `attachment; filename=${filename}`);
+
+        await workbook.xlsx.write(res);
+        res.end();
+    } catch (error) {
+        console.error('Error generating sample Excel:', error);
+        res.status(500).send('Error generating Excel file');
+    }
+});
 
 app.post('/upload', upload.single('file'), (req, res) => {
     const c= req.session.user.Course+"_at";
@@ -463,6 +634,93 @@ app.post('/upload', upload.single('file'), (req, res) => {
 
 app.post('/uploadt2', upload.single('file'), (req, res) => {
     const c= req.session.user.Course+"_at2";
+    readXlsxFile(req.file.path)
+        .then(async (rows) => {
+            try {
+
+                await courseOutcomeDb.collection(c).deleteMany({});
+
+                let headerIndex = -1;
+                let headers = [];
+                let foundHeader = false;
+
+                // Find the header row with the "SRMO" column
+                for (let i = 0; i < rows.length; i++) {
+                    const row = rows[i];
+
+                    if (!row) {
+                        // Skip null or empty rows
+                        continue;
+                    }
+
+                    if (row.includes('Sr.No.') && row.includes('Roll No.') && row.includes('Name')) {
+                        // Save the index of the header row
+                        headerIndex = i;
+                        headers = row.map((header) => header.trim());
+                        foundHeader = true;
+                        break;
+                    }
+                }
+
+                if (!foundHeader) {
+                    throw new Error('Header row not found in the Excel file.');
+                }
+
+                const AttainmentModel = courseOutcomeDb.model('CourseOutcomeModule', createSchema(headers), c);
+
+                const documents = [];
+
+                for (let i = headerIndex + 1; i < rows.length; i++) {
+                    const row = rows[i];
+
+                    if (!row) {
+                        // Skip null or empty rows
+                        continue;
+                    }
+
+                    const rowData = {};
+// ...
+    headers.forEach((header, index) => {
+    const questionNumber = header.match(/Q(\d+)/i);
+    const total = header.match(/^Total(\d+)/i); // Check for "Total" at the beginning
+
+    if (questionNumber) {
+        const fieldName = `Q${questionNumber[1]}`;
+        rowData[fieldName] = isValidNumber(row[index]) ? parseFloat(row[index]) : 0;
+    } else if (total) {
+        const fieldName = 'Total';
+        rowData[fieldName] = isValidNumber(row[index]) ? parseFloat(row[index]) : 0;
+    } else if (header.toLowerCase() === 'sr.no.') {
+        rowData['ModuleNo'] = row[index];
+    } else if (header.toLowerCase() === 'roll no.') {
+        rowData['RollNo'] = row[index];
+    } else {
+        rowData[header] = row[index];
+    }
+    });
+// ...
+                    documents.push(rowData);
+                }
+
+                console.log('Documents:', documents);
+
+                const insertResult = await AttainmentModel.insertMany(documents);
+
+
+                res.send({ rowCount: insertResult.length });
+            } catch (error) {
+                console.error('MongoDB Error:', error);
+                res.status(500).send('Error inserting data into MongoDB');
+            }
+        })
+        .catch((error) => {
+            console.error('Excel Parsing Error:', error);
+            res.status(500).send('Error parsing Excel file');
+        });
+});
+
+app.post('/uploadt3', upload.single('file'), (req, res) => {
+    const c= req.session.user.Course+"_at3";
     readXlsxFile(req.file.path)
         .then(async (rows) => {
             try {
@@ -914,6 +1172,49 @@ app.post('/api/updatedb', async (req, res) => {
             res.status(500).json({ error: "Update failed" });
         });
 });
+app.post('/api/updatedbt2', async (req, res) => {
+    const { columnName } = req.body;
+    const c= req.session.user.Course+"_at2";
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
+
+    // Create an update object for the single column name
+    const updateObject = {};
+    updateObject[columnName] = "0";
+
+    // Use updateMany to update all documents in the collection for this column
+    CourseOutcomeModule.collection.updateMany({}, { $set: updateObject })
+        .then(result => {
+            // Handle the result if needed
+            res.json({ message: "Update successful" });
+        })
+        .catch(error => {
+            // Handle the error if something goes wrong
+            console.error(error);
+            res.status(500).json({ error: "Update failed" });
+        });
+});
+app.post('/api/updatedbt3', async (req, res) => {
+    const { columnName } = req.body;
+    const c= req.session.user.Course+"_at3";
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
+
+    // Create an update object for the single column name
+    const updateObject = {};
+    updateObject[columnName] = "0";
+
+    // Use updateMany to update all documents in the collection for this column
+    CourseOutcomeModule.collection.updateMany({}, { $set: updateObject })
+        .then(result => {
+            // Handle the result if needed
+            res.json({ message: "Update successful" });
+        })
+        .catch(error => {
+            // Handle the error if something goes wrong
+            console.error(error);
+            res.status(500).json({ error: "Update failed" });
+        });
+});
+
 
 
 app.post('/api/updatedbco', async (req, res) => {
@@ -937,9 +1238,93 @@ app.post('/api/updatedbco', async (req, res) => {
             res.status(500).json({ error: "Update failed" });
         });
 });
+app.post('/api/updatedbcot2', async (req, res) => {
+    const { columnName,co } = req.body;
+    const c= req.session.user.Course+"_t2co";
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
+
+    // Create an update object for the single column name
+    const updateObject = {};
+    updateObject[columnName] = co;
+
+    // Use updateMany to update all documents in the collection for this column
+    CourseOutcomeModule.collection.updateMany({}, { $set: updateObject })
+        .then(result => {
+            // Handle the result if needed
+            res.json({ message: "Update successful" });
+        })
+        .catch(error => {
+            // Handle the error if something goes wrong
+            console.error(error);
+            res.status(500).json({ error: "Update failed" });
+        });
+});
+app.post('/api/updatedbcot3', async (req, res) => {
+    const { columnName,co } = req.body;
+    const c= req.session.user.Course+"_t3co";
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
+
+    // Create an update object for the single column name
+    const updateObject = {};
+    updateObject[columnName] = co;
+
+    // Use updateMany to update all documents in the collection for this column
+    CourseOutcomeModule.collection.updateMany({}, { $set: updateObject })
+        .then(result => {
+            // Handle the result if needed
+            res.json({ message: "Update successful" });
+        })
+        .catch(error => {
+            // Handle the error if something goes wrong
+            console.error(error);
+            res.status(500).json({ error: "Update failed" });
+        });
+});
 app.post('/api/updatedbmarks', async (req, res) => {
     const { columnName,marks } = req.body;
     const c= req.session.user.Course+"_t1marks";
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
+
+    // Create an update object for the single column name
+    const updateObject = {};
+    updateObject[columnName] = marks;
+
+    // Use updateMany to update all documents in the collection for this column
+    CourseOutcomeModule.collection.updateMany({}, { $set: updateObject })
+        .then(result => {
+            // Handle the result if needed
+            res.json({ message: "Update successful" });
+        })
+        .catch(error => {
+            // Handle the error if something goes wrong
+            console.error(error);
+            res.status(500).json({ error: "Update failed" });
+        });
+});
+app.post('/api/updatedbmarkst2', async (req, res) => {
+    const { columnName,marks } = req.body;
+    const c= req.session.user.Course+"_t2marks";
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
+
+    // Create an update object for the single column name
+    const updateObject = {};
+    updateObject[columnName] = marks;
+
+    // Use updateMany to update all documents in the collection for this column
+    CourseOutcomeModule.collection.updateMany({}, { $set: updateObject })
+        .then(result => {
+            // Handle the result if needed
+            res.json({ message: "Update successful" });
+        })
+        .catch(error => {
+            // Handle the error if something goes wrong
+            console.error(error);
+            res.status(500).json({ error: "Update failed" });
+        });
+});
+app.post('/api/updatedbmarkst3', async (req, res) => {
+    const { columnName,marks } = req.body;
+    const c= req.session.user.Course+"_t3marks";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
 
     // Create an update object for the single column name
@@ -1010,6 +1395,18 @@ app.get('/api/t1attainment', async (req, res) => {
 app.get('/api/t2attainment', async (req, res) => {
     try {
         const c= req.session.user.Course+"_at2";
+        const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
+        const modules = await CourseOutcomeModule.find();
+        res.json(modules);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ error: 'Error fetching data' });
+    }
+});
+
+app.get('/api/t3attainment', async (req, res) => {
+    try {
+        const c= req.session.user.Course+"_at3";
         const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
         const modules = await CourseOutcomeModule.find();
         res.json(modules);
@@ -1118,7 +1515,17 @@ app.get('/api/t2co', async (req, res) => {
         res.status(500).json({ error: 'Error fetching data' });
     }
 });
-
+app.get('/api/t3co', async (req, res) => {
+    try {
+        const c= req.session.user.Course+"_t3co";
+        const attainmentT1Schemac = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
+        const modules = await attainmentT1Schemac.find();
+        res.json(modules);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ error: 'Error fetching data' });
+    }
+});
 app.get('/api/t1marks', async (req, res) => {
     try {
         const c= req.session.user.Course+"_t1marks";
@@ -1134,6 +1541,17 @@ app.get('/api/t1marks', async (req, res) => {
 app.get('/api/t2marks', async (req, res) => {
     try {
         const c= req.session.user.Course+"_t1marks";
+        const attainmentT1Schemamarks = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
+        const modules = await attainmentT1Schemamarks.find();
+        res.json(modules);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ error: 'Error fetching data' });
+    }
+});
+app.get('/api/t3marks', async (req, res) => {
+    try {
+        const c= req.session.user.Course+"_t3marks";
         const attainmentT1Schemamarks = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
         const modules = await attainmentT1Schemamarks.find();
         res.json(modules);
@@ -1182,6 +1600,32 @@ app.post('/api/modules', async (req, res) => {
          res.status(500).json({ error: 'Error saving data' });
      }
  });
+ app.post('/api/t2attainment', async (req, res) => {
+    // const { ModuleNo, ModuleTitle, Topics, NoOfLectures } = req.body;
+    const c= req.session.user.Course+"_at2";
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
+    const newModule = new CourseOutcomeModule(req.body);
+     try {
+         await newModule.save();
+         res.json(newModule);
+     } catch (error) {
+         console.error('Error saving data:', error);
+         res.status(500).json({ error: 'Error saving data' });
+     }
+ });
+ app.post('/api/t3attainment', async (req, res) => {
+    // const { ModuleNo, ModuleTitle, Topics, NoOfLectures } = req.body;
+    const c= req.session.user.Course+"_at3";
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
+    const newModule = new CourseOutcomeModule(req.body);
+     try {
+         await newModule.save();
+         res.json(newModule);
+     } catch (error) {
+         console.error('Error saving data:', error);
+         res.status(500).json({ error: 'Error saving data' });
+     }
+ });
 
  const FormSchema = new mongoose.Schema({
     numQuestions: Number,
@@ -1192,6 +1636,32 @@ app.post('/api/modules', async (req, res) => {
 
 app.post('/api/submitcot1', async (req, res) => {
     const c= req.session.user.Course+"_t1co";
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule',attainmentT1Schema, c);
+    await CourseOutcomeModule.deleteMany({});
+    const formData = new CourseOutcomeModule(req.body);
+    try {
+        await formData.save();
+        res.status(201).send({ message: 'Data saved successfully', data: formData });
+    } catch (error) {
+        console.error('Error saving data:', error);
+        res.status(500).send({ message: 'Error saving data', error: error });
+    }
+});
+app.post('/api/submitcot2', async (req, res) => {
+    const c= req.session.user.Course+"_t2co";
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule',attainmentT1Schema, c);
+    await CourseOutcomeModule.deleteMany({});
+    const formData = new CourseOutcomeModule(req.body);
+    try {
+        await formData.save();
+        res.status(201).send({ message: 'Data saved successfully', data: formData });
+    } catch (error) {
+        console.error('Error saving data:', error);
+        res.status(500).send({ message: 'Error saving data', error: error });
+    }
+});
+app.post('/api/submitcot3', async (req, res) => {
+    const c= req.session.user.Course+"_t2co";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule',attainmentT1Schema, c);
     await CourseOutcomeModule.deleteMany({});
     const formData = new CourseOutcomeModule(req.body);
@@ -1218,21 +1688,34 @@ app.post('/api/submitmarkst1', async (req, res) => {
         res.status(500).send({ message: 'Error saving data', error: error });
     }
 });
-
- app.post('/api/t2attainment', async (req, res) => {
-    // const { ModuleNo, ModuleTitle, Topics, NoOfLectures } = req.body;
-    const c= req.session.user.Course+"_at2";
-    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
-    const newModule = new CourseOutcomeModule(req.body);
-     try {
-         await newModule.save();
-         res.json(newModule);
-     } catch (error) {
-         console.error('Error saving data:', error);
-         res.status(500).json({ error: 'Error saving data' });
-     }
- });
-
+app.post('/api/submitmarkst2', async (req, res) => {
+    const c= req.session.user.Course+"_t2marks";
+    
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule',attainmentT1Schema, c);
+    await CourseOutcomeModule.deleteMany({});
+    const formData = new CourseOutcomeModule(req.body);
+    try {
+        await formData.save();
+        res.status(201).send({ message: 'Data saved successfully', data: formData });
+    } catch (error) {
+        console.error('Error saving data:', error);
+        res.status(500).send({ message: 'Error saving data', error: error });
+    }
+});
+app.post('/api/submitmarkst3', async (req, res) => {
+    const c= req.session.user.Course+"_t3marks";
+    
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule',attainmentT1Schema, c);
+    await CourseOutcomeModule.deleteMany({});
+    const formData = new CourseOutcomeModule(req.body);
+    try {
+        await formData.save();
+        res.status(201).send({ message: 'Data saved successfully', data: formData });
+    } catch (error) {
+        console.error('Error saving data:', error);
+        res.status(500).send({ message: 'Error saving data', error: error });
+    }
+});
  app.post('/api/courses', async (req, res) => {
     // const { ModuleNo, ModuleTitle, Topics, NoOfLectures } = req.body;
     const c= req.session.user.Course;
@@ -1246,49 +1729,6 @@ app.post('/api/submitmarkst1', async (req, res) => {
          res.status(500).json({ error: 'Error saving data' });
      }
  });
-
- app.put('/api/copo/:id', async(req, res) => {
-    const c = req.session.user.Course + "_at";
-    const copoModule = courseOutcomeDb.model('CourseOutcomeModule', copoSchema, c);
-    const moduleId = req.params.id;
-    const updatedModule = req.body;
-
-    try {
-        await copoModule.findByIdAndUpdate(moduleId, updatedModule);
-        res.json(updatedModule);
-    } catch (error) {
-        console.error('Error updating data:', error);
-        res.status(500).json({ error: 'Error updating data' });
-    }
-});
-app.put('/api/coposo/:id', async(req, res) => {
-    const c = req.session.user.Course + "_coposo";
-    const copoModule = courseOutcomeDb.model('CourseOutcomeModule', coposoSchema, c);
-    const moduleId = req.params.id;
-    const updatedModule = req.body;
-
-    try {
-        await copoModule.findByIdAndUpdate(moduleId, updatedModule);
-        res.json(updatedModule);
-    } catch (error) {
-        console.error('Error updating data:', error);
-        res.status(500).json({ error: 'Error updating data' });
-    }
-});
-app.put('/api/coposoat/:id', async(req, res) => {
-    const c = req.session.user.Course + "_coposoat";
-    const copoModule = courseOutcomeDb.model('CourseOutcomeModule', coposoatSchema, c);
-    const moduleId = req.params.id;
-    const updatedModule = req.body;
-
-    try {
-        await copoModule.findByIdAndUpdate(moduleId, updatedModule);
-        res.json(updatedModule);
-    } catch (error) {
-        console.error('Error updating data:', error);
-        res.status(500).json({ error: 'Error updating data' });
-    }
-});
 
 app.put('/api/module/:id', async (req, res) => {
     const c= req.session.user.Course+"_co";
@@ -1321,6 +1761,20 @@ app.put('/api/t1attainment/:id', async (req, res) => {
 
 app.put('/api/t2attainment/:id', async (req, res) => {
     const c= req.session.user.Course+"_at2";
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
+    const moduleId = req.params.id;
+    const updatedModule = req.body;
+    
+    try {
+        await CourseOutcomeModule.findByIdAndUpdate(moduleId, updatedModule);
+        res.json(updatedModule);
+    } catch (error) {
+        console.error('Error updating data:', error);
+        res.status(500).json({ error: 'Error updating data' });
+    }
+});
+app.put('/api/t3attainment/:id', async (req, res) => {
+    const c= req.session.user.Course+"_at3";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
     const moduleId = req.params.id;
     const updatedModule = req.body;
@@ -1390,35 +1844,6 @@ app.delete('/api/t1attainment/:id', async (req, res) => {
         res.status(500).json({ error: 'Error deleting data' });
     }
 });
-
-app.delete('/api/copo/:id', async(req, res) => {
-    const c = req.session.user.Course + "_copo";
-    const course = courseOutcomeDb.model('CourseOutcomeModule', copoSchema, c);
-    const moduleId = req.params.id;
-
-    try {
-        await course.findByIdAndDelete(moduleId);
-        res.json({ message: 'Data deleted successfully' });
-    } catch (error) {
-        console.error('Error deleting data:', error);
-        res.status(500).json({ error: 'Error deleting data' });
-    }
-});
-app.delete('/api/coposo/:id', async(req, res) => {
-    const c = req.session.user.Course + "_coposo";
-    const course = courseOutcomeDb.model('CourseOutcomeModule', coposoSchema, c);
-    const moduleId = req.params.id;
-
-    try {
-        await course.findByIdAndDelete(moduleId);
-        res.json({ message: 'Data deleted successfully' });
-    } catch (error) {
-        console.error('Error deleting data:', error);
-        res.status(500).json({ error: 'Error deleting data' });
-    }
-});
-
-
 app.delete('/api/t2attainment/:id', async (req, res) => {
     const c= req.session.user.Course+"_at";
     const course = courseOutcomeDb.model('CourseOutcomeModule', courseSchema, c);
@@ -1432,7 +1857,19 @@ app.delete('/api/t2attainment/:id', async (req, res) => {
         res.status(500).json({ error: 'Error deleting data' });
     }
 });
-
+app.delete('/api/t3attainment/:id', async (req, res) => {
+    const c= req.session.user.Course+"_at3";
+    const course = courseOutcomeDb.model('CourseOutcomeModule', courseSchema, c);
+    const moduleId = req.params.id;
+    
+    try {
+        await course.findByIdAndDelete(moduleId);
+        res.json({ message: 'Data deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting data:', error);
+        res.status(500).json({ error: 'Error deleting data' });
+    }
+});
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

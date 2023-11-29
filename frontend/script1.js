@@ -604,6 +604,7 @@ function fetchT1attainmentData2(){
                 
                 tableHtml += '</tbody>';
                 attainmentData.append(tableHtml);
+                const studentsAppeared = calculateStudentsAppeared(data);
 
                 // Calculate and add summary rows
               /*  const totalStudents = data.length ;
@@ -669,10 +670,24 @@ function fetchT1attainmentData2(){
                     aColumns.forEach(aCol => {
                     const percentageAboveTarget = calculatePercentageAboveTarget(data, aCol);
                     summaryRow += `
-                            <td colspan="${qColumns.length + 4}">${percentageAboveTarget}</td>
-                        </tr>
+                            <td colspan="4">${percentageAboveTarget}</td>
                     `;
                 });
+                summaryRow += `</tr>`;
+                summaryRow += `<tr>
+                <th colspan="4">CO Attainment Level </th>`;
+                aColumns.forEach(aCol => {
+                    const percentageAboveTarget = calculateCOAttainment(data, aCol);
+                    summaryRow += `
+                            <td colspan="4">${percentageAboveTarget}</td>
+                    `;
+                });
+                summaryRow += `</tr>
+                <tr>
+                <th colspan="4">No. of Students Appeared in T1:</th>
+                <td colspan="${qColumns.length + 4}">${studentsAppeared}</td>
+        
+            </tr>`;
 
                 summaryRow += '</tbody>';
                 attainmentData.append(summaryRow);
@@ -689,6 +704,23 @@ function fetchT1attainmentData2(){
     });
     });
 }
+function calculateCOAttainment(data, attainmentField) {
+    const attainmentCount = data.filter(record => record[attainmentField] >= 50).length;
+    let attainmentLevel;
+
+    if (attainmentCount / data.length >= 0.8) {
+        attainmentLevel = 3;
+    } else if (attainmentCount / data.length >= 0.7) {
+        attainmentLevel = 2;
+    } else if (attainmentCount / data.length >= 0.6) {
+        attainmentLevel = 1;
+    } else {
+        attainmentLevel = 0;
+    }
+
+    return attainmentLevel;
+}
+
 function numericSort(a, b) {
     return parseInt(a.match(/\d+/)[0], 10) - parseInt(b.match(/\d+/)[0], 10);
 }
@@ -782,34 +814,7 @@ function calculatePercentageAboveTarget2(data) {
     return ((aboveTargetCount / (data.length)) * 100).toFixed(2) + '%';
 }
 
-function calculateCOAttainment(data) {
-    const attainment1Count = data.filter(record => record.Attainment1 >= 50).length;
-    const attainment2Count = data.filter(record => record.Attainment2 >= 50).length;
 
-    let attainment1Level, attainment2Level;
-
-    if (attainment1Count / data.length >= 0.8) {
-        attainment1Level = 3;
-    } else if (attainment1Count / data.length >= 0.7) {
-        attainment1Level = 2;
-    } else if (attainment1Count / data.length >= 0.6) {
-        attainment1Level = 1;
-    } else {
-        attainment1Level = 0;
-    }
-
-    if (attainment2Count / data.length >= 0.8) {
-        attainment2Level = 3;
-    } else if (attainment2Count / data.length >= 0.7) {
-        attainment2Level = 2;
-    } else if (attainment2Count / data.length >= 0.6) {
-        attainment2Level = 1;
-    } else {
-        attainment2Level = 0;
-    }
-
-    return `${attainment1Level} / ${attainment2Level}`;
-}
 
 function calculateStudentsAppeared(data) {
     const presentStudents = data.filter(record => record.Total > 0).length;
