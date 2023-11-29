@@ -147,77 +147,19 @@ function confirmUpload() {
             // Handle errors here
         });
 }
+function savePage(){
+    const rows = $('#attainment-data tr'); // Replace '.row-class' with your actual row selector
+    
+    // Assuming you want to start updating from the 4th row onwards
+    for (let i = 3; i < rows.length; i++) {
+        const row= rows[i];
 
+        const recordId = row.getAttribute('data-record-id'); // Extract the record ID from the row, if applicable
+        updateRowat(recordId, $(row)); // Call updateRowat function for each row starting from the 4th row
+    }
+    location.reload();
 
-// ... (rest of your functions, like updateRow, deleteRow, fetchSyllabusData, addEmptyRow, saveDataToServer)
-
-/*function updateRowat(recordId, row) {
-    const cells = row.find('td');
-    const updatedData = {
-        ModuleNo: parseInt(cells.eq(0).text()),
-        RollNo: parseInt(cells.eq(1).text()),
-        Name: cells.eq(2).text(),
-        Batch: cells.eq(3).text(),
-        Q1: isNaN(parseFloat(cells.eq(4).text())) ? cells.eq(4).text() : parseFloat(cells.eq(4).text()),
-        Q2: isNaN(parseFloat(cells.eq(5).text())) ? cells.eq(5).text() : parseFloat(cells.eq(5).text()),
-        Q3: isNaN(parseFloat(cells.eq(6).text())) ? cells.eq(6).text() : parseFloat(cells.eq(6).text()),
-        Q4: isNaN(parseFloat(cells.eq(7).text())) ? cells.eq(7).text() : parseFloat(cells.eq(7).text()),
-        Q5: isNaN(parseFloat(cells.eq(8).text())) ? cells.eq(8).text() : parseFloat(cells.eq(8).text()),
-        Q6: isNaN(parseFloat(cells.eq(9).text())) ? cells.eq(9).text() : parseFloat(cells.eq(9).text()),
-        Total: 0, // Initialize Total to 0
-        Attainment1: parseFloat(cells.eq(11).text()),
-        Attainment2: parseFloat(cells.eq(12).text()) // Assuming the calculation for Attainment2 is in cell 12
-    };
-
-    // Calculate at1 and at2 values
-    const at1 = [updatedData.Q1, updatedData.Q2, updatedData.Q3].reduce((acc, val) => isNaN(val) ? acc : acc + val, 0);
-    const at2 = [updatedData.Q4, updatedData.Q5, updatedData.Q6].reduce((acc, val) => isNaN(val) ? acc : acc + val, 0);
-
-    // Calculate attainment1 and attainment2 values
-    const attainment1 = isNaN(at1) ? "N/A" : ((at1 / 11) * 100).toFixed(1);
-    const attainment2 = isNaN(at2) ? "N/A" : ((at2 / 9) * 100).toFixed(1);
-
-    // Calculate Total based on Q1 to Q6 values
-    const total = [updatedData.Q1, updatedData.Q2, updatedData.Q3, updatedData.Q4, updatedData.Q5, updatedData.Q6].reduce((acc, val) => isNaN(val) ? acc : acc + val, 0);
-
-    // Update the UI with new values
-    cells.eq(10).text(total);
-    cells.eq(11).text(attainment1);
-    cells.eq(12).text(attainment2);
-
-    // Update the Total in the updatedData object
-    updatedData.Total = total;
-
-    // Update the data and trigger an input event to handle saving the updated data
-    updatedData.Attainment1 = parseFloat(attainment1);
-    updatedData.Attainment2 = parseFloat(attainment2);
-
-    $.ajax({
-        url: `/api/t1attainment/${recordId}`, // Update the URL to match your Express route for T1attainment data
-        type: 'PUT',
-        dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify(updatedData),
-        success: function(response) {
-            console.log('Data updated successfully:', response);
-            fetchT1attainmentData();
-            row.find('.q-input').trigger('input');
-        },
-        error: function(error) {
-            console.error('Error updating data:', error);
-        }
-    });
-
-    // Restore UI state
-    cells.attr('contenteditable', 'false');
-    row.find('.save-buttonuat').hide();
-    row.find('.update-buttonat').show();
-    row.find('.delete-buttonat').show();
 }
-
-*/
-
-
 function updateRowat(recordId, row) {
     const cells = row.find('td');
     const updatedData = {
@@ -1127,72 +1069,6 @@ function addEmptyRow3() {
 
     $('#attainment-data').append(emptyRow);
 }
-
-
-
-
-
-/*function saveDataToServer3() {
-    const rows = $('#attainment-data tr');
-    const lastRow = rows.last(); // Get the last added row
-    const cells = lastRow.find('td');
-    const lastModuleNo = newModuleNo1;
-    const newModuleNo = lastModuleNo + 1;
-
-    cells.eq(0).text(newModuleNo);
-
-    // Determine if Q1 to Q6 contain the string "A"
-    const containsA = [4, 5, 6, 7, 8, 9].some(index => cells.eq(index).text() === "A");
-
-    // Calculate at1 and at2 values
-    const at1 = containsA ? 0 : [4, 5, 6].reduce((acc, index) => acc + parseFloat(cells.eq(index).text() || 0), 0);
-    const at2 = containsA ? 0 : [7, 8, 9].reduce((acc, index) => acc + parseFloat(cells.eq(index).text() || 0), 0);
-
-    // Calculate attainment1 and attainment2 values
-    let attainment1, attainment2;
-
-    if (containsA) {
-        attainment1 = 0;
-        attainment2 = 0;
-    } else {
-        attainment1 = ((at1 / 11) * 100).toFixed(1);
-        attainment2 = ((at2 / 9) * 100).toFixed(1);
-    }
-
-    const newData = {
-        ModuleNo: newModuleNo,
-        RollNo: cells.eq(1).text(),
-        Name: cells.eq(2).text(),
-        Batch: cells.eq(3).text(),
-        Q1: containsA ? cells.eq(4).text() : parseFloat(cells.eq(4).text() || 0),
-        Q2: containsA ? cells.eq(5).text() : parseFloat(cells.eq(5).text() || 0),
-        Q3: containsA ? cells.eq(6).text() : parseFloat(cells.eq(6).text() || 0),
-        Q4: containsA ? cells.eq(7).text() : parseFloat(cells.eq(7).text() || 0),
-        Q5: containsA ? cells.eq(8).text() : parseFloat(cells.eq(8).text() || 0),
-        Q6: containsA ? cells.eq(9).text() : parseFloat(cells.eq(9).text() || 0),
-        Total: containsA ? 0 : [4, 5, 6, 7, 8, 9].reduce((acc, index) => acc + parseFloat(cells.eq(index).text() || 0), 0),
-        Attainment1: attainment1,
-        Attainment2: attainment2
-    };
-
-    $.ajax({
-        url: '/api/t1attainment', // Update the URL to match your Express route for T1attainment data
-        type: 'POST',
-        dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify(newData),
-        success: function(response) {
-            console.log('Data saved successfully:', response);
-            fetchT1attainmentData(); // Refresh table with updated data
-        },
-        error: function(xhr, status, error) {
-            console.error('Error saving data:', error);
-            console.log('Status:', status);
-            console.log('Response:', xhr.responseText);
-        }
-    });
-}
-*/
 
 function fetchatindices(atIndices) {
     const rows = $('#attainment-data tr');
