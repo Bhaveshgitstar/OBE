@@ -7,7 +7,61 @@ body {
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
     /* Professional font */
+
 }
+
+.upper-container {
+    background-color: #f5f5f5; /* Example background color */
+    padding: 20px;
+    border-radius: 5px;
+    display: flex; /* Use flexbox to align items in a row */
+    align-items: center; /* Center items vertically */
+    justify-content: start;
+    display: none; /* Start aligning items from the beginning */ /* Center the text within the element */
+}
+
+.institute-logo img {
+    width: auto; /* Maintain the aspect ratio */
+    height: 200px;
+    margin-left: -50px;
+    display: none; /* Adjust height as needed */ /* Space between logo and details */
+}
+
+.institute-details {
+    flex-grow: 1;
+    text-align: center;
+    margin-left: -50px; 
+    display: none;/* Allow the details to take up available space */
+}
+
+.institute-details h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+    font-weight: bold;
+    display: none;
+}
+
+.institute-details p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #666;
+    font-weight: bold;
+    display: none;
+}
+
+.exam-date {
+    display: none;
+
+}
+
+.exam-date p {
+    font-size: 14px;
+    color: #333;
+}
+
+
+/* Add additional styling rules as needed to match your design */
 
 .contact-us-container {
     text-decoration: overline;
@@ -334,6 +388,22 @@ body.dark {
 .sidebar.hoverable .collapse_sidebar {
     display: none;
 }
+.reference-material {
+    background-color: #f5f5f5; /* Example background color */
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.reference-material h5 {
+    margin-bottom: 15px;
+}
+
+.list-group-item {
+    background-color: #f5f5f5; /* To keep the same color as the container */
+    border: 0; /* Removes the border */
+}
+
 
 #sidebarOpen {
     display: none;
@@ -359,13 +429,73 @@ body.dark {
 }
 
 @media print {
+    .hidden-on-print {
+        display: none; /* Make sure no important content has this class */
+      }
+    .upper-container {
+        background-color: #f5f5f5; /* Example background color */
+        padding: 20px;
+        border-radius: 5px;
+        display: flex; /* Use flexbox to align items in a row */
+        align-items: center; /* Center items vertically */
+        justify-content: start;
+        display: block;
+        margin-bottom: -20px;
+        margin-top: -40px; /* Start aligning items from the beginning */ /* Center the text within the element */
+    }
+    
+    .institute-logo img {
+        width: auto; /* Maintain the aspect ratio */
+        height: 200px;
+        margin-left: -50px;
+        display: block;
+        margin-bottom: -20px; 
+        margin-top: -40px;/* Adjust height as needed */ /* Space between logo and details */
+    }
+    
+    .institute-details {
+        flex-grow: 1;
+        text-align: center;
+        margin-left: -50px; 
+        display: block;/* Allow the details to take up available space */
+        margin-bottom: -20px;
+        margin-top: -40px;
+    }
+    
+    .institute-details h1 {
+        margin: 0;
+        font-size: 24px;
+        color: #333;
+        font-weight: bold;
+        display: block;
+    }
+    
+    .institute-details p {
+        margin: 5px 0;
+        font-size: 14px;
+        color: #666;
+        font-weight: bold;
+        display: block;
+    }
+    
+    .exam-date {
+        display: block;
+        margin-bottom: -20px;  
+        margin-left: 550px;  
+    }
+    
+    .exam-date p {
+        font-size: 14px;
+        color: #333;
+        margin-top: -20px;
+    }
     @page {
-        margin-left: -1cm;
+        margin-left: -1.25cm;
         /* Adjust the left margin as needed */
         margin-right: 1cm;
         /* Adjust the right margin as needed */
-        margin-top: 0px;
-        margin-bottom: 0;
+        margin-top: 30px;
+        margin-bottom: 40px;
     }
     /* Set the border color for all table elements to black */
     table,
@@ -375,6 +505,9 @@ body.dark {
     }
     /* Reduce the padding for input fields in the cd_table */
     /* Style table cells for printing */
+    .box-heading1{
+        display:none !important;
+    }
     .table,
     .custom-table {
         border-collapse: collapse;

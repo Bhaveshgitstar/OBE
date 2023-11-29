@@ -308,12 +308,13 @@ const total = qIndices.reduce((acc, index) => {
 
 
 // Update the UI with new values
-cells.eq(cells.length - 3).text(total);
+cells.eq(totalIndex).text(total);
 // Update the Total and Attainment values in the updatedData object
 updatedData.Total = total;
 attainmentValues.forEach((attainment, index) => {
     updatedData[`Attainment${index + 1}`] = parseFloat(attainment);
 });
+
 
     $.ajax({
         url: `/api/t1attainment/${recordId}`, // Update the URL to match your Express route for T1attainment data
@@ -559,14 +560,14 @@ function fetchT1attainmentData2(){
             if (data.length > 0) {
                 // Create an array of column headers based on the keys of the first record
                 const tableHeaders = Object.keys(data[0]);
-                // Create an array for Q columns and sort them numerically
-                const qColumns = tableHeaders.filter(header => /^Q\d+$/.test(header));
+                const qColumns = tableHeaders.filter(header => /^Q\d+$/.test(header)).sort(numericSort);
+                const aColumns = tableHeaders.filter(header => /^Attainment\d+$/.test(header)).sort(numericSort);
                 qColumns.sort((a, b) => {
                     const aNumber = parseInt(a.slice(1));
                     const bNumber = parseInt(b.slice(1));
                     return aNumber - bNumber;
                 });
-                const aColumns = tableHeaders.filter(header => /^Attainment\d+$/.test(header));
+                
                 aColumns.sort((a, b) => {
                     const aNumber = parseInt(a.slice(1));
                     const bNumber = parseInt(b.slice(1));
@@ -605,7 +606,7 @@ function fetchT1attainmentData2(){
                 attainmentData.append(tableHtml);
 
                 // Calculate and add summary rows
-                const totalStudents = data.length ;
+              /*  const totalStudents = data.length ;
                 const averageMarks = calculateAverageMarks(data);
                 const studentsAboveTarget1 = calculateStudentsAboveTarget1(data);
                 const studentsAboveTarget2 = calculateStudentsAboveTarget2(data);
@@ -649,8 +650,31 @@ function fetchT1attainmentData2(){
                     
                         </tr>
                     </tbody>
-                `;
+                `;*/
+                let summaryRow = '<tbody>';
+                summaryRow += `<tr><th colspan="4">Total Students:</th><td colspan="${qColumns.length + 5}">${data.length}</td></tr>`;
+                summaryRow += `<tr><th colspan="4">Average Marks:</th><td colspan="${qColumns.length + 5}">${calculateAverageMarks(data)}</td></tr>`;
+                summaryRow += `<tr>
+                <th colspan="4">No. of Students Scored >= 50% </th>`;
+                
+                aColumns.forEach(aCol => {
+                    const studentsAboveTarget = calculateStudentsAboveTarget(data, aCol);
+                    summaryRow += `
+                            <td colspan="4">${studentsAboveTarget}</td>`;
+                });
+                summaryRow += `</tr>`;
+                summaryRow += `<tr>
+                <th colspan="4">% of Students Scored >= 50% </th>`;
 
+                    aColumns.forEach(aCol => {
+                    const percentageAboveTarget = calculatePercentageAboveTarget(data, aCol);
+                    summaryRow += `
+                            <td colspan="${qColumns.length + 4}">${percentageAboveTarget}</td>
+                        </tr>
+                    `;
+                });
+
+                summaryRow += '</tbody>';
                 attainmentData.append(summaryRow);
             } else {
                 // Handle the case where there is no data
@@ -665,6 +689,17 @@ function fetchT1attainmentData2(){
     });
     });
 }
+function numericSort(a, b) {
+    return parseInt(a.match(/\d+/)[0], 10) - parseInt(b.match(/\d+/)[0], 10);
+}
+function calculateStudentsAboveTarget(data, attainmentField) {
+    return data.filter(record => parseFloat(record[attainmentField]) >= 50).length;
+}
+function calculatePercentageAboveTarget(data, attainmentField) {
+    const aboveTargetCount = calculateStudentsAboveTarget(data, attainmentField);
+    return ((aboveTargetCount / data.length) * 100).toFixed(2) + '%';
+}
+
 function fetchT1attainmentData() {
     return new Promise((resolve, reject) => {
     $.ajax({

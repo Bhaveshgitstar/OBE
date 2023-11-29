@@ -703,7 +703,7 @@ function fetchT1attainmentData() {
                         }
                     }
                 });
-                tableHtml += '<th>Action</th></tr></thead>';
+                tableHtml += '<th class="action1">Action</th></tr></thead>';
                 attainmentData.append(tableHtml);
 
 
