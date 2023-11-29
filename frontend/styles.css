@@ -481,7 +481,7 @@ body.dark {
     .exam-date {
         display: block;
         margin-bottom: -20px;  
-        margin-left: 550px;  
+        margin-left: 400px;  
     }
     
     .exam-date p {
@@ -503,6 +503,7 @@ body.dark {
     .custom-table {
         border-color: #000;
     }
+
     /* Reduce the padding for input fields in the cd_table */
     /* Style table cells for printing */
     .box-heading1{
