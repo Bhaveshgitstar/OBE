@@ -204,7 +204,7 @@
 </div>
 
 <div class="table-buttons text-end mt-3">
-    <button class="print-button" onclick="savePage()">Save</button></div>
+    <button class="print-button" onclick="savePage()">Save</button>
     <button class="print-button" onclick="printPage()">Print</button></div>
 <!-- ... (your existing HTML code) ... -->
 
@@ -333,8 +333,45 @@
 
 
 <script src="dataval.js"></script>
-    <script src="scriptt3.js"></script>
-    <script>
+    <script src="scriptt3.js">
+    </script>
+    
+    <script> 
+            const currentDate = new Date();
+
+// Define the fixed date you want to display
+const fixedDate = new Date('2023-09-28'); // Set the fixed date here (Year, Month - 1, Day)
+
+// Function to format time with leading zeros
+const formatTime = (value) => (value < 10 ? `0${value}` : value);
+
+// Function to format date as dd/mm/yyyy
+const formatDate = (date) => {
+    const day = formatTime(date.getDate());
+    const month = formatTime(date.getMonth() + 1);
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+};
+
+// Check if the current date is the fixed date
+if (
+    currentDate.getFullYear() === fixedDate.getFullYear() &&
+    currentDate.getMonth() === fixedDate.getMonth() &&
+    currentDate.getDate() === fixedDate.getDate()
+) {
+    // Display the fixed date
+    document.getElementById('datePlaceholder').textContent = formatDate(fixedDate);
+} else {
+    // Display the current date
+    document.getElementById('datePlaceholder').textContent = formatDate(currentDate);
+}
+
+// Display the current time
+const hours = formatTime(currentDate.getHours());
+const minutes = formatTime(currentDate.getMinutes());
+const seconds = formatTime(currentDate.getSeconds());
+
+document.getElementById('timePlaceholder').textContent = `${hours}:${minutes}:${seconds}`;
     function printPage() {
         // Call the window.print() method to initiate printing
         window.print();
