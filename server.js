@@ -543,7 +543,94 @@ app.get('/generate-sample-excelt3', async (req, res) => {
         res.status(500).send('Error generating Excel file');
     }
 });
+app.get('/generate-sample-excelta', async (req, res) => {
+    try {
+        const c= req.session.user.Course+"_taco";
+        const AttainmentModel = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
+        const firstDocument = await AttainmentModel.findOne();
 
+        if (!firstDocument) {
+            throw new Error('No documents found in the collection.');
+        }
+
+        // Extract the schema fields from the first document
+        const schemaFields = Object.keys(firstDocument.toObject());
+
+        // Create an array to hold the columns in the desired order
+        const columnsInOrder = [];
+
+        // Iterate through the schema fields and add them to columnsInOrder
+
+
+        // Add other fields as needed
+        columnsInOrder.push('ModuleNo', 'RollNo', 'Name', 'Batch');
+
+        schemaFields.forEach((field) => {
+            // Check if the field is a "Q" field (e.g., Q1, Q2, Q3)
+            if (field.match(/^Q\d+$/i)) {
+                // Add the "Q" field to columnsInOrder
+                columnsInOrder.push(field);
+            }
+        });
+        
+        columnsInOrder.push('Total');
+
+        schemaFields.forEach((field) => {
+            // Check if the field is a "Q" field (e.g., Q1, Q2, Q3)
+            if (field.match(/^Attainment\d+$/i)) {
+                // Add the "Q" field to columnsInOrder
+                columnsInOrder.push(field);
+            }
+        });
+
+
+
+        const workbook = new excel.Workbook();
+        const worksheet = workbook.addWorksheet('SampleData');
+
+        // Define cell border styles
+        const borderStyle = {
+            style: 'thin',
+            color: { argb: '000000' }, // Black color for borders
+        };
+
+        // Apply borders to header row
+        const headerRow = worksheet.addRow(columnsInOrder);
+        headerRow.eachCell((cell) => {
+            cell.border = {
+                top: borderStyle,
+                left: borderStyle,
+                bottom: borderStyle,
+                right: borderStyle,
+            };
+        });
+
+        // Add 20 empty rows to the worksheet and apply borders
+        for (let i = 0; i < 20; i++) {
+            const emptyRow = worksheet.addRow([]);
+            emptyRow.eachCell((cell) => {
+                cell.border = {
+                    top: borderStyle,
+                    left: borderStyle,
+                    bottom: borderStyle,
+                    right: borderStyle,
+                };
+            });
+        }
+
+        const timestamp = new Date().getTime();
+        const filename = `sample_excel_${timestamp}.xlsx`;
+
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', `attachment; filename=${filename}`);
+
+        await workbook.xlsx.write(res);
+        res.end();
+    } catch (error) {
+        console.error('Error generating sample Excel:', error);
+        res.status(500).send('Error generating Excel file');
+    }
+});
 app.post('/upload', upload.single('file'), (req, res) => {
     const c= req.session.user.Course+"_at";
     readXlsxFile(req.file.path)
@@ -721,6 +808,92 @@ app.post('/uploadt2', upload.single('file'), (req, res) => {
 
 app.post('/uploadt3', upload.single('file'), (req, res) => {
     const c= req.session.user.Course+"_at3";
+    readXlsxFile(req.file.path)
+        .then(async (rows) => {
+            try {
+
+                await courseOutcomeDb.collection(c).deleteMany({});
+
+                let headerIndex = -1;
+                let headers = [];
+                let foundHeader = false;
+
+                // Find the header row with the "SRMO" column
+                for (let i = 0; i < rows.length; i++) {
+                    const row = rows[i];
+
+                    if (!row) {
+                        // Skip null or empty rows
+                        continue;
+                    }
+
+                    if (row.includes('Sr.No.') && row.includes('Roll No.') && row.includes('Name')) {
+                        // Save the index of the header row
+                        headerIndex = i;
+                        headers = row.map((header) => header.trim());
+                        foundHeader = true;
+                        break;
+                    }
+                }
+
+                if (!foundHeader) {
+                    throw new Error('Header row not found in the Excel file.');
+                }
+
+                const AttainmentModel = courseOutcomeDb.model('CourseOutcomeModule', createSchema(headers), c);
+
+                const documents = [];
+
+                for (let i = headerIndex + 1; i < rows.length; i++) {
+                    const row = rows[i];
+
+                    if (!row) {
+                        // Skip null or empty rows
+                        continue;
+                    }
+
+                    const rowData = {};
+// ...
+    headers.forEach((header, index) => {
+    const questionNumber = header.match(/Q(\d+)/i);
+    const total = header.match(/^Total(\d+)/i); // Check for "Total" at the beginning
+
+    if (questionNumber) {
+        const fieldName = `Q${questionNumber[1]}`;
+        rowData[fieldName] = isValidNumber(row[index]) ? parseFloat(row[index]) : 0;
+    } else if (total) {
+        const fieldName = 'Total';
+        rowData[fieldName] = isValidNumber(row[index]) ? parseFloat(row[index]) : 0;
+    } else if (header.toLowerCase() === 'sr.no.') {
+        rowData['ModuleNo'] = row[index];
+    } else if (header.toLowerCase() === 'roll no.') {
+        rowData['RollNo'] = row[index];
+    } else {
+        rowData[header] = row[index];
+    }
+    });
+// ...
+                    documents.push(rowData);
+                }
+
+                console.log('Documents:', documents);
+
+                const insertResult = await AttainmentModel.insertMany(documents);
+
+
+                res.send({ rowCount: insertResult.length });
+            } catch (error) {
+                console.error('MongoDB Error:', error);
+                res.status(500).send('Error inserting data into MongoDB');
+            }
+        })
+        .catch((error) => {
+            console.error('Excel Parsing Error:', error);
+            res.status(500).send('Error parsing Excel file');
+        });
+});
+app.post('/uploadta', upload.single('file'), (req, res) => {
+    const c= req.session.user.Course+"_ata";
     readXlsxFile(req.file.path)
         .then(async (rows) => {
             try {
@@ -984,6 +1157,14 @@ app.get('/courseexamt3',checkSessionTimeout, async (req, res) => {
         res.status(500).send(error.message);
     }
 });
+app.get('/courseexamta',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'courseexamta.html'));
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
 
 app.get('/teacherhome',checkSessionTimeout, async (req, res) => {
     try {
@@ -1232,6 +1413,27 @@ app.post('/api/updatedbt3', async (req, res) => {
             res.status(500).json({ error: "Update failed" });
         });
 });
+app.post('/api/updatedbta', async (req, res) => {
+    const { columnName } = req.body;
+    const c= req.session.user.Course+"_ata";
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
+
+    // Create an update object for the single column name
+    const updateObject = {};
+    updateObject[columnName] = "0";
+
+    // Use updateMany to update all documents in the collection for this column
+    CourseOutcomeModule.collection.updateMany({}, { $set: updateObject })
+        .then(result => {
+            // Handle the result if needed
+            res.json({ message: "Update successful" });
+        })
+        .catch(error => {
+            // Handle the error if something goes wrong
+            console.error(error);
+            res.status(500).json({ error: "Update failed" });
+        });
+});
 
 
 
@@ -1298,6 +1500,27 @@ app.post('/api/updatedbcot3', async (req, res) => {
             res.status(500).json({ error: "Update failed" });
         });
 });
+app.post('/api/updatedbcota', async (req, res) => {
+    const { columnName,co } = req.body;
+    const c= req.session.user.Course+"_taco";
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
+
+    // Create an update object for the single column name
+    const updateObject = {};
+    updateObject[columnName] = co;
+
+    // Use updateMany to update all documents in the collection for this column
+    CourseOutcomeModule.collection.updateMany({}, { $set: updateObject })
+        .then(result => {
+            // Handle the result if needed
+            res.json({ message: "Update successful" });
+        })
+        .catch(error => {
+            // Handle the error if something goes wrong
+            console.error(error);
+            res.status(500).json({ error: "Update failed" });
+        });
+});
 app.post('/api/updatedbmarks', async (req, res) => {
     const { columnName,marks } = req.body;
     const c= req.session.user.Course+"_t1marks";
@@ -1343,6 +1566,27 @@ app.post('/api/updatedbmarkst2', async (req, res) => {
 app.post('/api/updatedbmarkst3', async (req, res) => {
     const { columnName,marks } = req.body;
     const c= req.session.user.Course+"_t3marks";
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
+
+    // Create an update object for the single column name
+    const updateObject = {};
+    updateObject[columnName] = marks;
+
+    // Use updateMany to update all documents in the collection for this column
+    CourseOutcomeModule.collection.updateMany({}, { $set: updateObject })
+        .then(result => {
+            // Handle the result if needed
+            res.json({ message: "Update successful" });
+        })
+        .catch(error => {
+            // Handle the error if something goes wrong
+            console.error(error);
+            res.status(500).json({ error: "Update failed" });
+        });
+});
+app.post('/api/updatedbmarksta', async (req, res) => {
+    const { columnName,marks } = req.body;
+    const c= req.session.user.Course+"_tamarks";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
 
     // Create an update object for the single column name
@@ -1425,6 +1669,17 @@ app.get('/api/t2attainment', async (req, res) => {
 app.get('/api/t3attainment', async (req, res) => {
     try {
         const c= req.session.user.Course+"_at3";
+        const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
+        const modules = await CourseOutcomeModule.find();
+        res.json(modules);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ error: 'Error fetching data' });
+    }
+});
+app.get('/api/taattainment', async (req, res) => {
+    try {
+        const c= req.session.user.Course+"_ata";
         const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
         const modules = await CourseOutcomeModule.find();
         res.json(modules);
@@ -1544,6 +1799,17 @@ app.get('/api/t3co', async (req, res) => {
         res.status(500).json({ error: 'Error fetching data' });
     }
 });
+app.get('/api/taco', async (req, res) => {
+    try {
+        const c= req.session.user.Course+"_taco";
+        const attainmentT1Schemac = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
+        const modules = await attainmentT1Schemac.find();
+        res.json(modules);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ error: 'Error fetching data' });
+    }
+});
 app.get('/api/t1marks', async (req, res) => {
     try {
         const c= req.session.user.Course+"_t1marks";
@@ -1570,6 +1836,17 @@ app.get('/api/t2marks', async (req, res) => {
 app.get('/api/t3marks', async (req, res) => {
     try {
         const c= req.session.user.Course+"_t3marks";
+        const attainmentT1Schemamarks = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
+        const modules = await attainmentT1Schemamarks.find();
+        res.json(modules);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ error: 'Error fetching data' });
+    }
+});
+app.get('/api/tamarks', async (req, res) => {
+    try {
+        const c= req.session.user.Course+"_tamarks";
         const attainmentT1Schemamarks = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
         const modules = await attainmentT1Schemamarks.find();
         res.json(modules);
@@ -1644,6 +1921,19 @@ app.post('/api/modules', async (req, res) => {
          res.status(500).json({ error: 'Error saving data' });
      }
  });
+ app.post('/api/taattainment', async (req, res) => {
+    // const { ModuleNo, ModuleTitle, Topics, NoOfLectures } = req.body;
+    const c= req.session.user.Course+"_ata";
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
+    const newModule = new CourseOutcomeModule(req.body);
+     try {
+         await newModule.save();
+         res.json(newModule);
+     } catch (error) {
+         console.error('Error saving data:', error);
+         res.status(500).json({ error: 'Error saving data' });
+     }
+ });
 
  const FormSchema = new mongoose.Schema({
     numQuestions: Number,
@@ -1691,7 +1981,19 @@ app.post('/api/submitcot3', async (req, res) => {
         res.status(500).send({ message: 'Error saving data', error: error });
     }
 });
-
+app.post('/api/submitcota', async (req, res) => {
+    const c= req.session.user.Course+"_taco";
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule',attainmentT1Schema, c);
+    await CourseOutcomeModule.deleteMany({});
+    const formData = new CourseOutcomeModule(req.body);
+    try {
+        await formData.save();
+        res.status(201).send({ message: 'Data saved successfully', data: formData });
+    } catch (error) {
+        console.error('Error saving data:', error);
+        res.status(500).send({ message: 'Error saving data', error: error });
+    }
+});
 app.post('/api/submitmarkst1', async (req, res) => {
     const c= req.session.user.Course+"_t1marks";
     
@@ -1722,6 +2024,20 @@ app.post('/api/submitmarkst2', async (req, res) => {
 });
 app.post('/api/submitmarkst3', async (req, res) => {
     const c= req.session.user.Course+"_t3marks";
+    
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule',attainmentT1Schema, c);
+    await CourseOutcomeModule.deleteMany({});
+    const formData = new CourseOutcomeModule(req.body);
+    try {
+        await formData.save();
+        res.status(201).send({ message: 'Data saved successfully', data: formData });
+    } catch (error) {
+        console.error('Error saving data:', error);
+        res.status(500).send({ message: 'Error saving data', error: error });
+    }
+});
+app.post('/api/submitmarksta', async (req, res) => {
+    const c= req.session.user.Course+"_tamarks";
     
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule',attainmentT1Schema, c);
     await CourseOutcomeModule.deleteMany({});
@@ -1793,6 +2109,20 @@ app.put('/api/t2attainment/:id', async (req, res) => {
 });
 app.put('/api/t3attainment/:id', async (req, res) => {
     const c= req.session.user.Course+"_at3";
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
+    const moduleId = req.params.id;
+    const updatedModule = req.body;
+    
+    try {
+        await CourseOutcomeModule.findByIdAndUpdate(moduleId, updatedModule);
+        res.json(updatedModule);
+    } catch (error) {
+        console.error('Error updating data:', error);
+        res.status(500).json({ error: 'Error updating data' });
+    }
+});
+app.put('/api/taattainment/:id', async (req, res) => {
+    const c= req.session.user.Course+"_ata";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
     const moduleId = req.params.id;
     const updatedModule = req.body;
@@ -1877,6 +2207,19 @@ app.delete('/api/t2attainment/:id', async (req, res) => {
 });
 app.delete('/api/t3attainment/:id', async (req, res) => {
     const c= req.session.user.Course+"_at3";
+    const course = courseOutcomeDb.model('CourseOutcomeModule', courseSchema, c);
+    const moduleId = req.params.id;
+    
+    try {
+        await course.findByIdAndDelete(moduleId);
+        res.json({ message: 'Data deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting data:', error);
+        res.status(500).json({ error: 'Error deleting data' });
+    }
+});
+app.delete('/api/taattainment/:id', async (req, res) => {
+    const c= req.session.user.Course+"_ata";
     const course = courseOutcomeDb.model('CourseOutcomeModule', courseSchema, c);
     const moduleId = req.params.id;
     

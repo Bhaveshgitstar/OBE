@@ -1,0 +1,1106 @@
+[{
+  "_id": {
+    "$oid": "6519af149e76d0116b1fc072"
+  },
+  "ModuleNo": "1",
+  "Name": "AVIRAL AGROHI",
+  "Batch": "IT(B14)",
+  "Q1": 3,
+  "Q2": 1.5,
+  "Q3": 3,
+  "Q4": 1,
+  "Q5": 1,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "6519af149e76d0116b1fc073"
+  },
+  "ModuleNo": "2",
+  "Name": "ANJANEYA BHARDWAJ",
+  "Batch": "IT(B14)",
+  "Q1": 3.5,
+  "Q2": 0,
+  "Q3": 0,
+  "Q4": 0.5,
+  "Q5": 0.5,
+  "Q6": 0
+},
+{
+  "_id": {
+    "$oid": "6519af149e76d0116b1fc074"
+  },
+  "ModuleNo": "3",
+  "Name": "SANYA GAGNEJA",
+  "Batch": "IT(B14)",
+  "Q1": 0,
+  "Q2": 0,
+  "Q3": 0,
+  "Q4": 0,
+  "Q5": 0,
+  "Q6": 0
+},
+{
+  "_id": {
+    "$oid": "6519af149e76d0116b1fc075"
+  },
+  "ModuleNo": "4",
+  "Name": "APOORVA JAIN",
+  "Batch": "IT(B14)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 0.5,
+  "Q5": 0.5,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "6519af149e76d0116b1fc076"
+  },
+  "ModuleNo": "5",
+  "Name": "PARTH ARORA",
+  "Batch": "IT(B14)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 1,
+  "Q5": 0.5,
+  "Q6": 0.5
+},
+{
+  "_id": {
+    "$oid": "6519af149e76d0116b1fc077"
+  },
+  "ModuleNo": "6",
+  "Name": "ADITYA PAHUJA",
+  "Batch": "IT(B14)",
+  "Q1": 4,
+  "Q2": 0,
+  "Q3": 3,
+  "Q4": 1.5,
+  "Q5": 2,
+  "Q6": 0
+},
+{
+  "_id": {
+    "$oid": "6519af149e76d0116b1fc078"
+  },
+  "ModuleNo": "7",
+  "Name": "BHAV GOEL",
+  "Batch": "IT(B14)",
+  "Q1": 3.5,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 0.5,
+  "Q5": 3.5,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "6519af149e76d0116b1fc079"
+  },
+  "ModuleNo": "8",
+  "Name": "AYUSH NEGI",
+  "Batch": "IT(B14)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 2,
+  "Q4": 0.5,
+  "Q5": 2.5,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "6519af149e76d0116b1fc07a"
+  },
+  "ModuleNo": "9",
+  "Name": "AMAN SINGH RANA",
+  "Batch": "IT(B14)",
+  "Q1": 1.5,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 0,
+  "Q5": 0.5,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "6519af149e76d0116b1fc07b"
+  },
+  "ModuleNo": "10",
+  "Name": "SHIVAM NEGI",
+  "Batch": "IT(B15)",
+  "Q1": 3.5,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 0.5,
+  "Q5": 1.5,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "6519af149e76d0116b1fc07c"
+  },
+  "ModuleNo": "11",
+  "Name": "VIDHI GUPTA",
+  "Batch": "IT(B15)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 0.5,
+  "Q5": 2,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "6519af149e76d0116b1fc07d"
+  },
+  "ModuleNo": "12",
+  "Name": "LAKSHITA GUPTA",
+  "Batch": "IT(B15)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 1,
+  "Q5": 1,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "6519af149e76d0116b1fc07e"
+  },
+  "ModuleNo": "13",
+  "Name": "RIYA GARG",
+  "Batch": "IT(B15)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 1.5,
+  "Q5": 4,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "6519af149e76d0116b1fc07f"
+  },
+  "ModuleNo": null,
+  "Name": null,
+  "Batch": null,
+  "Q1": 0,
+  "Q2": 0,
+  "Q3": 0,
+  "Q4": 0,
+  "Q5": 0,
+  "Q6": 0
+},
+{
+  "_id": {
+    "$oid": "6519af5b46b0aed2e8147797"
+  },
+  "ModuleNo": "1",
+  "Name": "AVIRAL AGROHI",
+  "Batch": "IT(B14)"
+},
+{
+  "_id": {
+    "$oid": "6519af5b46b0aed2e8147798"
+  },
+  "ModuleNo": "2",
+  "Name": "ANJANEYA BHARDWAJ",
+  "Batch": "IT(B14)"
+},
+{
+  "_id": {
+    "$oid": "6519af5b46b0aed2e8147799"
+  },
+  "ModuleNo": "3",
+  "Name": "SANYA GAGNEJA",
+  "Batch": "IT(B14)"
+},
+{
+  "_id": {
+    "$oid": "6519af5b46b0aed2e814779a"
+  },
+  "ModuleNo": "4",
+  "Name": "APOORVA JAIN",
+  "Batch": "IT(B14)"
+},
+{
+  "_id": {
+    "$oid": "6519af5b46b0aed2e814779b"
+  },
+  "ModuleNo": "5",
+  "Name": "PARTH ARORA",
+  "Batch": "IT(B14)"
+},
+{
+  "_id": {
+    "$oid": "6519af5b46b0aed2e814779c"
+  },
+  "ModuleNo": "6",
+  "Name": "ADITYA PAHUJA",
+  "Batch": "IT(B14)"
+},
+{
+  "_id": {
+    "$oid": "6519af5b46b0aed2e814779d"
+  },
+  "ModuleNo": "7",
+  "Name": "BHAV GOEL",
+  "Batch": "IT(B14)"
+},
+{
+  "_id": {
+    "$oid": "6519af5b46b0aed2e814779e"
+  },
+  "ModuleNo": "8",
+  "Name": "AYUSH NEGI",
+  "Batch": "IT(B14)"
+},
+{
+  "_id": {
+    "$oid": "6519af5b46b0aed2e814779f"
+  },
+  "ModuleNo": "9",
+  "Name": "AMAN SINGH RANA",
+  "Batch": "IT(B14)"
+},
+{
+  "_id": {
+    "$oid": "6519af5b46b0aed2e81477a0"
+  },
+  "ModuleNo": "10",
+  "Name": "SHIVAM NEGI",
+  "Batch": "IT(B15)"
+},
+{
+  "_id": {
+    "$oid": "6519af5b46b0aed2e81477a1"
+  },
+  "ModuleNo": "11",
+  "Name": "VIDHI GUPTA",
+  "Batch": "IT(B15)"
+},
+{
+  "_id": {
+    "$oid": "6519af5b46b0aed2e81477a2"
+  },
+  "ModuleNo": "12",
+  "Name": "LAKSHITA GUPTA",
+  "Batch": "IT(B15)"
+},
+{
+  "_id": {
+    "$oid": "6519af5b46b0aed2e81477a3"
+  },
+  "ModuleNo": "13",
+  "Name": "RIYA GARG",
+  "Batch": "IT(B15)"
+},
+{
+  "_id": {
+    "$oid": "6519af5b46b0aed2e81477a4"
+  },
+  "ModuleNo": null,
+  "Name": null,
+  "Batch": null
+},
+{
+  "_id": {
+    "$oid": "651a63313402a8b48811b27a"
+  },
+  "ModuleNo": "1",
+  "Name": "AVIRAL AGROHI",
+  "Batch": "IT(B14)",
+  "Q1": 3,
+  "Q2": 1.5,
+  "Q3": 3,
+  "Q4": 1,
+  "Q5": 1,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a63313402a8b48811b27b"
+  },
+  "ModuleNo": "2",
+  "Name": "ANJANEYA BHARDWAJ",
+  "Batch": "IT(B14)",
+  "Q1": 3.5,
+  "Q2": 0,
+  "Q3": 0,
+  "Q4": 0.5,
+  "Q5": 0.5,
+  "Q6": 0
+},
+{
+  "_id": {
+    "$oid": "651a63313402a8b48811b27c"
+  },
+  "ModuleNo": "3",
+  "Name": "SANYA GAGNEJA",
+  "Batch": "IT(B14)",
+  "Q1": 0,
+  "Q2": 0,
+  "Q3": 0,
+  "Q4": 0,
+  "Q5": 0,
+  "Q6": 0
+},
+{
+  "_id": {
+    "$oid": "651a63313402a8b48811b27d"
+  },
+  "ModuleNo": "4",
+  "Name": "APOORVA JAIN",
+  "Batch": "IT(B14)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 0.5,
+  "Q5": 0.5,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a63313402a8b48811b27e"
+  },
+  "ModuleNo": "5",
+  "Name": "PARTH ARORA",
+  "Batch": "IT(B14)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 1,
+  "Q5": 0.5,
+  "Q6": 0.5
+},
+{
+  "_id": {
+    "$oid": "651a63313402a8b48811b27f"
+  },
+  "ModuleNo": "6",
+  "Name": "ADITYA PAHUJA",
+  "Batch": "IT(B14)",
+  "Q1": 4,
+  "Q2": 0,
+  "Q3": 3,
+  "Q4": 1.5,
+  "Q5": 2,
+  "Q6": 0
+},
+{
+  "_id": {
+    "$oid": "651a63313402a8b48811b280"
+  },
+  "ModuleNo": "7",
+  "Name": "BHAV GOEL",
+  "Batch": "IT(B14)",
+  "Q1": 3.5,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 0.5,
+  "Q5": 3.5,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a63313402a8b48811b281"
+  },
+  "ModuleNo": "8",
+  "Name": "AYUSH NEGI",
+  "Batch": "IT(B14)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 2,
+  "Q4": 0.5,
+  "Q5": 2.5,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a63313402a8b48811b282"
+  },
+  "ModuleNo": "9",
+  "Name": "AMAN SINGH RANA",
+  "Batch": "IT(B14)",
+  "Q1": 1.5,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 0,
+  "Q5": 0.5,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a63313402a8b48811b283"
+  },
+  "ModuleNo": "10",
+  "Name": "SHIVAM NEGI",
+  "Batch": "IT(B15)",
+  "Q1": 3.5,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 0.5,
+  "Q5": 1.5,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a63313402a8b48811b284"
+  },
+  "ModuleNo": "11",
+  "Name": "VIDHI GUPTA",
+  "Batch": "IT(B15)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 0.5,
+  "Q5": 2,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a63313402a8b48811b285"
+  },
+  "ModuleNo": "12",
+  "Name": "LAKSHITA GUPTA",
+  "Batch": "IT(B15)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 1,
+  "Q5": 1,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a63313402a8b48811b286"
+  },
+  "ModuleNo": "13",
+  "Name": "RIYA GARG",
+  "Batch": "IT(B15)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 1.5,
+  "Q5": 4,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a63313402a8b48811b287"
+  },
+  "ModuleNo": null,
+  "Name": null,
+  "Batch": null,
+  "Q1": 0,
+  "Q2": 0,
+  "Q3": 0,
+  "Q4": 0,
+  "Q5": 0,
+  "Q6": 0
+},
+{
+  "_id": {
+    "$oid": "651a63a7d3bec54874c8f190"
+  },
+  "ModuleNo": "1",
+  "Name": "AVIRAL AGROHI",
+  "Batch": "IT(B14)",
+  "Q1": 3,
+  "Q2": 1.5,
+  "Q3": 3,
+  "Q4": 1,
+  "Q5": 1,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a63a7d3bec54874c8f191"
+  },
+  "ModuleNo": "2",
+  "Name": "ANJANEYA BHARDWAJ",
+  "Batch": "IT(B14)",
+  "Q1": 3.5,
+  "Q2": 0,
+  "Q3": 0,
+  "Q4": 0.5,
+  "Q5": 0.5,
+  "Q6": 0
+},
+{
+  "_id": {
+    "$oid": "651a63a7d3bec54874c8f192"
+  },
+  "ModuleNo": "3",
+  "Name": "SANYA GAGNEJA",
+  "Batch": "IT(B14)",
+  "Q1": 0,
+  "Q2": 0,
+  "Q3": 0,
+  "Q4": 0,
+  "Q5": 0,
+  "Q6": 0
+},
+{
+  "_id": {
+    "$oid": "651a63a7d3bec54874c8f193"
+  },
+  "ModuleNo": "4",
+  "Name": "APOORVA JAIN",
+  "Batch": "IT(B14)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 0.5,
+  "Q5": 0.5,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a63a7d3bec54874c8f194"
+  },
+  "ModuleNo": "5",
+  "Name": "PARTH ARORA",
+  "Batch": "IT(B14)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 1,
+  "Q5": 0.5,
+  "Q6": 0.5
+},
+{
+  "_id": {
+    "$oid": "651a63a7d3bec54874c8f195"
+  },
+  "ModuleNo": "6",
+  "Name": "ADITYA PAHUJA",
+  "Batch": "IT(B14)",
+  "Q1": 4,
+  "Q2": 0,
+  "Q3": 3,
+  "Q4": 1.5,
+  "Q5": 2,
+  "Q6": 0
+},
+{
+  "_id": {
+    "$oid": "651a63a7d3bec54874c8f196"
+  },
+  "ModuleNo": "7",
+  "Name": "BHAV GOEL",
+  "Batch": "IT(B14)",
+  "Q1": 3.5,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 0.5,
+  "Q5": 3.5,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a63a7d3bec54874c8f197"
+  },
+  "ModuleNo": "8",
+  "Name": "AYUSH NEGI",
+  "Batch": "IT(B14)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 2,
+  "Q4": 0.5,
+  "Q5": 2.5,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a63a7d3bec54874c8f198"
+  },
+  "ModuleNo": "9",
+  "Name": "AMAN SINGH RANA",
+  "Batch": "IT(B14)",
+  "Q1": 1.5,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 0,
+  "Q5": 0.5,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a63a7d3bec54874c8f199"
+  },
+  "ModuleNo": "10",
+  "Name": "SHIVAM NEGI",
+  "Batch": "IT(B15)",
+  "Q1": 3.5,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 0.5,
+  "Q5": 1.5,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a63a7d3bec54874c8f19a"
+  },
+  "ModuleNo": "11",
+  "Name": "VIDHI GUPTA",
+  "Batch": "IT(B15)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 0.5,
+  "Q5": 2,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a63a7d3bec54874c8f19b"
+  },
+  "ModuleNo": "12",
+  "Name": "LAKSHITA GUPTA",
+  "Batch": "IT(B15)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 1,
+  "Q5": 1,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a63a7d3bec54874c8f19c"
+  },
+  "ModuleNo": "13",
+  "Name": "RIYA GARG",
+  "Batch": "IT(B15)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 1.5,
+  "Q5": 4,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a63a7d3bec54874c8f19d"
+  },
+  "ModuleNo": null,
+  "Name": null,
+  "Batch": null,
+  "Q1": 0,
+  "Q2": 0,
+  "Q3": 0,
+  "Q4": 0,
+  "Q5": 0,
+  "Q6": 0
+},
+{
+  "_id": {
+    "$oid": "651a64cd47c43c35b1ce4c64"
+  },
+  "ModuleNo": "1",
+  "Name": "AVIRAL AGROHI",
+  "Batch": "IT(B14)",
+  "Q1": 3,
+  "Q2": 1.5,
+  "Q3": 3,
+  "Q4": 1,
+  "Q5": 1,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a64cd47c43c35b1ce4c65"
+  },
+  "ModuleNo": "2",
+  "Name": "ANJANEYA BHARDWAJ",
+  "Batch": "IT(B14)",
+  "Q1": 3.5,
+  "Q2": 0,
+  "Q3": 0,
+  "Q4": 0.5,
+  "Q5": 0.5,
+  "Q6": 0
+},
+{
+  "_id": {
+    "$oid": "651a64cd47c43c35b1ce4c66"
+  },
+  "ModuleNo": "3",
+  "Name": "SANYA GAGNEJA",
+  "Batch": "IT(B14)",
+  "Q1": 0,
+  "Q2": 0,
+  "Q3": 0,
+  "Q4": 0,
+  "Q5": 0,
+  "Q6": 0
+},
+{
+  "_id": {
+    "$oid": "651a64cd47c43c35b1ce4c67"
+  },
+  "ModuleNo": "4",
+  "Name": "APOORVA JAIN",
+  "Batch": "IT(B14)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 0.5,
+  "Q5": 0.5,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a64cd47c43c35b1ce4c68"
+  },
+  "ModuleNo": "5",
+  "Name": "PARTH ARORA",
+  "Batch": "IT(B14)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 1,
+  "Q5": 0.5,
+  "Q6": 0.5
+},
+{
+  "_id": {
+    "$oid": "651a64cd47c43c35b1ce4c69"
+  },
+  "ModuleNo": "6",
+  "Name": "ADITYA PAHUJA",
+  "Batch": "IT(B14)",
+  "Q1": 4,
+  "Q2": 0,
+  "Q3": 3,
+  "Q4": 1.5,
+  "Q5": 2,
+  "Q6": 0
+},
+{
+  "_id": {
+    "$oid": "651a64cd47c43c35b1ce4c6a"
+  },
+  "ModuleNo": "7",
+  "Name": "BHAV GOEL",
+  "Batch": "IT(B14)",
+  "Q1": 3.5,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 0.5,
+  "Q5": 3.5,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a64cd47c43c35b1ce4c6b"
+  },
+  "ModuleNo": "8",
+  "Name": "AYUSH NEGI",
+  "Batch": "IT(B14)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 2,
+  "Q4": 0.5,
+  "Q5": 2.5,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a64cd47c43c35b1ce4c6c"
+  },
+  "ModuleNo": "9",
+  "Name": "AMAN SINGH RANA",
+  "Batch": "IT(B14)",
+  "Q1": 1.5,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 0,
+  "Q5": 0.5,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a64cd47c43c35b1ce4c6d"
+  },
+  "ModuleNo": "10",
+  "Name": "SHIVAM NEGI",
+  "Batch": "IT(B15)",
+  "Q1": 3.5,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 0.5,
+  "Q5": 1.5,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a64cd47c43c35b1ce4c6e"
+  },
+  "ModuleNo": "11",
+  "Name": "VIDHI GUPTA",
+  "Batch": "IT(B15)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 0.5,
+  "Q5": 2,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a64cd47c43c35b1ce4c6f"
+  },
+  "ModuleNo": "12",
+  "Name": "LAKSHITA GUPTA",
+  "Batch": "IT(B15)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 1,
+  "Q5": 1,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a64cd47c43c35b1ce4c70"
+  },
+  "ModuleNo": "13",
+  "Name": "RIYA GARG",
+  "Batch": "IT(B15)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 1.5,
+  "Q5": 4,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a64cd47c43c35b1ce4c71"
+  },
+  "ModuleNo": null,
+  "Name": null,
+  "Batch": null,
+  "Q1": 0,
+  "Q2": 0,
+  "Q3": 0,
+  "Q4": 0,
+  "Q5": 0,
+  "Q6": 0
+},
+{
+  "_id": {
+    "$oid": "651a65525262d57d79b3ea0c"
+  },
+  "ModuleNo": "1",
+  "RollNo": "20104003",
+  "Name": "AVIRAL AGROHI",
+  "Batch": "IT(B14)",
+  "Q1": 3,
+  "Q2": 1.5,
+  "Q3": 3,
+  "Q4": 1,
+  "Q5": 1,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a65525262d57d79b3ea0d"
+  },
+  "ModuleNo": "2",
+  "RollNo": "20104004",
+  "Name": "ANJANEYA BHARDWAJ",
+  "Batch": "IT(B14)",
+  "Q1": 3.5,
+  "Q2": 0,
+  "Q3": 0,
+  "Q4": 0.5,
+  "Q5": 0.5,
+  "Q6": 0
+},
+{
+  "_id": {
+    "$oid": "651a65525262d57d79b3ea0e"
+  },
+  "ModuleNo": "3",
+  "RollNo": "20104014",
+  "Name": "SANYA GAGNEJA",
+  "Batch": "IT(B14)",
+  "Q1": 0,
+  "Q2": 0,
+  "Q3": 0,
+  "Q4": 0,
+  "Q5": 0,
+  "Q6": 0
+},
+{
+  "_id": {
+    "$oid": "651a65525262d57d79b3ea0f"
+  },
+  "ModuleNo": "4",
+  "RollNo": "20104015",
+  "Name": "APOORVA JAIN",
+  "Batch": "IT(B14)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 0.5,
+  "Q5": 0.5,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a65525262d57d79b3ea10"
+  },
+  "ModuleNo": "5",
+  "RollNo": "20104016",
+  "Name": "PARTH ARORA",
+  "Batch": "IT(B14)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 1,
+  "Q5": 0.5,
+  "Q6": 0.5
+},
+{
+  "_id": {
+    "$oid": "651a65525262d57d79b3ea11"
+  },
+  "ModuleNo": "6",
+  "RollNo": "20104018",
+  "Name": "ADITYA PAHUJA",
+  "Batch": "IT(B14)",
+  "Q1": 4,
+  "Q2": 0,
+  "Q3": 3,
+  "Q4": 1.5,
+  "Q5": 2,
+  "Q6": 0
+},
+{
+  "_id": {
+    "$oid": "651a65525262d57d79b3ea12"
+  },
+  "ModuleNo": "7",
+  "RollNo": "20104020",
+  "Name": "BHAV GOEL",
+  "Batch": "IT(B14)",
+  "Q1": 3.5,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 0.5,
+  "Q5": 3.5,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a65525262d57d79b3ea13"
+  },
+  "ModuleNo": "8",
+  "RollNo": "20104021",
+  "Name": "AYUSH NEGI",
+  "Batch": "IT(B14)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 2,
+  "Q4": 0.5,
+  "Q5": 2.5,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a65525262d57d79b3ea14"
+  },
+  "ModuleNo": "9",
+  "RollNo": "20104027",
+  "Name": "AMAN SINGH RANA",
+  "Batch": "IT(B14)",
+  "Q1": 1.5,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 0,
+  "Q5": 0.5,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a65525262d57d79b3ea15"
+  },
+  "ModuleNo": "10",
+  "RollNo": "20104036",
+  "Name": "SHIVAM NEGI",
+  "Batch": "IT(B15)",
+  "Q1": 3.5,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 0.5,
+  "Q5": 1.5,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a65525262d57d79b3ea16"
+  },
+  "ModuleNo": "11",
+  "RollNo": "20104041",
+  "Name": "VIDHI GUPTA",
+  "Batch": "IT(B15)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 0.5,
+  "Q5": 2,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a65525262d57d79b3ea17"
+  },
+  "ModuleNo": "12",
+  "RollNo": "20104042",
+  "Name": "LAKSHITA GUPTA",
+  "Batch": "IT(B15)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 1,
+  "Q5": 1,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a65525262d57d79b3ea18"
+  },
+  "ModuleNo": "13",
+  "RollNo": "20104048",
+  "Name": "RIYA GARG",
+  "Batch": "IT(B15)",
+  "Q1": 4,
+  "Q2": 4,
+  "Q3": 3,
+  "Q4": 1.5,
+  "Q5": 4,
+  "Q6": 3
+},
+{
+  "_id": {
+    "$oid": "651a65525262d57d79b3ea19"
+  },
+  "ModuleNo": null,
+  "RollNo": null,
+  "Name": null,
+  "Batch": null,
+  "Q1": 0,
+  "Q2": 0,
+  "Q3": 0,
+  "Q4": 0,
+  "Q5": 0,
+  "Q6": 0
+}]

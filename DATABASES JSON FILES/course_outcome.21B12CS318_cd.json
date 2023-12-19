@@ -1,0 +1,20 @@
+[{
+  "_id": {
+    "$oid": "64ee2dbedd2b5162b968f899"
+  },
+  "co_code": "21B12CS318",
+  "sem": "2023EVENSEM",
+  "co_name": "Big Data Ingestion",
+  "credits": 3,
+  "contact_hours": "3-0-0",
+  "coordinators": [
+    "Shikha Mehta",
+    "Bharat Gupta"
+  ],
+  "teachers": [
+    "Bharat Gupta",
+    "Shikha Mehta"
+  ],
+  "Branch": "CSE",
+  "NBAcode": "3-0-0"
+}]

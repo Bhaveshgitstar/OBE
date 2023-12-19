@@ -1,0 +1,40 @@
+[{
+  "_id": {
+    "$oid": "64edfd89dd2b5162b968f894"
+  },
+  "coid": "C332-2.1",
+  "cotitle": "Explain the fundamental concepts of Big Data and Data Analytics.",
+  "colevels": "Understand (Level 2)"
+},
+{
+  "_id": {
+    "$oid": "64ee1342d31ded8d7e63a8b3"
+  },
+  "coid": "C332-2.2",
+  "cotitle": "Understand the various formats of Big Data and their sources.",
+  "colevels": "Understand (Level 2)"
+},
+{
+  "_id": {
+    "$oid": "64ee13e1d31ded8d7e63a8c2"
+  },
+  "coid": "C332-2.3",
+  "cotitle": "Infer the need and challenges of Big Data Ingestion.",
+  "colevels": "Understand (Level 2)"
+},
+{
+  "_id": {
+    "$oid": "64ee1427d31ded8d7e63a8c5"
+  },
+  "coid": "C332-2.4",
+  "cotitle": "Various types of storage for Big Data such as Hadoop,Distributed File Systems, NoSQL and NewSQL.",
+  "colevels": "Apply (Level 3)"
+},
+{
+  "_id": {
+    "$oid": "64ee1457d31ded8d7e63a8c8"
+  },
+  "coid": "C332-2.5",
+  "cotitle": "Apply BDI tools as Sqoop and Flume to ingest data into a Big Data system.",
+  "colevels": "Apply (Level 3)"
+}]
