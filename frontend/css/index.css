@@ -1,8 +1,12 @@
 html, body {
+
     margin: 0;
     padding: 0;
     font-family: Arial, Helvetica, sans-serif; /* Professional font */
 }
+/*body {
+    
+  }*/
 .home-button {
     display: inline-block;
     padding: 10px 20px;
@@ -35,6 +39,7 @@ html, body {
 
 /* Apply the animation to the contact-us-container */
 .contact-us-container {
+    transform: scale(0.9); 
     text-decoration: overline;
     text-decoration: #1593e7;
     animation: moveContactUs 3s linear infinite; /* Adjust the duration as needed */
@@ -43,12 +48,14 @@ html, body {
 }
 /* Define styles for the left and right containers */
 .left-container {
+    transform: scale(0.9); 
     float: left;
     width: 50%;
     padding: 20px;
 }
 
 .right-container {
+    transform: scale(0.9); 
     float: right;
     width: 50%;
     padding: 20px;
@@ -73,6 +80,7 @@ html, body {
 
 /* Style for the heading animation */
 .upward-heading {
+    transform: scale(0.9); 
     animation: headingAnimation 1s ease infinite alternate;
 }
 
@@ -92,11 +100,13 @@ body {
 }
 
 .container {
+    transform: scale(0.9); 
     background-color: #f5f5f5; /* Light gray or any color of your choice */
 }
 
 /* Style the box heading */
 .box-heading {
+    transform: scale(0.9); 
     background-color: #1593e7; /* Background color */
     color: #fff; /* Text color */
     padding: 8px; /* Add padding for spacing */
@@ -125,6 +135,7 @@ body {
 
 /* Style the menu icon */
 .menu-icon {
+    transform: scale(0.9); 
     cursor: pointer;
     font-size: 24px;
     color: #fff;
@@ -134,6 +145,7 @@ body {
 
 /* Style the menu options container */
 .menu-options {
+    transform: scale(0.9); 
     flex-direction: column;
     background-color: #003366; /* Match the navigation strip background color */
     position: absolute;
@@ -220,21 +232,6 @@ h2 {
 /* Adjust margin for table rows */
 #syllabus-data tr:not(:last-child) {
     margin-bottom: 10px;
-}
-
-/* Style tables */
-.table {
-    border-collapse: collapse;
-    width: 100%;
-    margin: 5 auto; /* Center the table horizontally and add margin from the sides */
-    margin-top: 20px; /* Add top margin */
-}
-
-.table th,
-.table td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: left;
 }
 
 /* Style table header */
