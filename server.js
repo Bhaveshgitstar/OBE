@@ -36,6 +36,7 @@ app.use(session({
     secret: 'your-secret-key',
     resave: false,
     saveUninitialized: false,
+    store: store,
     cookie: {
         secure: false,
         maxAge: 30 * 60 * 1000, // 30 minutes (adjust as needed)
