@@ -196,7 +196,21 @@ function updateRowco(moduleId, row) {
     const updatedData = {
         coid: cells.eq(0).text(),
         cotitle: cells.eq(1).text(),
-        colevels: cells.eq(2).text()
+        colevels: cells.eq(2).text(),
+        PO1: parseInt(cells.eq(3).text()),
+        PO2: parseInt(cells.eq(4).text()),
+        PO3: parseInt(cells.eq(5).text()),
+        PO4: parseInt(cells.eq(6).text()),
+        PO5: parseInt(cells.eq(7).text()),
+        PO6: parseInt(cells.eq(8).text()),
+        PO7: parseInt(cells.eq(9).text()),
+        PO8: parseInt(cells.eq(10).text()),
+        PO9: parseInt(cells.eq(11).text()),
+        PO10: parseInt(cells.eq(12).text()),
+        PO11: parseInt(cells.eq(13).text()),
+        PO12: parseInt(cells.eq(14).text()),
+        PSO1: parseInt(cells.eq(15).text()),
+        PSO2: parseInt(cells.eq(16).text())
     };
 
     $.ajax({
@@ -383,20 +397,20 @@ function fetchCourseData() {
                         <td>${module.coid}</td>
                         <td>${module.cotitle}</td>
                         <td>${module.colevels}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>${module.PO1}</td>
+                        <td>${module.PO2}</td>
+                        <td>${module.PO3}</td>
+                        <td>${module.PO4}</td>
+                        <td>${module.PO5}</td>
+                        <td>${module.PO6}</td>
+                        <td>${module.PO7}</td>
+                        <td>${module.PO8}</td>
+                        <td>${module.PO9}</td>
+                        <td>${module.PO10}</td>
+                        <td>${module.PO11}</td>
+                        <td>${module.PO12}</td>
+                        <td>${module.PSO1}</td>
+                        <td>${module.PSO2}</td>
                         <td class="action-buttons">
                             <button class="btn btn-info update-buttonco">Edit</button>
                             <button class="btn btn-danger delete-buttonco">Delete</button>
@@ -447,6 +461,21 @@ function addEmptyRow2() {
             <td contenteditable="true"></td>
             <td contenteditable="true"></td>
             <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+
         </tr>
     `;
     $('#co_data').append(emptyRow);
@@ -489,7 +518,22 @@ function saveDataToServerco() {
     const newData = {
         coid: cells.eq(0).text(),
         cotitle: cells.eq(1).text(),
-        colevels: cells.eq(2).text()
+        colevels: cells.eq(2).text(),
+        PO1: parseInt(cells.eq(3).text()),
+        PO2: parseInt(cells.eq(4).text()),
+        PO3: parseInt(cells.eq(5).text()),
+        PO4: parseInt(cells.eq(6).text()),
+        PO5: parseInt(cells.eq(7).text()),
+        PO6: parseInt(cells.eq(8).text()),
+        PO7: parseInt(cells.eq(9).text()),
+        PO8: parseInt(cells.eq(10).text()),
+        PO9: parseInt(cells.eq(11).text()),
+        PO10: parseInt(cells.eq(12).text()),
+        PO11: parseInt(cells.eq(13).text()),
+        PO12: parseInt(cells.eq(14).text()),
+        PSO1: parseInt(cells.eq(15).text()),
+        PSO2: parseInt(cells.eq(16).text())
+
     };
 
     $.ajax({

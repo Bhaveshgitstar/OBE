@@ -96,7 +96,22 @@ const courseSchema = new mongoose.Schema(
     {
         coid: String,
         cotitle: String,
-        colevels: String
+        colevels: String,
+        PO1: Number,
+        PO2: Number,
+        PO3: Number,
+        PO4: Number,
+        PO5: Number,
+        PO6: Number,
+        PO7: Number,
+        PO8: Number,
+        PO9: Number,
+        PO10: Number,
+        PO11: Number,
+        PO12: Number,
+        PSO1: Number,
+        PSO2: Number
+
     },
     { versionKey: false }
 );
