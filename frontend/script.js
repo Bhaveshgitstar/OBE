@@ -383,6 +383,20 @@ function fetchCourseData() {
                         <td>${module.coid}</td>
                         <td>${module.cotitle}</td>
                         <td>${module.colevels}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                         <td class="action-buttons">
                             <button class="btn btn-info update-buttonco">Edit</button>
                             <button class="btn btn-danger delete-buttonco">Delete</button>
