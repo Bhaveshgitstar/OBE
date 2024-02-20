@@ -7,16 +7,19 @@ html, body {
 /*body {
     
   }*/
-.home-button {
+#aboutus{
     display: inline-block;
     padding: 10px 20px;
-    background-color: #f05a15; /* Dark blue */
+    background-color: #f05a15;
     color: #fff;
     text-decoration: none; /* Remove underlines from links */
     border-radius: 5px;
     font-size: 16px;
-    margin-left: 1550px; /* Add space to the right */
+    position: relative ;
+    left: 86rem;
+    
 }
+
 
 /* Style the home button on hover */
 .home-button:hover {
