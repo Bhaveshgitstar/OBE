@@ -26,6 +26,18 @@ $('#semesterDropdown').change(function () {
   fetchSubjects(selectedYear, selectedSemester);
 });
 
+$('#academicYearDropdown').change(function () {
+  $('#semesterDropdown').val('');
+  $('#deptDropdown').val('');
+  $('#subjectDropdown').val('');
+});
+
+$('#deptDropdown').change(function () {
+  $('#semesterDropdown').val('');
+  $('#subjectDropdown').val('');
+});
+
+
 $('#setteacherButton').click(function () {
   // Get the selected teacher IDs from the checkboxes
   const selectedSubject = $('#subjectDropdown').val();
@@ -171,7 +183,8 @@ function fetchSubjects(selectedYear, selectedSemester) {
       console.log(subjectData);
       subjectDropdown.append('<option value="" disabled selected>Select Subject Code</option>'); 
       subjectData.forEach(subject => {
-          subjectDropdown.append($('<option></option>').attr('value', subject.co_code).text(subject.co_code));
+          var subjectd=subject.co_code+" ("+subject.co_name+") ";
+          subjectDropdown.append($('<option></option>').attr('value', subjectd).text(subjectd));
       });
   });
 }
