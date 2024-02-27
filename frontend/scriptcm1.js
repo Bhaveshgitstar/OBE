@@ -85,21 +85,25 @@ $('#setCoordinatorButton').click(function () {
       let tableHtml = '<table class="table table-bordered table-centered">';
       tableHtml += '<thead><tr>';
       tableHtml += '<th>Running Subjects</th>';
+      tableHtml += '<th>Year</th>';
       tableHtml += '<th>Department</th>';
       tableHtml += '<th>Credits</th>';
       tableHtml += '<th>Contact Hours</th>';
-      tableHtml += '<th>Make Coordinator</th></tr></thead>';
+      tableHtml += `<th>NBA code</th>`;
+      tableHtml += '<th>Action</th></tr></thead>';
       tableHtml += '<tbody>';
 
       data.forEach(data => {
           tableHtml += '<tr>';
           var x=data.co_name+" ("+data.co_code+") ";
           tableHtml += `<td>${x}</td>`;
+          tableHtml += `<td>${data.Year}</td>`;
           tableHtml += `<td>${data.Branch}</td>`;
           tableHtml += `<td>${data.credits}</td>`;
           tableHtml += `<td>${data.contact_hours}</td>`;
+          tableHtml += `<td>${data.NBAcode}</td>`;
+
           tableHtml += '<td class="text-center">'; // Center-align the content
-          tableHtml += `<input type="checkbox" class="form-check-input" id="makeCoordinatorCheckbox_${data.co_code}" name="coordinatorCheckbox" value="${data.co_code}">`;
           tableHtml += '</td>';
           tableHtml += '</tr>';
       });
@@ -107,7 +111,7 @@ $('#setCoordinatorButton').click(function () {
       tableHtml +=`<div class="row mt-3">
       <div class="centered-button">
           <!-- Button to set selected teachers as coordinators -->
-          <button class="btn btn-success" id="setCoordinatorButton">Set as Coordinators</button>
+          <button class="btn btn-success" id="setCoordinatorButton">Add New Subjects</button>
       </div>
       </div>`;
       corData.append(tableHtml);
