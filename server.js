@@ -1043,17 +1043,17 @@ app.get('/fetch-datacm', async (req, res) => {
     try {
         if(year!=0){
         if(dept!="alldept"){
-        const teachers = await courses.find({ Year: year,Branch: dept,sem: sem });
+        const teachers = await courses.find({ Year: year,Branch: dept,sem: sem }).sort({ Year: 1 });;
         res.json(teachers);}
         else{
-            const teachers = await courses.find({Year: year,sem: sem});
+            const teachers = await courses.find({Year: year,sem: sem}).sort({ Year: 1 });;
             res.json(teachers);} }
         else{
             if(dept!="alldept"){
-            const teachers = await courses.find({ Branch: dept ,sem: sem});
+            const teachers = await courses.find({ Branch: dept ,sem: sem}).sort({ Year: 1 });;
             res.json(teachers);}
             else{
-                const teachers = await courses.find({sem: sem});
+                const teachers = await courses.find({sem: sem}).sort({ Year: 1 });;
                 res.json(teachers);
     
             } }
