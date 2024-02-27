@@ -103,16 +103,17 @@
 
     <div class="container mt-5"></div>
     <div class="box-heading1">
-        <h5>COURSE COORDINATOR ALLOTMENT</h5>
+        <h5>COURSE ADDITION AND MODIFICATION</h5>
     </div>
 
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-12 d-flex mb-3">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <!-- Academic Year Select -->
                     <select class="form-select" name="academic-year" id="academicYearDropdown">
                         <option value="" disabled selected>Select Year</option> 
+                        <option is="allyears" value=0>All Years</option>
                         <option id="year1" value=1>Year 1</option>
                         <option id="year2" value=2>Year 2</option>
                         <option id="year3" value=3>Year 3</option>
@@ -121,10 +122,11 @@
                     </select>
                 </div>
     
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <!-- Department Select -->
                     <select class="form-select" name="department" id="deptDropdown">
                         <option value="" disabled selected>Select Department</option> 
+                        <option value="alldept">All Departments</option>
                         <option value="CSE">CSE</option>
                         <option value="IT">IT</option>
                         <option value="ECE">ECE</option>
@@ -132,7 +134,7 @@
                     </select>
                 </div>
                 
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <!-- Semester Select -->
                     <select class="form-select" name="semester" id="semesterDropdown">
                         <option value="" disabled selected>Select Semester</option> <!-- Placeholder option -->
@@ -140,14 +142,6 @@
                         <option value="2023ODDSEM">2023ODDSEM</option>
                         <option value="2023ODDSEM">2022ODDSEM</option>
                         <option value="2024EVENSEM">2024EVENSEM</option>
-                    </select>
-                </div>
-    
-                <div class="col-md-3">
-                    <!-- Subject Select -->
-                    <select class="form-select" name="subject" id="subjectDropdown">
-                        <option value="" disabled selected>Select Subject Code</option> 
-                        <!-- Add more subjects as needed -->
                     </select>
                 </div>
             </div>
@@ -300,7 +294,7 @@
     <!-- Add more buttons for additional pages as needed -->
 </div>
 
-<script src="script2.js"></script>
+<script src="scriptcm1.js"></script>
 <script>
     function printPage() {
         // Call the window.print() method to initiate printing
