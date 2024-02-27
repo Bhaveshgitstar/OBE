@@ -84,19 +84,32 @@ $('#setCoordinatorButton').click(function () {
       corData.empty();
       let tableHtml = '<table class="table table-bordered table-centered">';
       tableHtml += '<thead><tr>';
-      tableHtml += '<th>Available Teachers</th>';
+      tableHtml += '<th>Running Subjects</th>';
+      tableHtml += '<th>Department</th>';
+      tableHtml += '<th>Credits</th>';
+      tableHtml += '<th>Contact Hours</th>';
       tableHtml += '<th>Make Coordinator</th></tr></thead>';
       tableHtml += '<tbody>';
 
       data.forEach(data => {
           tableHtml += '<tr>';
-          tableHtml += `<td>${data.co_code}</td>`;
+          var x=data.co_name+" ("+data.co_code+") ";
+          tableHtml += `<td>${x}</td>`;
+          tableHtml += `<td>${data.Branch}</td>`;
+          tableHtml += `<td>${data.credits}</td>`;
+          tableHtml += `<td>${data.contact_hours}</td>`;
           tableHtml += '<td class="text-center">'; // Center-align the content
           tableHtml += `<input type="checkbox" class="form-check-input" id="makeCoordinatorCheckbox_${data.co_code}" name="coordinatorCheckbox" value="${data.co_code}">`;
           tableHtml += '</td>';
           tableHtml += '</tr>';
       });
       tableHtml += '</tbody></table>';
+      tableHtml +=`<div class="row mt-3">
+      <div class="centered-button">
+          <!-- Button to set selected teachers as coordinators -->
+          <button class="btn btn-success" id="setCoordinatorButton">Set as Coordinators</button>
+      </div>
+      </div>`;
       corData.append(tableHtml);
   });
   
@@ -130,6 +143,8 @@ darkLight.addEventListener("click", () => {
     darkLight.classList.replace("bx-moon", "bx-sun");
   }
 });
+
+// Define a function to fetch subjects based on selected year and semester
 
 
 submenuItems.forEach((item, index) => {
