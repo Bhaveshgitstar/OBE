@@ -1255,6 +1255,15 @@ app.get('/adminmapping',checkSessionTimeout, async (req, res) => {
     }
 });
 
+app.get('/coursemapping',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'coursemapping.html'));
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
 app.get('/adminmapping2',checkSessionTimeout, async (req, res) => {
     try {
         res.sendFile(path.join(__dirname, 'frontend', 'admincontrol2.html'));
