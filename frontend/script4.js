@@ -41,6 +41,8 @@
         // Fetch data and create the table when the page loads
         fetchDataFromServer();
         const sidebar = document.querySelector(".sidebar");
+        $(".sidebar").addClass("close hoverable");
+
 const submenuItems = document.querySelectorAll(".submenu_item");
 const sidebarOpen = document.querySelector("#sidebarOpen");
 const sidebarClose = document.querySelector(".collapse_sidebar");
