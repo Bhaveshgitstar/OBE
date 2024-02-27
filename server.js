@@ -1036,23 +1036,24 @@ app.get('/fetch-data', async (req, res) => {
 
 app.get('/fetch-datacm', async (req, res) => {
     const dept = req.query.department;
+    const sem = req.query.semester;
     const year = parseInt(req.query.year, 10);
     const courses = educationalPlatformDb.model('CourseOutcomeModule', eduUserSchema, 'courses');
 
     try {
         if(year!=0){
         if(dept!="alldept"){
-        const teachers = await courses.find({ Year: year,Branch: dept });
+        const teachers = await courses.find({ Year: year,Branch: dept,sem: sem });
         res.json(teachers);}
         else{
-            const teachers = await courses.find({Year: year});
+            const teachers = await courses.find({Year: year,sem: sem});
             res.json(teachers);} }
         else{
             if(dept!="alldept"){
-            const teachers = await courses.find({ Branch: dept });
+            const teachers = await courses.find({ Branch: dept ,sem: sem});
             res.json(teachers);}
             else{
-                const teachers = await courses.find({});
+                const teachers = await courses.find({sem: sem});
                 res.json(teachers);
     
             } }
