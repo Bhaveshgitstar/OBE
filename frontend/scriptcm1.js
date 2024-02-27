@@ -16,16 +16,6 @@ const sidebarExpand = document.querySelector(".expand_sidebar");
 
 sidebarOpen.addEventListener("click", () => sidebar.classList.toggle("close"));
 
-
-$('#semesterDropdown').change(function () {
-  // Get the selected values
-  const selectedYear = $('#academicYearDropdown').val();
-  const selectedSemester = $(this).val(); // 'this' refers to the semester dropdown
-
-  // Call the fetchSubjects function to fetch subjects and data
-  fetchSubjects(selectedYear, selectedSemester);
-});
-
 $('#academicYearDropdown').change(function () {
   $('#semesterDropdown').val('');
   $('#deptDropdown').val('');
@@ -83,11 +73,10 @@ $('#setCoordinatorButton').click(function () {
     // Get the selected values
     const selectedYear = $('#academicYearDropdown').val();
     const selectedSemester = $('#semesterDropdown').val();
-    const selectedSubject = $('#subjectDropdown').val();
     const department = $('#deptDropdown').val();
 
     // Make an AJAX request to fetch data based on all three selected values
-    $.get(`/fetch-data?year=${selectedYear}&semester=${selectedSemester}&subject=${selectedSubject}&department=${department}`, function (data) {
+    $.get(`/fetch-datacm?year=${selectedYear}&semester=${selectedSemester}&department=${department}`, function (data) {
       // Handle the received data as needed (e.g., update the UI)
       const corData = $('#cor-data');
       console.log(data);
@@ -101,9 +90,9 @@ $('#setCoordinatorButton').click(function () {
 
       data.forEach(data => {
           tableHtml += '<tr>';
-          tableHtml += `<td>${data.User}</td>`;
+          tableHtml += `<td>${data.co_code}</td>`;
           tableHtml += '<td class="text-center">'; // Center-align the content
-          tableHtml += `<input type="checkbox" class="form-check-input" id="makeCoordinatorCheckbox_${data.User}" name="coordinatorCheckbox" value="${data.User}">`;
+          tableHtml += `<input type="checkbox" class="form-check-input" id="makeCoordinatorCheckbox_${data.co_code}" name="coordinatorCheckbox" value="${data.co_code}">`;
           tableHtml += '</td>';
           tableHtml += '</tr>';
       });
@@ -113,39 +102,6 @@ $('#setCoordinatorButton').click(function () {
   
 });
 
-$('.get-data2-button').click(function () {
-  // Get the selected values
-  const selectedYear = $('#academicYearDropdown').val();
-  const selectedSemester = $('#semesterDropdown').val();
-  const selectedSubject = $('#subjectDropdown').val();
-  const department = $('#deptDropdown').val();
-
-  // Make an AJAX request to fetch data based on all three selected values
-  $.get(`/fetch-data?year=${selectedYear}&semester=${selectedSemester}&subject=${selectedSubject}&department=${department}`, function (data) {
-    // Handle the received data as needed (e.g., update the UI)
-    const corData = $('#cor-data');
-    console.log(data);
-
-    corData.empty();
-    let tableHtml = '<table class="table table-bordered table-centered">';
-    tableHtml += '<thead><tr>';
-    tableHtml += '<th>Available Teachers</th>';
-    tableHtml += '<th>Select as Course Teachers</th></tr></thead>';
-    tableHtml += '<tbody>';
-
-    data.forEach(data => {
-        tableHtml += '<tr>';
-        tableHtml += `<td>${data.User}</td>`;
-        tableHtml += '<td class="text-center">'; // Center-align the content
-        tableHtml += `<input type="checkbox" class="form-check-input" id="makeCoordinatorCheckbox_${data.User}" name="coordinatorCheckbox" value="${data.User}">`;
-        tableHtml += '</td>';
-        tableHtml += '</tr>';
-    });
-    tableHtml += '</tbody></table>';
-    corData.append(tableHtml);
-});
-
-});
 
 sidebarClose.addEventListener("click", () => {
   sidebar.classList.add("close", "hoverable");
@@ -175,19 +131,6 @@ darkLight.addEventListener("click", () => {
   }
 });
 
-// Define a function to fetch subjects based on selected year and semester
-function fetchSubjects(selectedYear, selectedSemester) {
-  $.get(`/subjects?year=${selectedYear}&semester=${selectedSemester}`, function (subjectData) {
-      const subjectDropdown = $('#subjectDropdown');
-      subjectDropdown.empty(); // Clear existing .
-      console.log(subjectData);
-      subjectDropdown.append('<option value="" disabled selected>Select Subject Code</option>'); 
-      subjectData.forEach(subject => {
-          var subjectd=subject.co_code+" ("+subject.co_name+") ";
-          subjectDropdown.append($('<option></option>').attr('value', subjectd).text(subjectd));
-      });
-  });
-}
 
 submenuItems.forEach((item, index) => {
   item.addEventListener("click", () => {

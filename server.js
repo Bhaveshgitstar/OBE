@@ -1020,8 +1020,42 @@ app.get('/fetch-data', async (req, res) => {
     const teacher = educationalPlatformDb.model('CourseOutcomeModule', eduUserSchema, 'users');
 
     try {
+        if(dept!="alldept"){
         const teachers = await teacher.find({ Department: dept });
-        res.json(teachers); // Send the teachers as a JSON response (array of documents)
+        res.json(teachers);}
+        else{
+            const teachers = await teacher.find({ });
+            res.json(teachers);
+
+        }
+    } catch (error) {
+        console.error('Error fetching teachers:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+app.get('/fetch-datacm', async (req, res) => {
+    const dept = req.query.department;
+    const year = parseInt(req.query.year, 10);
+    const courses = educationalPlatformDb.model('CourseOutcomeModule', eduUserSchema, 'courses');
+
+    try {
+        if(year!=0){
+        if(dept!="alldept"){
+        const teachers = await courses.find({ Year: year,Branch: dept });
+        res.json(teachers);}
+        else{
+            const teachers = await courses.find({Year: year});
+            res.json(teachers);} }
+        else{
+            if(dept!="alldept"){
+            const teachers = await courses.find({ Branch: dept });
+            res.json(teachers);}
+            else{
+                const teachers = await courses.find({});
+                res.json(teachers);
+    
+            } }
     } catch (error) {
         console.error('Error fetching teachers:', error);
         res.status(500).json({ error: 'Internal server error' });
