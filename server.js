@@ -8,6 +8,7 @@ const bcrypt = require('bcrypt');
 const session = require('express-session');
 const MongoDBSession = require('connect-mongodb-session')(session);
 const fs = require('fs');
+const svgCaptcha = require('svg-captcha');
 const excel = require('exceljs');
 
 
@@ -1366,10 +1367,18 @@ app.post('/login', (req, res) => {
     }
 });
 
+app.get('/captcha', (req, res) => {
+    const captcha = svgCaptcha.create();
+    req.session.captcha = captcha.text; // Store the CAPTCHA value in session
+    res.type('svg').send(captcha.data);
+  });
+
 app.post('/teacher-login', async (req, res) => {
     try {
         const user = await EduUser.findOne({ username: req.body.username });
-        if (user && await bcrypt.compare(req.body.password, user.password)) {
+        const userInput = req.body.captchaInput;
+        const storedCaptcha = req.session.captcha;
+        if (user && await bcrypt.compare(req.body.password, user.password) && userInput===storedCaptcha) {
             req.session.user = user;
             const role = req.session.user.Role;
 
