@@ -64,7 +64,7 @@ const eduUserSchema = new mongoose.Schema({
     username: String,
     password: String,
     User: String,
-    Role: String,
+    Role: Array,
     Course: String,
     Department:String
 
@@ -298,7 +298,7 @@ function isValidNumber(value) {
 app.get('/generate-sample-excel', async (req, res) => {
     try {
         const c= req.session.user.Course+"_t1co";
-        const AttainmentModel = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
+        const AttainmentModel = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
         const firstDocument = await AttainmentModel.findOne();
 
         if (!firstDocument) {
@@ -668,7 +668,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
                         continue;
                     }
 
-                    if (row.includes('Sr.No.') && row.includes('Roll No.') && row.includes('Name')) {
+                    if (row.includes('ModuleNo') && row.includes('RollNo') && row.includes('Name')) {
                         // Save the index of the header row
                         headerIndex = i;
                         headers = row.map((header) => header.trim());
@@ -1015,6 +1015,47 @@ app.get('/subjects', async(req, res) => {
     }
 });
 
+app.post('/addsubjects', async(req, res) => {
+    try{
+    const selectedYear = parseInt(req.query.year, 10); // Parse the query parameter as an integer
+    const selectedSemester = req.query.semester;
+    const c=courseId+"_cd";
+    const cd = courseOutcomeDb.model('CourseOutcomeModule',cdSchema,c);
+    const course = educationalPlatformDb.model('CourseOutcomeModule',courseschema,"courses");
+
+    const newcd = new cd({
+        co_code: req.body.co_code,
+        sem: req.body.selectedSemester,
+        co_name: req.body.credits,
+        credits: req.body.credits,
+        contact_hours: req.body.contact_hours,
+        coordinators: [], // Assuming coordinators is an array of strings
+        teachers: [],
+        Branch: req.body.branch,
+        NBAcode: req.body.nbacode,
+        Year: req.body.year
+    });
+    const newcourse = new course({
+        co_code: req.body.co_code,
+        sem: req.body.selectedSemester,
+        co_name: req.body.credits,
+        credits: req.body.credits,
+        contact_hours: req.body.contact_hours,
+        coordinators: [], // Assuming coordinators is an array of strings
+        teachers: [],
+        Branch: req.body.branch,
+        NBAcode: req.body.nbacode,
+        Year: req.body.year
+
+    });
+    await newcd.save();
+    await newcourse.save();
+    res.redirect('/login');
+} catch (error) {
+    res.status(500).send(error.message);
+}
+});
+
 // Express route to fetch data based on selected values
 app.get('/fetch-data', async (req, res) => {
     const dept = req.query.department;
@@ -1314,7 +1355,7 @@ app.post('/coordinator-login', async (req, res) => {
         const user = await EduUser.findOne({ username: req.body.username });
         if (user && await bcrypt.compare(req.body.password, user.password)) {
             req.session.user = user;
-            if (req.session.user.Role === "Coordinator") {
+            if (req.session.user.Role.includes("Coordinator")) {
                 res.sendFile(path.join(__dirname, 'frontend', 'coursehome.html'));
             } else {
                 res.send("Invalid User");
@@ -1382,7 +1423,7 @@ app.post('/teacher-login', async (req, res) => {
             req.session.user = user;
             const role = req.session.user.Role;
 
-            if (req.session.user.Role === "Teacher") {
+            if (req.session.user.Role.includes("Teacher")||req.session.user.Role("Coordinator")) {
                 res.sendFile(path.join(__dirname, 'frontend', 'teacherhome.html'));
             } else {
                 res.send("Invalid User");
@@ -2012,7 +2053,7 @@ app.post('/api/modules', async (req, res) => {
 
 app.post('/api/submitcot1', async (req, res) => {
     const c= req.session.user.Course+"_t1co";
-    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule',attainmentT1Schema, c);
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule',attainmentT1Schemaco, c);
     await CourseOutcomeModule.deleteMany({});
     const formData = new CourseOutcomeModule(req.body);
     try {

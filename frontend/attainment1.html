@@ -68,6 +68,7 @@
                   </div>
       
                   <ul class="menu_items submenu">
+                    <a href="/courseoutcome" class="nav_link sublink">Course Outcome</a>
                     <a href="/attainmentt1" class="nav_link sublink">T1</a>
                     <a href="/attainmentt2" class="nav_link sublink">T2</a>
                     <a href="/attainmentt3" class="nav_link sublink">T3</a>
@@ -127,56 +128,62 @@
 <table class="table" id="course_table">
     <thead>
         <tr>
-            <th>Course Code</th>
+            <th>Course Code.</th>
             <td>
-                <span id="co_code" class="form-control"></span>
+                <div class="form-group">
+                    <input type="text" id="co_code" name="co_code" class="form-control">
+                </div>
             </td>
             <th>Semester</th>
             <td>
-                <span id="sem" class="form-control"></span>
+                <div class="form-group">
+                    <input type="text" id="sem" name="sem" class="form-control">
+                </div>
             </td>
         </tr>
         <tr>
             <th>Course Name</th>
             <td colspan="3">
-                <span id="co_name" class="form-control"></span>
+                <div class="form-group">
+                    <input type="text" id="co_name" name="co_name" class="form-control">
+                </div>
             </td>
         </tr>
         <tr>
             <th>Credits</th>
             <td>
-                <span id="credits" class="form-control"></span>
+                <div class="form-group">
+                    <input type="number" id="credits" name="credits" class="form-control">
+                </div>
             </td>
             <th>Contact Hours</th>
             <td>
-                <span id="contact_hours" class="form-control"></span>
+                <div class="form-group">
+                    <input type="text" id="contact_hours" name="contact_hours" class="form-control">
+                </div>
             </td>
         </tr>
         <tr>
-            <th>NBA Code</th>
-            <td>
-                <span id="credits" class="form-control">00</span>
-            </td>
-            <th>Examination</th>
-            <td>
-                <span id="contact_hours" class="form-control">T1</span>
-            </td>
-        </tr>
-        <tr>
-            <th rowspan="2" colspan="2" class="top">Faculty (Names)</th>
+            <th rowspan="2" colspan="2"  class="top">Faculty (Names)</th> 
             <th>Faculty Coordinator</th>
             <td>
-                <span id="coordinators" class="form-control"></span>
+                <div class="form-group" >
+                    <input type="text" id="coordinators" name="coordinators" class="form-control">
+                </div>
             </td>
         </tr>
         <tr>
             <th>Teacher(s) Alphabetically</th>
             <td>
-                <span id="teacher" class="form-control"></span>
+                <div class="form-group">
+                    <input type="text" id="teacher" name="teacher" class="form-control">
+                </div>
             </td>
         </tr>
     </thead>
-    <!-- ... Your table body here ... -->
+    <tbody id="cd_data">
+        <!-- Data will be added here dynamically -->
+    </tbody>
 </table>
 
     <tbody id="cd_data">

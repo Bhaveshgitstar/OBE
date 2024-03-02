@@ -41,12 +41,16 @@ $('#deptDropdown').change(function () {
 $('#setteacherButton').click(function () {
   // Get the selected teacher IDs from the checkboxes
   const selectedSubject = $('#subjectDropdown').val();
+  const indexOfParenthesis = selectedSubject.indexOf(' ');
+  console.log(selectedSubject);
+  const partBeforeParenthesis = indexOfParenthesis !== -1 ? selectedSubject.substring(0, indexOfParenthesis).trim() : selectedSubject;
+  console.log(partBeforeParenthesis);
   const selectedTeacherIds = $('input[name="coordinatorCheckbox"]:checked').map(function() {
       return $(this).val();
   }).get();
 
   // Make an AJAX request to update the teachers as coordinators
-  $.post('/set-teachers', { name: selectedTeacherIds, courseid: selectedSubject }, function (response) {
+  $.post('/set-teachers', { name: selectedTeacherIds, courseid: partBeforeParenthesis }, function (response) {
       if (response.success) {
           alert('Teachers set as teachers successfully!');
           // You can also update the UI or perform any other actions as needed.
@@ -61,12 +65,16 @@ $('#setteacherButton').click(function () {
 $('#setCoordinatorButton').click(function () {
   // Get the selected teacher IDs from the checkboxes
   const selectedSubject = $('#subjectDropdown').val();
+  const indexOfParenthesis = selectedSubject.indexOf(' ');
+  console.log(selectedSubject);
+  const partBeforeParenthesis = indexOfParenthesis !== -1 ? selectedSubject.substring(0, indexOfParenthesis).trim() : selectedSubject;
+  console.log(partBeforeParenthesis);
   const selectedTeacherIds = $('input[name="coordinatorCheckbox"]:checked').map(function() {
       return $(this).val();
   }).get();
 
   // Make an AJAX request to update the teachers as coordinators
-  $.post('/set-coordinators', { name: selectedTeacherIds, courseid: selectedSubject }, function (response) {
+  $.post('/set-coordinators', { name: selectedTeacherIds, courseid: partBeforeParenthesis }, function (response) {
       if (response.success) {
           alert('Teachers set as coordinators successfully!');
           // You can also update the UI or perform any other actions as needed.

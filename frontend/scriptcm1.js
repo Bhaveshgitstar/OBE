@@ -80,7 +80,7 @@ $('#setCoordinatorButton').click(function () {
       // Handle the received data as needed (e.g., update the UI)
       const corData = $('#cor-data');
       console.log(data);
-
+      
       corData.empty();
       let tableHtml = '<table class="table table-bordered table-centered">';
       tableHtml += '<thead><tr>';
@@ -110,13 +110,50 @@ $('#setCoordinatorButton').click(function () {
       tableHtml += '</tbody></table>';
       tableHtml +=`<div class="row mt-3">
       <div class="centered-button">
-          <!-- Button to set selected teachers as coordinators -->
-          <button class="btn btn-success" id="setCoordinatorButton">Add New Subjects</button>
+          <button class="btn btn-success" id="addsubjects">Add New Subjects</button>
       </div>
       </div>`;
       corData.append(tableHtml);
   });
   
+});
+
+$('#savesubjects').click(function () {
+  // Get the selected teacher IDs from the checkboxes
+
+  // Make an AJAX request to update the teachers as coordinators
+  $.post('/addsubjects', { name: selectedTeacherIds, courseid: selectedSubject }, function (response) {
+      if (response.success) {
+          alert('Teachers set as coordinators successfully!');
+          // You can also update the UI or perform any other actions as needed.
+      } else {
+          alert('Failed to set teachers as coordinators.');
+      }
+  });
+});
+
+$(document).on('click', '#addsubjects', function () {
+  console.log("Hello");
+  // Get the selected teacher IDs from the checkboxes
+  const corData = $('#cor-data');
+  let tableHtml = '<table class="table table-bordered table-centered">';
+  tableHtml += '<thead><tr>';
+  tableHtml += '<th>Running Subjects</th>';
+  tableHtml += '<th>Year</th>';
+  tableHtml += '<th>Department</th>';
+  tableHtml += '<th>Credits</th>';
+  tableHtml += '<th>Contact Hours</th>';
+  tableHtml += `<th>NBA code</th>`;
+  tableHtml += '<th>Action</th></tr></thead>';
+  tableHtml += '<tbody>';
+  tableHtml += '</tbody></table>';
+  tableHtml +=`<div class="row mt-3">
+  <div class="centered-button">
+      <!-- Button to set selected teachers as coordinators -->
+      <button class="btn btn-success" id="savesubjects">Save Subjects</button>
+  </div>
+  </div>`;
+  corData.append(tableHtml);
 });
 
 

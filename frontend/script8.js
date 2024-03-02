@@ -55,7 +55,7 @@ $(document).ready(() => {
             }
         });
     }*/
-    function updateco(numQuestions, coValues){
+function updateco(numQuestions, coValues) {
         if (numQuestions !== coValues.length) {
             alert('The number of questions does not match the number of CO values provided.');
             return;
@@ -70,16 +70,15 @@ $(document).ready(() => {
             RollNo: "0", // Set default values or fetch from other inputs
             Name: "0", // Set default values or fetch from other inputs
             Batch: "0", // Set default values or fetch from other inputs
-            Total: coValues.reduce((total, mark) => total + mark, 0).toString(),
+            Total: "0", // Set default value as string
             // Dynamically create question marks
-            ...Object.fromEntries(coValues.map((mark, index) => [`Q${index + 1}`, mark.toString()])),
+            ...Object.fromEntries(coValues.map((mark, index) => [`Q${index + 1}`, mark])),
         };
     
         // Dynamically add attainment fields for each unique and sorted CO
         uniqueCOs.forEach((co, index) => {
-            data[`Attainment${index + 1}`] = co;
+            data[`Attainment${index + 1}`] = co; // CO values are already strings
         });
-    
     
         // Send the data to the server via AJAX
         $.ajax({
@@ -94,7 +93,8 @@ $(document).ready(() => {
                 console.error('Error submitting form data:', error);
             }
         });
-    }
+}
+    
     
 function updatemarks(numQuestions, marksPerQuestion,coValues){
     if (numQuestions !== marksPerQuestion.length) {
@@ -138,7 +138,8 @@ function submitForm() {
     // Get values from the form inputs
     const numQuestions = parseInt($('#numQuestions').val(), 10);
     const marksPerQuestion = $('#marksPerQuestion').val().split(',').map(mark => parseFloat(mark.trim()));
-    const coValues= $('#coValues').val().split(',').map(mark => parseFloat(mark.trim()));
+    const coValues = $('#coValues').val().split(',').map(mark => mark.trim());
+
 
     // Validate the inputs
     if (!validateInputs(numQuestions, marksPerQuestion)) {
