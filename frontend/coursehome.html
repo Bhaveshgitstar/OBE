@@ -142,121 +142,15 @@
         Page 3 <span class="tick-mark">&#10004;</span>
     </button>  -->
 
-    <div class="footer">
-        <p>Copyright © 2023 OBE Accreditation. All rights reserved.</p>
-        <p>Address: JIIT-128,Sector 128,Noida,Uttar Pradesh,India</p>
-        <p>Email: contact@example.com</p>
-    </div>
-    <div class="footer-container">
-        <section class="footer-subscription">
-            <p class="footer-subscription-heading">
-                Join our Gmail Channel for regular Updates.
-            </p>
-            <p class="footer-subscription-text">
-                You can unsubscribe at any time.
-            </p>
-            <div class="input-areas">
-                <form id="subscription-form">
-                    <input
-                        class="footer-input"
-                        name="email"
-                        type="email"
-                        placeholder="Your Email"
-                    />
-                    <button type="submit" class="btn btn--outline">Subscribe</button>
-                </form>
-            </div>
-        </section>
-        <div class="footer-links">
-            <div class="footer-link-wrapper">
-                <div class="footer-link-items">
-                    <h2>About Us</h2>
-                    <a href="/sign-up">How it works</a>
-                    <a href="/">Clients</a>
-                    <a href="/">F</a>
-                    <a href="/">Investors</a>
-                    <a href="/">Terms of Service</a>
-                </div>
-                <div class="footer-link-items">
-                    <h2>Contact Us</h2>
-                    <a href="/">Contact</a>
-                    <a href="/">Support</a>
-                    <a href="/">Destinations</a>
-                    <a href="/">Sponsorships</a>
-                </div>
-            </div>
-            <div class="footer-link-wrapper">
-                <div class="footer-link-items">
-                    <h2>Videos</h2>
-                    <a href="/">Submit Video</a>
-                    <a href="/">Ambassadors</a>
-                    <a href="/">Agency</a>
-                    <a href="/">Influencer</a>
-                </div>
-                <div class="footer-link-items">
-                    <h2>Social Media</h2>
-                    <a href="/">Instagram</a>
-                    <a href="/">Facebook</a>
-                    <a href="/">Youtube</a>
-                    <a href="/">Twitter</a>
-                </div>
-            </div>
-        </div>
-        <section class="social-media">
-            <div class="social-media-wrap">
-                <div class="footer-logo">
-                    <a href="/" class="social-logo">
-                        
-                       
-                        <i class="fab fa-typo3"></i>
-                    </a>
-                </div>
-                <small class="website-rights">OBE Accreditation © 2023</small>
-                <div class="social-icons">
-                    <a
-                        class="social-icon-link facebook"
-                        href="/"
-                        target="_blank"
-                        aria-label="Facebook"
-                    >
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a
-                        class="social-icon-link instagram"
-                        href="/"
-                        target="_blank"
-                        aria-label="Instagram"
-                    >
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a
-                        class="social-icon-link youtube"
-                        href="/"
-                        target="_blank"
-                        aria-label="Youtube"
-                    >
-                        <i class="fab fa-youtube"></i>
-                    </a>
-                    <a
-                        class="social-icon-link twitter"
-                        href="/"
-                        target="_blank"
-                        aria-label="Twitter"
-                    >
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a
-                        class="social-icon-link twitter"
-                        href="/"
-                        target="_blank"
-                        aria-label="LinkedIn"
-                    >
-                        <i class="fab fa-linkedin"></i>
-                    </a>
-                </div>
-            </div>
-        </section>
-    </div>
+    <div id="footer"></div>
+    <script>
+        // Fetch and insert the footer content
+        fetch('footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer').innerHTML = data;
+            });
+    </script>
     
     <!-- Add more buttons for additional pages as needed -->
 </div>

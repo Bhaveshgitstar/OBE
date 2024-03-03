@@ -240,7 +240,6 @@ function fetchuserrole(){
   });
 }
 
-
 function fetchcourse(){
   $.ajax({
       url: '/api/get-usercourse',
