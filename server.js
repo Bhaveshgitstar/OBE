@@ -1211,8 +1211,8 @@ app.post('/admin-login',checkSessionTimeout, async (req, res) => {
         const user = await EduUser.findOne({ username: req.body.username });
         if (user && await bcrypt.compare(req.body.password, user.password)) {
             req.session.user = user;
-            if (req.session.user.Role === "Admin") {
-                res.sendFile(path.join(__dirname, 'frontend', 'adminhome.html'));
+            if (req.session.user.Role.includes("Admin")) {
+                res.sendFile(path.join(__dirname, 'frontend', 'adminHtml/home/adminhome.html'));
             } else {
                 res.send("Invalid User");
             }
@@ -1226,7 +1226,7 @@ app.post('/admin-login',checkSessionTimeout, async (req, res) => {
 
 app.get('/adminhome',checkSessionTimeout, async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'frontend', 'adminhome.html'));
+        res.sendFile(path.join(__dirname, 'frontend', 'adminHtml/home/adminhome.html'));
            
     } catch (error) {
         res.status(500).send(error.message);
@@ -1235,7 +1235,7 @@ app.get('/adminhome',checkSessionTimeout, async (req, res) => {
 
 app.get('/coursehome',checkSessionTimeout, async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'frontend', 'coursehome.html'));
+        res.sendFile(path.join(__dirname, 'frontend', 'coordinatorHtml/home/coursehome.html'));
            
     } catch (error) {
         res.status(500).send(error.message);
@@ -1244,7 +1244,25 @@ app.get('/coursehome',checkSessionTimeout, async (req, res) => {
 
 app.get('/courseexamt1',checkSessionTimeout, async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'frontend', 'courseexam.html'));
+        const selectedSubject = req.query.subject;
+        console.log(selectedSubject);
+        res.render('/coordinatorHtml/rights/exam/courseexam', { selectedSubject });
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+app.get('courseexamt1opt',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'option/coordiantor/courseexamt1opt.html'));
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+app.get('courseexamt1teaopt',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'option/teacher/courseexamt1opt.html'));
            
     } catch (error) {
         res.status(500).send(error.message);
@@ -1253,7 +1271,25 @@ app.get('/courseexamt1',checkSessionTimeout, async (req, res) => {
 
 app.get('/courseexamt2',checkSessionTimeout, async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'frontend', 'courseexamt2.html'));
+        const selectedSubject = req.query.subject;
+        console.log(selectedSubject);
+        res.render('/coordinatorHtml/rights/exam/courseexamt2', { selectedSubject });
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+app.get('courseexamt2opt',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'option/coordiantor/courseexamt2opt.html'));
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+app.get('courseexamt2teaopt',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'option/teacher/courseexamt2opt.html'));
            
     } catch (error) {
         res.status(500).send(error.message);
@@ -1262,7 +1298,7 @@ app.get('/courseexamt2',checkSessionTimeout, async (req, res) => {
 
 app.get('/courseexamt3',checkSessionTimeout, async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'frontend', 'courseexamt3.html'));
+        res.sendFile(path.join(__dirname, 'frontend', '/coordinatorHtml/rights/exam/courseexamt3.ejs'));
            
     } catch (error) {
         res.status(500).send(error.message);
@@ -1270,7 +1306,7 @@ app.get('/courseexamt3',checkSessionTimeout, async (req, res) => {
 });
 app.get('/courseexamta',checkSessionTimeout, async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'frontend', 'courseexamta.html'));
+        res.sendFile(path.join(__dirname, 'frontend', '/coordinatorHtml/rights/exam/courseexamta.ejs'));
            
     } catch (error) {
         res.status(500).send(error.message);
@@ -1279,7 +1315,7 @@ app.get('/courseexamta',checkSessionTimeout, async (req, res) => {
 
 app.get('/teacherhome',checkSessionTimeout, async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'frontend', 'teacherhome.html'));
+        res.sendFile(path.join(__dirname, 'frontend', 'teacheHtml/home/teacherhome.html'));
            
     } catch (error) {
         res.status(500).send(error.message);
@@ -1287,7 +1323,17 @@ app.get('/teacherhome',checkSessionTimeout, async (req, res) => {
 });
 app.get('/courseoutcome',checkSessionTimeout, async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'frontend', 'course.html'));
+        const selectedSubject = req.query.subject;
+        console.log(selectedSubject);
+        res.render('coordinatorHtml/rights/co/course', { selectedSubject });
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+app.get('/courseoutcomeopt',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'options/coordinator/courseopt.html'));
            
     } catch (error) {
         res.status(500).send(error.message);
@@ -1427,7 +1473,7 @@ app.post('/coordinator-login', async (req, res) => {
         if (user && await bcrypt.compare(req.body.password, user.password)) {
             req.session.user = user;
             if (req.session.user.Role.includes("Coordinator")) {
-                res.sendFile(path.join(__dirname, 'frontend', 'coursehome.html'));
+                res.sendFile(path.join(__dirname, 'frontend', 'coordinatorHtml/home/coursehome.html'));
             } else {
                 res.send("Invalid User");
             }
@@ -1466,13 +1512,13 @@ app.post('/login', (req, res) => {
     // You can add logic here to redirect the user based on the selected role
     if (selectedRole === 'coordinator') {
         // Redirect the coordinator to their login page
-        res.sendFile(path.join(__dirname, 'frontend', 'corlogin.html'));
+        res.sendFile(path.join(__dirname, 'frontend', 'coordinatorHtml/login/corlogin.html'));
     } else if (selectedRole === 'admin') {
         // Redirect the admin to their login page
-        res.sendFile(path.join(__dirname, 'frontend', 'adminlogin.html'));
+        res.sendFile(path.join(__dirname, 'frontend', 'adminHtml/login/adminlogin.html'));
     } else if (selectedRole === 'teacher') {
         // Redirect the teacher to their login page
-        res.sendFile(path.join(__dirname, 'frontend', 'teacherlogin.html'));
+        res.sendFile(path.join(__dirname, 'frontend', 'teacherHtml/login/teacherlogin.html'));
     } else {
         // Handle invalid role selection
         res.send('Invalid role selected');
@@ -1495,7 +1541,7 @@ app.post('/teacher-login', async (req, res) => {
             const role = req.session.user.Role;
 
             if (req.session.user.Role.includes("Teacher")||req.session.user.Role("Coordinator")) {
-                res.sendFile(path.join(__dirname, 'frontend', 'teacherhome.html'));
+                res.sendFile(path.join(__dirname, 'frontend', 'teacherHtml/home/teacherhome.html'));
             } else {
                 res.send("Invalid User");
             }
@@ -1812,7 +1858,7 @@ app.get('/api/cd', async (req, res) => {
 
 app.get('/api/courses', async (req, res) => {
     try {
-        const c= req.session.user.Course;
+        const c= req.query.code;
         const course = courseOutcomeDb.model('CourseOutcomeModule', courseSchema, c);
         const modules = await course.find();
         res.json(modules);

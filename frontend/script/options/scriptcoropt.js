@@ -74,6 +74,14 @@ $('.get-data-buttont2').click(function () {
   // Redirect to the attainmentt1 page with the selectedSubject as a query parameter
   window.location.href = `/attainmentt2?subject=${encodeURIComponent(partBeforeParenthesis)}`;
 });
+$('.get-data-buttonco').click(function () {
+  const selectedSubject = $('#subjectDropdown').val();
+  const indexOfParenthesis = selectedSubject.indexOf(' ');
+  const partBeforeParenthesis = indexOfParenthesis !== -1 ? selectedSubject.substring(0, indexOfParenthesis).trim() : selectedSubject;
+
+  // Redirect to the attainmentt1 page with the selectedSubject as a query parameter
+  window.location.href = `/courseoutcome?subject=${encodeURIComponent(partBeforeParenthesis)}`;
+});
 
 
 
