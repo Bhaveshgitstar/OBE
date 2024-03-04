@@ -153,6 +153,11 @@ function confirmUpload() {
           // Handle errors here
       });
 }
+
+function confirmDownload() {  
+    const url = `/generate-sample-excel?code=${window.selectedSubject}`;
+    window.location.href = url;
+}
 function savePage() {
   const rows = $('#attainment-data tr'); // Replace '.row-class' with your actual row selector
 

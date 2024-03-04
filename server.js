@@ -9,6 +9,7 @@ const session = require('express-session');
 const MongoDBSession = require('connect-mongodb-session')(session);
 const fs = require('fs');
 const svgCaptcha = require('svg-captcha');
+const excel = require('exceljs');
 
 const app = express();
 // Set EJS as the view engine
@@ -1344,7 +1345,7 @@ app.get('/attainmentt1',checkSessionTimeout, async (req, res) => {
     try {
         const selectedSubject = req.query.subject;
         console.log(selectedSubject);
-        res.render('attainment1', { selectedSubject });
+        res.render('teacherHtml/exam/attainment1', { selectedSubject });
            
     } catch (error) {
         res.status(500).send(error.message);
@@ -1352,7 +1353,15 @@ app.get('/attainmentt1',checkSessionTimeout, async (req, res) => {
 });
 app.get('/attainmentt1opt',checkSessionTimeout, async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'frontend', 'options/attainmentt1opt.html'));
+        res.sendFile(path.join(__dirname, 'frontend', 'options/coordinator/attainmentt1opt.html'));
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+app.get('/attainmentt1teaopt',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'options/teacher/attainmentt1opt.html'));
            
     } catch (error) {
         res.status(500).send(error.message);

@@ -149,6 +149,10 @@ function confirmUpload() {
           // Handle errors here
       });
 }
+function confirmDownload() {  
+    const url = `/generate-sample-excelt2?code=${window.selectedSubject}`;
+    window.location.href = url;
+}
 
 function updateRowat(recordId, row) {
   const cells = row.find('td');
