@@ -158,7 +158,7 @@ function confirmUpload() {
   const formData = new FormData();
   formData.append('file', fileInput.files[0]);
 
-  fetch('/uploadt3', {
+  fetch(`/uploadt3?code=${window.selectedSubject}`, {
       method: 'POST',
       body: formData,
   })

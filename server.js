@@ -1440,7 +1440,7 @@ app.get('/attainmentta',checkSessionTimeout, async (req, res) => {
     try {
         const selectedSubject = req.query.subject;
         console.log(selectedSubject);
-        res.render('attainmenta', { selectedSubject });
+        res.render('teacherHtml/exam/attainmenta', { selectedSubject });
            
     } catch (error) {
         res.status(500).send(error.message);
@@ -1448,7 +1448,15 @@ app.get('/attainmentta',checkSessionTimeout, async (req, res) => {
 });
 app.get('/attainmenttaopt',checkSessionTimeout, async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'frontend', 'options/attainmenttaopt.html'));
+        res.sendFile(path.join(__dirname, 'frontend', 'options/coordinator/attainmenttaopt.html'));
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+app.get('/attainmenttateaopt',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'options/teacher/attainmenttaopt.html'));
            
     } catch (error) {
         res.status(500).send(error.message);
