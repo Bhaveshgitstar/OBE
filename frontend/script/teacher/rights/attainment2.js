@@ -7,6 +7,7 @@ $(document).ready(() => {
   .then(fetchT1CO)
   .then(fetchT1CO2)
   .then(fetchT1attainmentData2)
+  .then(savePage)
   .catch(function(error) {
       console.error('Error:', error);
   });
@@ -154,132 +155,259 @@ function confirmDownload() {
     window.location.href = url;
 }
 
-function updateRowat(recordId, row) {
-  const cells = row.find('td');
-  const updatedData = {
-      ModuleNo: parseInt(cells.eq(0).text()),
-      RollNo: cells.eq(1).text(),
-      Name: cells.eq(2).text(),
-      Batch: cells.eq(3).text()
-  };
+function updateRow(recordId, row) {
+    const cells = row.find('td');
+    const updatedData = {
+        ModuleNo: parseInt(cells.eq(0).text()),
+        RollNo: cells.eq(1).text(),
+        Name: cells.eq(2).text(),
+        Batch: cells.eq(3).text()
+    };
+    
   
-
-  const qIndices = [];
-  let coIndices = [];
-  let atIndices = [];
-  coIndices = fetchcoIndices(coIndices);
-  console.log(coIndices);
-  atIndices = fetchatindices(atIndices);
-  console.log(atIndices);
-  let qmarks = [];
-  qmarks = fetchmarks(qmarks);
-  console.log(qmarks);
-  const qValues = [];
-
-  const headerCells = $('#attainment-data thead th');
-  let totalIndex = headerCells.length; // Default to the length of the header cells
-  headerCells.each(function(index) {
-      if ($(this).text().trim() === "Total") {
-          totalIndex = index;
-          return false; // Break out of the loop
-      }
+    const qIndices = [];
+    let coIndices = [];
+    let atIndices = [];
+    coIndices = fetchcoIndices(coIndices);
+    console.log(coIndices);
+    atIndices = fetchatindices(atIndices);
+    console.log(atIndices);
+    let qmarks = [];
+    qmarks = fetchmarks(qmarks);
+    console.log(qmarks);
+    const qValues = [];
+  
+    const headerCells = $('#attainment-data thead th');
+    let totalIndex = headerCells.length; // Default to the length of the header cells
+    headerCells.each(function(index) {
+        if ($(this).text().trim() === "Total") {
+            totalIndex = index;
+            return false; // Break out of the loop
+        }
+    });
+    console.log(totalIndex);
+    
+    for (let i = 4; i <totalIndex; i++) {
+        const cellText = cells.eq(i).text().trim();
+        qIndices.push(i);
+        qValues.push(cellText);
+    }
+    
+    const containsAOrQuestionMark = qValues.some(value => value === "A");
+    
+    // Initialize at1 to atn with zeros
+    const at = Array(atIndices.length).fill(0);
+    const marks = Array(atIndices.length).fill(0);
+   
+    // Calculate at1 to atn only when coIndices and atIndices match
+    for (let i = 0; i < atIndices.length; i++) {
+        const atIndex = atIndices[i];
+        let atValue=0.0;
+        let atmarks=0.0;
+    
+        // Check if coIndices has a corresponding entry and it matches
+        for (let j = 4; j < cells.length - 4; j++) {
+        if (coIndices[j-4] === atIndex) {
+            console.log(coIndices[j-4]);
+            console.log(atIndex);
+           atValue+=parseFloat(qValues[j-4]||0);
+           atmarks+=parseFloat(qmarks[j-4]||0);
+        }
+        console.log(atValue);
+        console.log(atmarks);
+        at[i] = atValue;
+        marks[i]=atmarks;
+    }
+    }
+    // ... [previous code remains unchanged]
+  
+  // Calculate attainment values dynamically
+  const attainmentValues = [];
+  if (!containsAOrQuestionMark) {
+    for (let i = 0; i < atIndices.length; i++) {
+        attainmentValues.push(((at[i] / marks[i]) * 100).toFixed(1));
+    }
+  } else {
+    for (let i = 0; i < atIndices.length; i++) {
+        attainmentValues.push(0);
+    }
+  }
+  
+  // Update the UI with new attainment values
+  attainmentValues.forEach((attainment, index) => {
+    cells.eq(cells.length - atIndices.length - 1 + index).text(attainment);
   });
-  console.log(totalIndex);
   
-  for (let i = 4; i <totalIndex; i++) {
-      const cellText = cells.eq(i).text().trim();
-      qIndices.push(i);
-      qValues.push(cellText);
-  }
+  const total = qIndices.reduce((acc, index) => {
+    const qValue = parseFloat(cells.eq(index).text());
+    return isNaN(qValue) ? acc : acc + qValue;
+  }, 0);
   
-  const containsAOrQuestionMark = qValues.some(value => value === "A");
   
-  // Initialize at1 to atn with zeros
-  const at = Array(atIndices.length).fill(0);
-  const marks = Array(atIndices.length).fill(0);
- 
-  // Calculate at1 to atn only when coIndices and atIndices match
-  for (let i = 0; i < atIndices.length; i++) {
-      const atIndex = atIndices[i];
-      let atValue=0.0;
-      let atmarks=0.0;
-  
-      // Check if coIndices has a corresponding entry and it matches
-      for (let j = 4; j < cells.length - 4; j++) {
-      if (coIndices[j-4] === atIndex) {
-          console.log(coIndices[j-4]);
-          console.log(atIndex);
-         atValue+=parseFloat(qValues[j-4]||0);
-         atmarks+=parseFloat(qmarks[j-4]||0);
-      }
-      console.log(atValue);
-      console.log(atmarks);
-      at[i] = atValue;
-      marks[i]=atmarks;
-  }
-  }
-  // ... [previous code remains unchanged]
-
-// Calculate attainment values dynamically
-const attainmentValues = [];
-if (!containsAOrQuestionMark) {
-  for (let i = 0; i < atIndices.length; i++) {
-      attainmentValues.push(((at[i] / marks[i]) * 100).toFixed(1));
-  }
-} else {
-  for (let i = 0; i < atIndices.length; i++) {
-      attainmentValues.push(0);
-  }
-}
-
-// Update the UI with new attainment values
-attainmentValues.forEach((attainment, index) => {
-  cells.eq(cells.length - atIndices.length - 1 + index).text(attainment);
-});
-
-const total = qIndices.reduce((acc, index) => {
-  const qValue = parseFloat(cells.eq(index).text());
-  return isNaN(qValue) ? acc : acc + qValue;
-}, 0);
-
-
-// Update the UI with new values
-cells.eq(totalIndex).text(total);
-// Update the Total and Attainment values in the updatedData object
-updatedData.Total = total;
-attainmentValues.forEach((attainment, index) => {
-  updatedData[`Attainment${index + 1}`] = parseFloat(attainment);
-});
-
-
-  $.ajax({
-      url: `/api/t2attainment/${recordId}?code=${window.selectedSubject}`, // Update the URL to match your Express route for T1attainment data
-      type: 'PUT',
-      dataType: 'json',
-      contentType: 'application/json',
-      data: JSON.stringify(updatedData),
-      success: function(response) {
-          console.log('Data updated successfully:', response);
-          fetchT1attainmentData()
-          .then(fetchT1CO)
-          .then(fetchT1CO2)
-          .then(fetchT1attainmentData2)
-          .catch(function(error) {
-              console.error('Error:', error);
-          });
-          row.find('.q-input').trigger('input');
-      },
-      error: function(error) {
-          console.error('Error updating data:', error);
-      }
+  // Update the UI with new values
+  cells.eq(totalIndex).text(total);
+  // Update the Total and Attainment values in the updatedData object
+  qValues.forEach((qValues, index) => {
+    updatedData[`Q${index + 1}`] = parseFloat(qValues);
   });
-
-  // Restore UI state
-  cells.attr('contenteditable', 'false');
-  row.find('.save-buttonuat').hide();
-  row.find('.update-buttonat').show();
-  row.find('.delete-buttonat').show();
-}
+  updatedData.Total = total;
+  
+  attainmentValues.forEach((attainment, index) => {
+    updatedData[`Attainment${index + 1}`] = parseFloat(attainment);
+  });
+  
+  
+    $.ajax({
+        url: `/api/t2attainment/${recordId}?code=${window.selectedSubject}`, // Update the URL to match your Express route for T1attainment data
+        type: 'PUT',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(updatedData),
+        success: function(response) {
+            console.log('Data updated successfully:', response);
+            row.find('.q-input').trigger('input');
+        },
+        error: function(error) {
+            console.error('Error updating data:', error);
+        }
+    });
+  
+    // Restore UI state
+    cells.attr('contenteditable', 'false');
+    row.find('.save-buttonuat').hide();
+    row.find('.update-buttonat').show();
+    row.find('.delete-buttonat').show();
+  }
+  function updateRowat(recordId, row) {
+    const cells = row.find('td');
+    const updatedData = {
+        ModuleNo: parseInt(cells.eq(0).text()),
+        RollNo: cells.eq(1).text(),
+        Name: cells.eq(2).text(),
+        Batch: cells.eq(3).text()
+    };
+    
+  
+    const qIndices = [];
+    let coIndices = [];
+    let atIndices = [];
+    coIndices = fetchcoIndices(coIndices);
+    console.log(coIndices);
+    atIndices = fetchatindices(atIndices);
+    console.log(atIndices);
+    let qmarks = [];
+    qmarks = fetchmarks(qmarks);
+    console.log(qmarks);
+    const qValues = [];
+  
+    const headerCells = $('#attainment-data thead th');
+    let totalIndex = headerCells.length; // Default to the length of the header cells
+    headerCells.each(function(index) {
+        if ($(this).text().trim() === "Total") {
+            totalIndex = index;
+            return false; // Break out of the loop
+        }
+    });
+    console.log(totalIndex);
+    
+    for (let i = 4; i <totalIndex; i++) {
+        const cellText = cells.eq(i).text().trim();
+        qIndices.push(i);
+        qValues.push(cellText);
+    }
+    
+    const containsAOrQuestionMark = qValues.some(value => value === "A");
+    
+    // Initialize at1 to atn with zeros
+    const at = Array(atIndices.length).fill(0);
+    const marks = Array(atIndices.length).fill(0);
+   
+    // Calculate at1 to atn only when coIndices and atIndices match
+    for (let i = 0; i < atIndices.length; i++) {
+        const atIndex = atIndices[i];
+        let atValue=0.0;
+        let atmarks=0.0;
+    
+        // Check if coIndices has a corresponding entry and it matches
+        for (let j = 4; j < cells.length - 4; j++) {
+        if (coIndices[j-4] === atIndex) {
+            console.log(coIndices[j-4]);
+            console.log(atIndex);
+           atValue+=parseFloat(qValues[j-4]||0);
+           atmarks+=parseFloat(qmarks[j-4]||0);
+        }
+        console.log(atValue);
+        console.log(atmarks);
+        at[i] = atValue;
+        marks[i]=atmarks;
+    }
+    }
+    // ... [previous code remains unchanged]
+  
+  // Calculate attainment values dynamically
+  const attainmentValues = [];
+  if (!containsAOrQuestionMark) {
+    for (let i = 0; i < atIndices.length; i++) {
+        attainmentValues.push(((at[i] / marks[i]) * 100).toFixed(1));
+    }
+  } else {
+    for (let i = 0; i < atIndices.length; i++) {
+        attainmentValues.push(0);
+    }
+  }
+  
+  // Update the UI with new attainment values
+  attainmentValues.forEach((attainment, index) => {
+    cells.eq(cells.length - atIndices.length - 1 + index).text(attainment);
+  });
+  
+  const total = qIndices.reduce((acc, index) => {
+    const qValue = parseFloat(cells.eq(index).text());
+    return isNaN(qValue) ? acc : acc + qValue;
+  }, 0);
+  
+  
+  // Update the UI with new values
+  cells.eq(totalIndex).text(total);
+  // Update the Total and Attainment values in the updatedData object
+  qValues.forEach((qValues, index) => {
+    updatedData[`Q${index + 1}`] = parseFloat(qValues);
+  });
+  updatedData.Total = total;
+  
+  attainmentValues.forEach((attainment, index) => {
+    updatedData[`Attainment${index + 1}`] = parseFloat(attainment);
+  });
+  
+  
+    $.ajax({
+        url: `/api/t2attainment/${recordId}?code=${window.selectedSubject}`, // Update the URL to match your Express route for T1attainment data
+        type: 'PUT',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(updatedData),
+        success: function(response) {
+            console.log('Data updated successfully:', response);
+            fetchT1attainmentData()
+            .then(fetchT1CO)
+            .then(fetchT1CO2)
+            .then(fetchT1attainmentData2)
+            .catch(function(error) {
+                console.error('Error:', error);
+            });
+            row.find('.q-input').trigger('input');
+        },
+        error: function(error) {
+            console.error('Error updating data:', error);
+        }
+    });
+  
+    // Restore UI state
+    cells.attr('contenteditable', 'false');
+    row.find('.save-buttonuat').hide();
+    row.find('.update-buttonat').show();
+    row.find('.delete-buttonat').show();
+  }
 
 function deleteRowat(moduleId) {
   $.ajax({
@@ -1107,19 +1235,29 @@ function fetchcoIndices(coIndices){
   return coIndices;
 
 }
-function savePage(){
-  const rows = $('#attainment-data tr'); // Replace '.row-class' with your actual row selector
+function savePage() {
+    const rows = $('#attainment-data tr'); // Replace '.row-class' with your actual row selector
   
-  // Assuming you want to start updating from the 4th row onwards
-  for (let i = 3; i < rows.length; i++) {
-      const row= rows[i];
-
-      const recordId = row.getAttribute('data-record-id'); // Extract the record ID from the row, if applicable
-      updateRowat(recordId, $(row)); // Call updateRowat function for each row starting from the 4th row
+    // Create an array to store promises
+    const promises = [];
+  
+    // Assuming you want to start updating from the 4th row onwards
+    for (let i = 3; i < rows.length-6; i++) {
+        const row = rows[i];
+        const recordId = row.getAttribute('data-record-id'); // Extract the record ID from the row, if applicable
+        promises.push(updateRow(recordId, $(row))); // Push the promise returned by updateRowat into the array
+    }
+  
+    // Wait for all promises to resolve
+    Promise.all(promises)
+        .then(() => {
+            // Reload the page after all promises have resolved
+        })
+        .catch(error => {
+            console.error('An error occurred:', error);
+            // Handle the error if necessary
+        });
   }
-  location.reload();
-
-}
 function fetchmarks(qmarks){
   const rows = $('#attainment-data tr');
   const row=rows.eq(2);

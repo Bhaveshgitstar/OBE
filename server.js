@@ -132,6 +132,22 @@ const cdSchema = new mongoose.Schema(
     { versionKey: false }
 );
 
+const bookEntrySchema = new mongoose.Schema(
+    {
+        Sr_No : Number,
+        Detail : String
+    },
+    { versionKey: false }
+);
+
+const refBookEntrySchema = new mongoose.Schema(
+    {
+        Sr_No : Number,
+        Detail : String
+    },
+    { versionKey: false }
+);
+
 const attainmentT1Schema = new mongoose.Schema(
     {
         ModuleNo: String,
@@ -477,7 +493,7 @@ app.get('/generate-sample-excelt2', async (req, res) => {
 app.get('/generate-sample-excelt3', async (req, res) => {
     try {
         const c= req.query.code+"_t3co";
-        const AttainmentModel = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
+        const AttainmentModel = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
         const firstDocument = await AttainmentModel.findOne();
 
         if (!firstDocument) {
@@ -1881,6 +1897,29 @@ app.get('/api/cd', async (req, res) => {
     }
 });
 
+app.get('/api/bookEntry', async (req, res) => {
+    try {
+        const c= req.query.code+"_book";
+        const cd = courseOutcomeDb.model('CourseOutcomeModule', bookEntrySchema, c);
+        const modules = await cd.find();
+        res.json(modules);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ error: 'Error fetching data' });
+    }
+});
+app.get('/api/refBookEntry', async (req, res) => {
+    try {
+        const c= req.query.code+"_refBook";
+        const cd = courseOutcomeDb.model('CourseOutcomeModule', refBookEntrySchema, c);
+        const modules = await cd.find();
+        res.json(modules);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ error: 'Error fetching data' });
+    }
+});
+
 app.get('/api/courses', async (req, res) => {
     try {
         const c= req.query.code;
@@ -2305,6 +2344,33 @@ app.post('/api/submitmarksta', async (req, res) => {
     // const { ModuleNo, ModuleTitle, Topics, NoOfLectures } = req.body;
     const c= req.query.code;
     const course = courseOutcomeDb.model('CourseOutcomeModule', courseSchema, c);
+    const newModule = new course(req.body);
+     try {
+         await newModule.save();
+         res.json(newModule);
+     } catch (error) {
+         console.error('Error saving data:', error);
+         res.status(500).json({ error: 'Error saving data' });
+     }
+ });
+ app.post('/api/bookEntry', async (req, res) => {
+    // const { ModuleNo, ModuleTitle, Topics, NoOfLectures } = req.body;
+    const c= req.query.code+"_book";
+    const course = courseOutcomeDb.model('CourseOutcomeModule', bookEntrySchema, c);
+    const newModule = new course(req.body);
+     try {
+         await newModule.save();
+         res.json(newModule);
+     } catch (error) {
+         console.error('Error saving data:', error);
+         res.status(500).json({ error: 'Error saving data' });
+     }
+ });
+
+ app.post('/api/refBookEntry', async (req, res) => {
+    // const { ModuleNo, ModuleTitle, Topics, NoOfLectures } = req.body;
+    const c= req.query.code+"_refBook";
+    const course = courseOutcomeDb.model('CourseOutcomeModule', refBookEntrySchema, c);
     const newModule = new course(req.body);
      try {
          await newModule.save();

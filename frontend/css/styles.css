@@ -635,6 +635,15 @@ body.dark {
     .custom-table th:last-child {
         display: none;
     }
+
+    #book-data td:last-child,
+    #book-data th:last-child {
+        display: none;
+    }
+    #refBook-data td:last-child,
+    #refBook-data th:last-child {
+        display: none;
+    }
     .table {
         width: 10%;
         /* Adjust the width as needed */
@@ -672,6 +681,7 @@ body.dark {
     .update-button {
         display: none;
     }
+
     .update-buttonat {
         display: none;
     }

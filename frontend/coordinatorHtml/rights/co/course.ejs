@@ -257,7 +257,7 @@
     </div>
     <table class="table" id="co_table">
         <tr>
-          <th>Components</th>
+          <th>Evaluation Criteria</th>
           <th>Maximum Marks</th>
         </tr>
         <tr>
@@ -288,6 +288,43 @@
           <td id="Total">&nbsp;&nbsp;&nbsp;100</td>
         </tr>
       </table>
+      <table class="table" id="book-data">
+        <thead>
+        <tr>
+            <td colspan="3">
+                <p><strong>Recommended Reading Material:</strong> Author(s), Title, Edition, Publisher, Year of Publication etc. (Text Books, Reference Books, Journals, Reports, Websites etc. in IEEE format)</p>
+            </td>
+        </tr>
+        <tr>
+            <th>Sr.No.</th>
+            <th>Text Book(s)</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+        <tbody><tbody id="book_data"></tbody></tbody>
+      </table>
+      <div class="table-buttons text-end mt-3">
+        <button class="btn btn-info add-row-button-book">Add New Row</button>
+        <button class="btn btn-info save-button-book">Save</button>
+    </div>
+
+    <table class="table" id="refBook-data">
+        <thead>
+        <tr>
+            <th>Sr.No.</th>
+            <th>Reference Book(s)</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+        <tbody>
+        <tbody id="refBook_data">
+            <!-- Data will be added here dynamically -->
+        </tbody></tbody>
+      </table>
+      <div class="table-buttons text-end mt-3">
+        <button class="btn btn-info add-row-button-refBook">Add New Row</button>
+        <button class="btn btn-info save-button-refBook">Save</button>
+    </div>
         <!-- <div class="reference-material">
             <h5>Recommended Reading Material</h5>
             <ul class="list-group">

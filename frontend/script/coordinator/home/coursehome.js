@@ -10,6 +10,8 @@ $(document).ready(() => {
     fetchcourse();
     fetchuserrole();
     fetchcdData();
+    fetchBookData();
+    fetchrefBookData();
     updateTotalLectures();
 
 const body = document.querySelector("body");
@@ -28,6 +30,13 @@ sidebarOpen.addEventListener("click", () => sidebar.classList.toggle("close"));
         addEmptyRow();
     });
 
+    $('.add-row-button-book').click(() => {
+        addEmptyRowBook();
+    });
+    $('.add-row-button-refBook').click(() => {
+        addEmptyRowrefBook();
+    });
+
     $('.add-row-buttonco').click(() => {
         addEmptyRow2();
     });
@@ -37,6 +46,13 @@ sidebarOpen.addEventListener("click", () => sidebar.classList.toggle("close"));
         saveDataToServer();
     });
 
+    $('.save-button-book').click(() => {
+        saveDataToServerBook();
+    });
+
+    $('.save-button-refBook').click(() => {
+        saveDataToServerrefBook();
+    });
     
     $('.save-buttonco').click(() => {
         saveDataToServerco();
@@ -431,6 +447,66 @@ function fetchCourseData() {
     });
 }
 
+function fetchBookData() {
+    $.ajax({
+        url: `/api/bookEntry?code=${window.selectedSubject}`, // Change this URL to match your Express route for courses
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            console.log(data);
+            const courseData = $('#book_data');
+            courseData.empty(); // Clear existing table data
+            data.forEach(module => {
+                const row = `
+                    <tr data-module-id="${module._id}">
+                        <td>${module.Sr_No}</td>
+                        <td>${module.Detail}</td>
+                        <td class="action-buttons">
+                        <button class="btn btn-info update-button-book">Edit</button>
+                        <button class="btn btn-danger delete-button-book">Delete</button>
+                        <button class="btn btn-primary save-buttonu-book" style="display: none;">Save</button>
+                    </td>
+                    </tr>
+                `;
+                courseData.append(row);
+            });
+        
+        },
+        error: function (error) {
+            console.error('Error fetching course data:', error);
+        }
+    });
+}
+function fetchrefBookData() {
+    $.ajax({
+        url: `/api/refBookEntry?code=${window.selectedSubject}`, // Change this URL to match your Express route for courses
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            console.log(data);
+            const courseData = $('#refBook_data');
+            courseData.empty(); // Clear existing table data
+            data.forEach(module => {
+                const row = `
+                    <tr data-module-id="${module._id}">
+                        <td>${module.Sr_No}</td>
+                        <td>${module.Detail}</td>
+                        <td class="action-buttons">
+                        <button class="btn btn-info update-button-refBook">Edit</button>
+                        <button class="btn btn-danger delete-button-refBook">Delete</button>
+                        <button class="btn btn-primary save-buttonu-refBook" style="display: none;">Save</button>
+                    </td>
+                    </tr>
+                `;
+                courseData.append(row);
+            });
+        
+        },
+        error: function (error) {
+            console.error('Error fetching course data:', error);
+        }
+    });
+}
 // Update the references to these functions in your event handlers
 /*$(document).ready(() => {
     fetchSyllabusData(); // Fetch syllabus data
@@ -459,6 +535,7 @@ let newModuleNo1=0;
 
 
 function addEmptyRow2() {
+
     const emptyRow = `
         <tr>
             <td contenteditable="true"></td>
@@ -482,6 +559,36 @@ function addEmptyRow2() {
         </tr>
     `;
     $('#co_data').append(emptyRow);
+}
+function addEmptyRowBook() {
+    const rows = $('#book_data tr');
+    const lastRow = rows.last(); // Get the last row
+    const cells = lastRow.find('td');
+    const lastModuleNo = parseInt(rows.eq(rows.length - 1).find('td').eq(0).text()) || 0;
+    newModuleNo1=lastModuleNo;
+    const newModuleNo = lastModuleNo + 1;
+    const emptyRow = `
+        <tr>
+            <td contenteditable="false">${newModuleNo}</td>
+            <td contenteditable="true"></td>
+        </tr>
+    `;
+    $('#book_data').append(emptyRow);
+}
+function addEmptyRowrefBook() {
+    const rows = $('#refBook_data tr');
+    const lastRow = rows.last(); // Get the last row
+    const cells = lastRow.find('td');
+    const lastModuleNo = parseInt(rows.eq(rows.length - 1).find('td').eq(0).text()) || 0;
+    newModuleNo1=lastModuleNo;
+    const newModuleNo = lastModuleNo + 1;
+    const emptyRow = `
+        <tr>
+            <td contenteditable="false">${newModuleNo}</td>
+            <td contenteditable="true"></td>
+        </tr>
+    `;
+    $('#refBook_data').append(emptyRow);
 }
 
 
@@ -541,6 +648,69 @@ function saveDataToServerco() {
 
     $.ajax({
         url: `/api/courses?code=${window.selectedSubject}`, // Change this URL to match your Express route
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(newData),
+        success: function (response) {
+            console.log('Data saved successfully:', response);
+            fetchCourseData(); // Refresh table with updated data
+        },
+        
+        error: function (error) {
+            console.error('Error saving data:', error);
+        }
+    });
+}
+
+function saveDataToServerrefBook() {
+    const rows = $('#refBook-data tr');
+    const lastRow = rows.last(); // Get the last added row
+    const cells = lastRow.find('td');
+
+
+    const newData = {
+        Sr_No:  parseInt(cells.eq(0).text()),
+        Detail: cells.eq(1).text()
+
+    };
+
+    $.ajax({
+        url: `/api/refBookEntry?code=${window.selectedSubject}`, // Change this URL to match your Express route
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(newData),
+        success: function (response) {
+            console.log('Data saved successfully:', response);
+            fetchCourseData(); // Refresh table with updated data
+        },
+        
+        error: function (error) {
+            console.error('Error saving data:', error);
+        }
+    });
+}
+
+function saveDataToServerBook() {
+    const rows = $('#book_data tr');
+    const lastRow = rows.last(); // Get the last added row
+    const cells = lastRow.find('td');
+    const lastModuleNo = newModuleNo1;
+   // const lastModuleNo = parseInt(rows.eq(rows.length - 2).find('td').eq(0).text()) || 6 ;// Get the last Module No. or 0 if none exists
+    const newModuleNo = lastModuleNo + 1;
+
+    cells.eq(0).text(newModuleNo);
+
+
+    const newData = {
+        Sr_No:  newModuleNo,
+        Detail: cells.eq(1).text()
+
+    };
+
+    $.ajax({
+        url: `/api/bookEntry?code=${window.selectedSubject}`, // Change this URL to match your Express route
         type: 'POST',
         dataType: 'json',
         contentType: 'application/json',
