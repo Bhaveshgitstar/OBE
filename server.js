@@ -1263,21 +1263,20 @@ app.get('/courseexamt1',checkSessionTimeout, async (req, res) => {
     try {
         const selectedSubject = req.query.subject;
         console.log(selectedSubject);
-        res.render('/coordinatorHtml/rights/exam/courseexam', { selectedSubject });
-           
+        res.render('coordinatorHtml/rights/exam/courseexam', { selectedSubject });
     } catch (error) {
         res.status(500).send(error.message);
     }
 });
-app.get('courseexamt1opt',checkSessionTimeout, async (req, res) => {
+app.get('/courseexamt1opt',checkSessionTimeout, async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'frontend', 'option/coordiantor/courseexamt1opt.html'));
+        res.sendFile(path.join(__dirname, 'frontend', 'options/coordinator/courseexamt1opt.html'));
            
     } catch (error) {
         res.status(500).send(error.message);
     }
 });
-app.get('courseexamt1teaopt',checkSessionTimeout, async (req, res) => {
+app.get('/courseexamt1teaopt',checkSessionTimeout, async (req, res) => {
     try {
         res.sendFile(path.join(__dirname, 'frontend', 'option/teacher/courseexamt1opt.html'));
            
@@ -1296,17 +1295,17 @@ app.get('/courseexamt2',checkSessionTimeout, async (req, res) => {
         res.status(500).send(error.message);
     }
 });
-app.get('courseexamt2opt',checkSessionTimeout, async (req, res) => {
+app.get('/courseexamt2opt',checkSessionTimeout, async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'frontend', 'option/coordiantor/courseexamt2opt.html'));
+        res.sendFile(path.join(__dirname, 'frontend', 'options/coordinator/courseexamt2opt.html'));
            
     } catch (error) {
         res.status(500).send(error.message);
     }
 });
-app.get('courseexamt2teaopt',checkSessionTimeout, async (req, res) => {
+app.get('/courseexamt2teaopt',checkSessionTimeout, async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'frontend', 'option/teacher/courseexamt2opt.html'));
+        res.sendFile(path.join(__dirname, 'frontend', 'options/teacher/courseexamt1teaopt.html'));
            
     } catch (error) {
         res.status(500).send(error.message);
@@ -1315,7 +1314,17 @@ app.get('courseexamt2teaopt',checkSessionTimeout, async (req, res) => {
 
 app.get('/courseexamt3',checkSessionTimeout, async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'frontend', '/coordinatorHtml/rights/exam/courseexamt3.ejs'));
+        const selectedSubject = req.query.subject;
+        console.log(selectedSubject);
+        res.render('/coordinatorHtml/rights/exam/courseexamt3', { selectedSubject });
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+app.get('/courseexamt3opt',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'options/coordinator/courseexamt3opt.html'));
            
     } catch (error) {
         res.status(500).send(error.message);
@@ -1323,13 +1332,22 @@ app.get('/courseexamt3',checkSessionTimeout, async (req, res) => {
 });
 app.get('/courseexamta',checkSessionTimeout, async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'frontend', '/coordinatorHtml/rights/exam/courseexamta.ejs'));
+        const selectedSubject = req.query.subject;
+        console.log(selectedSubject);
+        res.render('/coordinatorHtml/rights/exam/courseexamta', { selectedSubject });
            
     } catch (error) {
         res.status(500).send(error.message);
     }
 });
-
+app.get('/courseexamtaopt',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'options/coordinator/courseexamtaopt.html'));
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
 app.get('/teacherhome',checkSessionTimeout, async (req, res) => {
     try {
         res.sendFile(path.join(__dirname, 'frontend', 'teacheHtml/home/teacherhome.html'));
