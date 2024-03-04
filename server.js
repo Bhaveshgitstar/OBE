@@ -9,10 +9,12 @@ const session = require('express-session');
 const MongoDBSession = require('connect-mongodb-session')(session);
 const fs = require('fs');
 const svgCaptcha = require('svg-captcha');
-const excel = require('exceljs');
-
 
 const app = express();
+// Set EJS as the view engine
+app.set('view engine', 'ejs');
+// Specify the directory where your views/templates are located
+app.set('views', path.join(__dirname, 'frontend'));
 app.use(bodyParser.json());
 
 // Establish the connection to the educational_platform database
@@ -65,7 +67,7 @@ const eduUserSchema = new mongoose.Schema({
     password: String,
     User: String,
     Role: Array,
-    Course: String,
+    Course: Array,
     Department:String
 
 });
@@ -297,7 +299,7 @@ function isValidNumber(value) {
 
 app.get('/generate-sample-excel', async (req, res) => {
     try {
-        const c= req.session.user.Course+"_t1co";
+        const c= req.query.code+"_t1co";
         const AttainmentModel = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
         const firstDocument = await AttainmentModel.findOne();
 
@@ -385,7 +387,7 @@ app.get('/generate-sample-excel', async (req, res) => {
 });
 app.get('/generate-sample-excelt2', async (req, res) => {
     try {
-        const c= req.session.user.Course+"_t2co";
+        const c= req.query.code+"_t2co";
         const AttainmentModel = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
         const firstDocument = await AttainmentModel.findOne();
 
@@ -473,7 +475,7 @@ app.get('/generate-sample-excelt2', async (req, res) => {
 });
 app.get('/generate-sample-excelt3', async (req, res) => {
     try {
-        const c= req.session.user.Course+"_t3co";
+        const c= req.query.code+"_t3co";
         const AttainmentModel = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
         const firstDocument = await AttainmentModel.findOne();
 
@@ -561,7 +563,7 @@ app.get('/generate-sample-excelt3', async (req, res) => {
 });
 app.get('/generate-sample-excelta', async (req, res) => {
     try {
-        const c= req.session.user.Course+"_taco";
+        const c= req.query.code+"_taco";
         const AttainmentModel = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
         const firstDocument = await AttainmentModel.findOne();
 
@@ -648,7 +650,7 @@ app.get('/generate-sample-excelta', async (req, res) => {
     }
 });
 app.post('/upload', upload.single('file'), (req, res) => {
-    const c= req.session.user.Course+"_at";
+    const c= req.query.code+"_at";
     readXlsxFile(req.file.path)
         .then(async (rows) => {
             try {
@@ -736,7 +738,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
 
 
 app.post('/uploadt2', upload.single('file'), (req, res) => {
-    const c= req.session.user.Course+"_at2";
+    const c= req.query.code+"_at2";
     readXlsxFile(req.file.path)
         .then(async (rows) => {
             try {
@@ -823,7 +825,7 @@ app.post('/uploadt2', upload.single('file'), (req, res) => {
 });
 
 app.post('/uploadt3', upload.single('file'), (req, res) => {
-    const c= req.session.user.Course+"_at3";
+    const c= req.query.code+"_at3";
     readXlsxFile(req.file.path)
         .then(async (rows) => {
             try {
@@ -909,7 +911,7 @@ app.post('/uploadt3', upload.single('file'), (req, res) => {
         });
 });
 app.post('/uploadta', upload.single('file'), (req, res) => {
-    const c= req.session.user.Course+"_ata";
+    const c= req.query.code+"_ata";
     readXlsxFile(req.file.path)
         .then(async (rows) => {
             try {
@@ -1009,6 +1011,23 @@ app.get('/subjects', async(req, res) => {
         });
 
         res.json(subjectOptions); // Send the subject options as a JSON response
+    } catch (error) {
+        console.error('Error fetching subjects:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+app.get('/subjectsopt', async(req, res) => {
+    //const selectedYear = parseInt(req.query.year, 10); // Parse the query parameter as an integer
+    const username = req.query.user;
+    const course = educationalPlatformDb.model('CourseOutcomeModule',courseschema,"courses");
+
+    try {
+        // Query the database for subjects matching the selected year and semester
+        const subjectOptions = await course.find({});
+        const usercourse = await EduUser.findOne({ User: username });
+
+        res.json({usercourse,subjectOptions}); // Send the subject options as a JSON response
     } catch (error) {
         console.error('Error fetching subjects:', error);
         res.status(500).json({ error: 'Internal server error' });
@@ -1274,9 +1293,20 @@ app.get('/courseoutcome',checkSessionTimeout, async (req, res) => {
         res.status(500).send(error.message);
     }
 });
+
 app.get('/attainmentt1',checkSessionTimeout, async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'frontend', 'attainment1.html'));
+        const selectedSubject = req.query.subject;
+        console.log(selectedSubject);
+        res.render('attainment1', { selectedSubject });
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+app.get('/attainmentt1opt',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'options/attainmentt1opt.html'));
            
     } catch (error) {
         res.status(500).send(error.message);
@@ -1284,7 +1314,17 @@ app.get('/attainmentt1',checkSessionTimeout, async (req, res) => {
 });
 app.get('/attainmentt2',checkSessionTimeout, async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'frontend', 'attainment2.html'));
+        const selectedSubject = req.query.subject;
+        console.log(selectedSubject);
+        res.render('attainment2', { selectedSubject });
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+app.get('/attainmentt2opt',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'options/attainmentt2opt.html'));
            
     } catch (error) {
         res.status(500).send(error.message);
@@ -1292,15 +1332,36 @@ app.get('/attainmentt2',checkSessionTimeout, async (req, res) => {
 });
 app.get('/attainmentt3',checkSessionTimeout, async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'frontend', 'attainment3.html'));
+        const selectedSubject = req.query.subject;
+        console.log(selectedSubject);
+        res.render('attainment3', { selectedSubject });
            
     } catch (error) {
         res.status(500).send(error.message);
     }
 });
+app.get('/attainmentt3opt',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'options/attainmentt3opt.html'));
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
 app.get('/attainmentta',checkSessionTimeout, async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'frontend', 'attainmenta.html'));
+        const selectedSubject = req.query.subject;
+        console.log(selectedSubject);
+        res.render('attainmenta', { selectedSubject });
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+app.get('/attainmenttaopt',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'options/attainmenttaopt.html'));
            
     } catch (error) {
         res.status(500).send(error.message);
@@ -1308,7 +1369,17 @@ app.get('/attainmentta',checkSessionTimeout, async (req, res) => {
 });
 app.get('/atcourseexit',checkSessionTimeout, async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'frontend', 'atcourseexit.html'));
+        const selectedSubject = req.query.subject;
+        console.log(selectedSubject);
+        res.render('atcourseexit', { selectedSubject });
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+app.get('/atcourseexitopt',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'options/atcourseexitopt.html'));
            
     } catch (error) {
         res.status(500).send(error.message);
@@ -1461,7 +1532,7 @@ app.get('/api/get-userrole', async (req, res) => {
 
 app.post('/api/updatedb', async (req, res) => {
     const { columnName } = req.body;
-    const c= req.session.user.Course+"_at";
+    const c= req.query.code+"_at";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
 
     // Create an update object for the single column name
@@ -1482,7 +1553,7 @@ app.post('/api/updatedb', async (req, res) => {
 });
 app.post('/api/updatedbt2', async (req, res) => {
     const { columnName } = req.body;
-    const c= req.session.user.Course+"_at2";
+    const c= req.query.code+"_at2";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
 
     // Create an update object for the single column name
@@ -1503,7 +1574,7 @@ app.post('/api/updatedbt2', async (req, res) => {
 });
 app.post('/api/updatedbt3', async (req, res) => {
     const { columnName } = req.body;
-    const c= req.session.user.Course+"_at3";
+    const c= req.query.code+"_at3";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
 
     // Create an update object for the single column name
@@ -1524,7 +1595,7 @@ app.post('/api/updatedbt3', async (req, res) => {
 });
 app.post('/api/updatedbta', async (req, res) => {
     const { columnName } = req.body;
-    const c= req.session.user.Course+"_ata";
+    const c= req.query.code+"_ata";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
 
     // Create an update object for the single column name
@@ -1548,7 +1619,7 @@ app.post('/api/updatedbta', async (req, res) => {
 
 app.post('/api/updatedbco', async (req, res) => {
     const { columnName,co } = req.body;
-    const c= req.session.user.Course+"_t1co";
+    const c= req.query.code+"_t1co";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
 
     // Create an update object for the single column name
@@ -1569,7 +1640,7 @@ app.post('/api/updatedbco', async (req, res) => {
 });
 app.post('/api/updatedbcot2', async (req, res) => {
     const { columnName,co } = req.body;
-    const c= req.session.user.Course+"_t2co";
+    const c= req.query.code+"_t2co";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
 
     // Create an update object for the single column name
@@ -1590,7 +1661,7 @@ app.post('/api/updatedbcot2', async (req, res) => {
 });
 app.post('/api/updatedbcot3', async (req, res) => {
     const { columnName,co } = req.body;
-    const c= req.session.user.Course+"_t3co";
+    const c= req.query.code+"_t3co";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
 
     // Create an update object for the single column name
@@ -1611,7 +1682,7 @@ app.post('/api/updatedbcot3', async (req, res) => {
 });
 app.post('/api/updatedbcota', async (req, res) => {
     const { columnName,co } = req.body;
-    const c= req.session.user.Course+"_taco";
+    const c= req.query.code+"_taco";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
 
     // Create an update object for the single column name
@@ -1632,7 +1703,7 @@ app.post('/api/updatedbcota', async (req, res) => {
 });
 app.post('/api/updatedbmarks', async (req, res) => {
     const { columnName,marks } = req.body;
-    const c= req.session.user.Course+"_t1marks";
+    const c= req.query.code+"_t1marks";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
 
     // Create an update object for the single column name
@@ -1653,7 +1724,7 @@ app.post('/api/updatedbmarks', async (req, res) => {
 });
 app.post('/api/updatedbmarkst2', async (req, res) => {
     const { columnName,marks } = req.body;
-    const c= req.session.user.Course+"_t2marks";
+    const c= req.query.code+"_t2marks";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
 
     // Create an update object for the single column name
@@ -1674,7 +1745,7 @@ app.post('/api/updatedbmarkst2', async (req, res) => {
 });
 app.post('/api/updatedbmarkst3', async (req, res) => {
     const { columnName,marks } = req.body;
-    const c= req.session.user.Course+"_t3marks";
+    const c= req.query.code+"_t3marks";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
 
     // Create an update object for the single column name
@@ -1695,7 +1766,7 @@ app.post('/api/updatedbmarkst3', async (req, res) => {
 });
 app.post('/api/updatedbmarksta', async (req, res) => {
     const { columnName,marks } = req.body;
-    const c= req.session.user.Course+"_tamarks";
+    const c= req.query.code+"_tamarks";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
 
     // Create an update object for the single column name
@@ -1729,7 +1800,7 @@ app.get('/api/get-usercourse', async (req, res) => {
 
 app.get('/api/cd', async (req, res) => {
     try {
-        const c= req.session.user.Course+"_cd";
+        const c= req.query.code+"_cd";
         const cd = courseOutcomeDb.model('CourseOutcomeModule', cdSchema, c);
         const modules = await cd.find();
         res.json(modules);
@@ -1753,7 +1824,7 @@ app.get('/api/courses', async (req, res) => {
 
 app.get('/api/t1attainment', async (req, res) => {
     try {
-        const c= req.session.user.Course+"_at";
+        const c= req.query.code+"_at";
         const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
         const modules = await CourseOutcomeModule.find();
         res.json(modules);
@@ -1765,7 +1836,7 @@ app.get('/api/t1attainment', async (req, res) => {
 
 app.get('/api/t2attainment', async (req, res) => {
     try {
-        const c= req.session.user.Course+"_at2";
+        const c= req.query.code+"_at2";
         const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
         const modules = await CourseOutcomeModule.find();
         res.json(modules);
@@ -1777,7 +1848,7 @@ app.get('/api/t2attainment', async (req, res) => {
 
 app.get('/api/t3attainment', async (req, res) => {
     try {
-        const c= req.session.user.Course+"_at3";
+        const c= req.query.code+"_at3";
         const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
         const modules = await CourseOutcomeModule.find();
         res.json(modules);
@@ -1788,7 +1859,7 @@ app.get('/api/t3attainment', async (req, res) => {
 });
 app.get('/api/taattainment', async (req, res) => {
     try {
-        const c= req.session.user.Course+"_ata";
+        const c= req.query.code+"_ata";
         const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
         const modules = await CourseOutcomeModule.find();
         res.json(modules);
@@ -1800,7 +1871,7 @@ app.get('/api/taattainment', async (req, res) => {
 
 app.get('/api/copo', async(req, res) => {
     try {
-        const c = req.session.user.Course + "_copo";
+        const c= req.query.code + "_copo";
         const copoModule = courseOutcomeDb.model('CourseOutcomeModule', copoSchema, c);
 
         const modules = await copoModule.find();
@@ -1812,7 +1883,7 @@ app.get('/api/copo', async(req, res) => {
 });
 app.get('/api/coposo', async(req, res) => {
     try {
-        const c = req.session.user.Course + "_coposo";
+        const c= req.query.code + "_coposo";
         const copoModule = courseOutcomeDb.model('CourseOutcomeModule', coposoSchema, c);
 
         const modules = await copoModule.find();
@@ -1824,7 +1895,7 @@ app.get('/api/coposo', async(req, res) => {
 });
 app.get('/api/coposoat', async(req, res) => {
     try {
-        const c = req.session.user.Course + "_coposoat";
+        const c= req.query.code + "_coposoat";
         const copoModule = courseOutcomeDb.model('CourseOutcomeModule', coposoatSchema, c);
 
         const modules = await copoModule.find();
@@ -1837,7 +1908,7 @@ app.get('/api/coposoat', async(req, res) => {
 
 app.post('/api/copo', async(req, res) => {
     // const { ModuleNo, ModuleTitle, Topics, NoOfLectures } = req.body;
-    const c = req.session.user.Course + "_copo";
+    const c= req.query.code + "_copo";
     const copoModule = courseOutcomeDb.model('CourseOutcomeModule', copoSchema, c);
     const newModule = new copoModule(req.body);
     try {
@@ -1850,7 +1921,7 @@ app.post('/api/copo', async(req, res) => {
 });
 app.post('/api/coposo', async(req, res) => {
     // const { ModuleNo, ModuleTitle, Topics, NoOfLectures } = req.body;
-    const c = req.session.user.Course + "_coposo";
+    const c= req.query.code + "_coposo";
     const copoModule = courseOutcomeDb.model('CourseOutcomeModule', coposoSchema, c);
     const newModule = new copoModule(req.body);
     try {
@@ -1863,7 +1934,7 @@ app.post('/api/coposo', async(req, res) => {
 });
 app.post('/api/coposoat', async(req, res) => {
     // const { ModuleNo, ModuleTitle, Topics, NoOfLectures } = req.body;
-    const c = req.session.user.Course + "_coposoat";
+    const c= req.query.code + "_coposoat";
     const copoModule = courseOutcomeDb.model('CourseOutcomeModule', coposoatSchema, c);
     const newModule = new copoModule(req.body);
     try {
@@ -1876,7 +1947,7 @@ app.post('/api/coposoat', async(req, res) => {
 });
 app.get('/api/t1co', async (req, res) => {
     try {
-        const c= req.session.user.Course+"_t1co";
+        const c= req.query.code+"_t1co";
         const attainmentT1Schemac = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
         const modules = await attainmentT1Schemac.find();
         res.json(modules);
@@ -1888,7 +1959,7 @@ app.get('/api/t1co', async (req, res) => {
 
 app.get('/api/t2co', async (req, res) => {
     try {
-        const c= req.session.user.Course+"_t2co";
+        const c= req.query.code+"_t2co";
         const attainmentT1Schemac = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
         const modules = await attainmentT1Schemac.find();
         res.json(modules);
@@ -1899,7 +1970,7 @@ app.get('/api/t2co', async (req, res) => {
 });
 app.get('/api/t3co', async (req, res) => {
     try {
-        const c= req.session.user.Course+"_t3co";
+        const c= req.query.code+"_t3co";
         const attainmentT1Schemac = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
         const modules = await attainmentT1Schemac.find();
         res.json(modules);
@@ -1910,7 +1981,7 @@ app.get('/api/t3co', async (req, res) => {
 });
 app.get('/api/taco', async (req, res) => {
     try {
-        const c= req.session.user.Course+"_taco";
+        const c= req.query.code+"_taco";
         const attainmentT1Schemac = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
         const modules = await attainmentT1Schemac.find();
         res.json(modules);
@@ -1921,7 +1992,7 @@ app.get('/api/taco', async (req, res) => {
 });
 app.get('/api/t1marks', async (req, res) => {
     try {
-        const c= req.session.user.Course+"_t1marks";
+        const c= req.query.code+"_t1marks";
         const attainmentT1Schemamarks = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
         const modules = await attainmentT1Schemamarks.find();
         res.json(modules);
@@ -1933,7 +2004,7 @@ app.get('/api/t1marks', async (req, res) => {
 
 app.get('/api/t2marks', async (req, res) => {
     try {
-        const c= req.session.user.Course+"_t1marks";
+        const c= req.query.code+"_t2marks";
         const attainmentT1Schemamarks = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
         const modules = await attainmentT1Schemamarks.find();
         res.json(modules);
@@ -1944,7 +2015,7 @@ app.get('/api/t2marks', async (req, res) => {
 });
 app.get('/api/t3marks', async (req, res) => {
     try {
-        const c= req.session.user.Course+"_t3marks";
+        const c= req.query.code+"_t3marks";
         const attainmentT1Schemamarks = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
         const modules = await attainmentT1Schemamarks.find();
         res.json(modules);
@@ -1955,7 +2026,7 @@ app.get('/api/t3marks', async (req, res) => {
 });
 app.get('/api/tamarks', async (req, res) => {
     try {
-        const c= req.session.user.Course+"_tamarks";
+        const c= req.query.code+"_tamarks";
         const attainmentT1Schemamarks = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
         const modules = await attainmentT1Schemamarks.find();
         res.json(modules);
@@ -1967,7 +2038,7 @@ app.get('/api/tamarks', async (req, res) => {
 
 app.get('/api/modules', async (req, res) => {
     try {
-        const c= req.session.user.Course+"_co";
+        const c= req.query.code+"_co";
         const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', courseOutcomeModuleSchema, c);
         const modules = await CourseOutcomeModule.find();
         res.json(modules);
@@ -1979,7 +2050,7 @@ app.get('/api/modules', async (req, res) => {
 
 app.post('/api/modules', async (req, res) => {
     // const { ModuleNo, ModuleTitle, Topics, NoOfLectures } = req.body;
-    const c= req.session.user.Course+"_co";
+    const c= req.query.code+"_co";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', courseOutcomeModuleSchema, c);
     const newModule = new CourseOutcomeModule(req.body);
      try {
@@ -1993,7 +2064,7 @@ app.post('/api/modules', async (req, res) => {
 
  app.post('/api/t1attainment', async (req, res) => {
     // const { ModuleNo, ModuleTitle, Topics, NoOfLectures } = req.body;
-    const c= req.session.user.Course+"_at";
+    const c= req.query.code+"_at";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
     const newModule = new CourseOutcomeModule(req.body);
      try {
@@ -2006,7 +2077,7 @@ app.post('/api/modules', async (req, res) => {
  });
  app.post('/api/t2attainment', async (req, res) => {
     // const { ModuleNo, ModuleTitle, Topics, NoOfLectures } = req.body;
-    const c= req.session.user.Course+"_at2";
+    const c= req.query.code+"_at2";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
     const newModule = new CourseOutcomeModule(req.body);
      try {
@@ -2019,7 +2090,7 @@ app.post('/api/modules', async (req, res) => {
  });
  app.post('/api/t3attainment', async (req, res) => {
     // const { ModuleNo, ModuleTitle, Topics, NoOfLectures } = req.body;
-    const c= req.session.user.Course+"_at3";
+    const c= req.query.code+"_at3";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
     const newModule = new CourseOutcomeModule(req.body);
      try {
@@ -2032,7 +2103,7 @@ app.post('/api/modules', async (req, res) => {
  });
  app.post('/api/taattainment', async (req, res) => {
     // const { ModuleNo, ModuleTitle, Topics, NoOfLectures } = req.body;
-    const c= req.session.user.Course+"_ata";
+    const c= req.query.code+"_ata";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
     const newModule = new CourseOutcomeModule(req.body);
      try {
@@ -2052,7 +2123,7 @@ app.post('/api/modules', async (req, res) => {
 });
 
 app.post('/api/submitcot1', async (req, res) => {
-    const c= req.session.user.Course+"_t1co";
+    const c= req.query.code+"_t1co";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule',attainmentT1Schemaco, c);
     await CourseOutcomeModule.deleteMany({});
     const formData = new CourseOutcomeModule(req.body);
@@ -2065,7 +2136,7 @@ app.post('/api/submitcot1', async (req, res) => {
     }
 });
 app.post('/api/submitcot2', async (req, res) => {
-    const c= req.session.user.Course+"_t2co";
+    const c= req.query.code+"_t2co";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule',attainmentT1Schema, c);
     await CourseOutcomeModule.deleteMany({});
     const formData = new CourseOutcomeModule(req.body);
@@ -2078,7 +2149,7 @@ app.post('/api/submitcot2', async (req, res) => {
     }
 });
 app.post('/api/submitcot3', async (req, res) => {
-    const c= req.session.user.Course+"_t2co";
+    const c= req.query.code+"_t2co";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule',attainmentT1Schema, c);
     await CourseOutcomeModule.deleteMany({});
     const formData = new CourseOutcomeModule(req.body);
@@ -2091,7 +2162,7 @@ app.post('/api/submitcot3', async (req, res) => {
     }
 });
 app.post('/api/submitcota', async (req, res) => {
-    const c= req.session.user.Course+"_taco";
+    const c= req.query.code+"_taco";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule',attainmentT1Schema, c);
     await CourseOutcomeModule.deleteMany({});
     const formData = new CourseOutcomeModule(req.body);
@@ -2104,7 +2175,7 @@ app.post('/api/submitcota', async (req, res) => {
     }
 });
 app.post('/api/submitmarkst1', async (req, res) => {
-    const c= req.session.user.Course+"_t1marks";
+    const c= req.query.code+"_t1marks";
     
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule',attainmentT1Schema, c);
     await CourseOutcomeModule.deleteMany({});
@@ -2118,7 +2189,7 @@ app.post('/api/submitmarkst1', async (req, res) => {
     }
 });
 app.post('/api/submitmarkst2', async (req, res) => {
-    const c= req.session.user.Course+"_t2marks";
+    const c= req.query.code+"_t2marks";
     
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule',attainmentT1Schema, c);
     await CourseOutcomeModule.deleteMany({});
@@ -2132,7 +2203,7 @@ app.post('/api/submitmarkst2', async (req, res) => {
     }
 });
 app.post('/api/submitmarkst3', async (req, res) => {
-    const c= req.session.user.Course+"_t3marks";
+    const c= req.query.code+"_t3marks";
     
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule',attainmentT1Schema, c);
     await CourseOutcomeModule.deleteMany({});
@@ -2146,7 +2217,7 @@ app.post('/api/submitmarkst3', async (req, res) => {
     }
 });
 app.post('/api/submitmarksta', async (req, res) => {
-    const c= req.session.user.Course+"_tamarks";
+    const c= req.query.code+"_tamarks";
     
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule',attainmentT1Schema, c);
     await CourseOutcomeModule.deleteMany({});
@@ -2161,7 +2232,7 @@ app.post('/api/submitmarksta', async (req, res) => {
 });
  app.post('/api/courses', async (req, res) => {
     // const { ModuleNo, ModuleTitle, Topics, NoOfLectures } = req.body;
-    const c= req.session.user.Course;
+    const c= req.query.code;
     const course = courseOutcomeDb.model('CourseOutcomeModule', courseSchema, c);
     const newModule = new course(req.body);
      try {
@@ -2174,7 +2245,7 @@ app.post('/api/submitmarksta', async (req, res) => {
  });
 
 app.put('/api/module/:id', async (req, res) => {
-    const c= req.session.user.Course+"_co";
+    const c= req.query.code+"_co";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', courseOutcomeModuleSchema, c);
     const moduleId = req.params.id;
     const updatedModule = req.body;
@@ -2188,7 +2259,7 @@ app.put('/api/module/:id', async (req, res) => {
     }
 });
 app.put('/api/t1attainment/:id', async (req, res) => {
-    const c= req.session.user.Course+"_at";
+    const c= req.query.code+"_at";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
     const moduleId = req.params.id;
     const updatedModule = req.body;
@@ -2203,7 +2274,7 @@ app.put('/api/t1attainment/:id', async (req, res) => {
 });
 
 app.put('/api/t2attainment/:id', async (req, res) => {
-    const c= req.session.user.Course+"_at2";
+    const c= req.query.code+"_at2";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
     const moduleId = req.params.id;
     const updatedModule = req.body;
@@ -2217,7 +2288,7 @@ app.put('/api/t2attainment/:id', async (req, res) => {
     }
 });
 app.put('/api/t3attainment/:id', async (req, res) => {
-    const c= req.session.user.Course+"_at3";
+    const c= req.query.code+"_at3";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
     const moduleId = req.params.id;
     const updatedModule = req.body;
@@ -2231,7 +2302,7 @@ app.put('/api/t3attainment/:id', async (req, res) => {
     }
 });
 app.put('/api/taattainment/:id', async (req, res) => {
-    const c= req.session.user.Course+"_ata";
+    const c= req.query.code+"_ata";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
     const moduleId = req.params.id;
     const updatedModule = req.body;
@@ -2245,7 +2316,7 @@ app.put('/api/taattainment/:id', async (req, res) => {
     }
 });
 app.put('/api/course/:id', async (req, res) => {
-    const c= req.session.user.Course;
+    const c= req.query.code;
     const course = courseOutcomeDb.model('CourseOutcomeModule', courseSchema, c);
     const moduleId = req.params.id;
     const updatedModule = req.body;
@@ -2261,7 +2332,7 @@ app.put('/api/course/:id', async (req, res) => {
 
 
 app.delete('/api/modules/:id', async (req, res) => {
-    const c= req.session.user.Course+"_co";
+    const c= req.query.code+"_co";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', courseOutcomeModuleSchema, c);
     const moduleId = req.params.id;
     
@@ -2275,7 +2346,7 @@ app.delete('/api/modules/:id', async (req, res) => {
 });
 
 app.delete('/api/courses/:id', async (req, res) => {
-    const c= req.session.user.Course;
+    const c= req.query.code;
     const course = courseOutcomeDb.model('CourseOutcomeModule', courseSchema, c);
     const moduleId = req.params.id;
     
@@ -2289,7 +2360,7 @@ app.delete('/api/courses/:id', async (req, res) => {
 });
 
 app.delete('/api/t1attainment/:id', async (req, res) => {
-    const c= req.session.user.Course+"_at";
+    const c= req.query.code+"_at";
     const course = courseOutcomeDb.model('CourseOutcomeModule', courseSchema, c);
     const moduleId = req.params.id;
     
@@ -2302,7 +2373,7 @@ app.delete('/api/t1attainment/:id', async (req, res) => {
     }
 });
 app.delete('/api/t2attainment/:id', async (req, res) => {
-    const c= req.session.user.Course+"_at";
+    const c= req.query.code+"_at2";
     const course = courseOutcomeDb.model('CourseOutcomeModule', courseSchema, c);
     const moduleId = req.params.id;
     
@@ -2315,7 +2386,7 @@ app.delete('/api/t2attainment/:id', async (req, res) => {
     }
 });
 app.delete('/api/t3attainment/:id', async (req, res) => {
-    const c= req.session.user.Course+"_at3";
+    const c= req.query.code+"_at3";
     const course = courseOutcomeDb.model('CourseOutcomeModule', courseSchema, c);
     const moduleId = req.params.id;
     
@@ -2328,7 +2399,7 @@ app.delete('/api/t3attainment/:id', async (req, res) => {
     }
 });
 app.delete('/api/taattainment/:id', async (req, res) => {
-    const c= req.session.user.Course+"_ata";
+    const c= req.query.code+"_ata";
     const course = courseOutcomeDb.model('CourseOutcomeModule', courseSchema, c);
     const moduleId = req.params.id;
     

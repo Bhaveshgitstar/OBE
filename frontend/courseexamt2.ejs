@@ -77,6 +77,12 @@
 
                     <ul class="menu_items submenu">
                         <a href="/courseoutcome" class="nav_link sublink">Course Outcome</a>
+                        <a href="/attainmentt1" class="nav_link sublink">T1</a>
+                        <a href="/attainmentt2" class="nav_link sublink">T2</a>
+                        <a href="/attainmentt3" class="nav_link sublink">T3</a>
+                        <a href="/attainmentta" class="nav_link sublink">TA</a>
+                        <a href="/atcourseexit" class="nav_link sublink">Course Exit Survey</a>
+                        <a href="/atcopsomap" class="nav_link sublink">CO-PO Attainment</a>
                         <a href="#" class="nav_link sublink">Update Database</a>
                     </ul>
                 </li>
@@ -93,6 +99,7 @@
                         <a href="/courseexamt1" class="nav_link sublink">T1</a>
                         <a href="/courseexamt2" class="nav_link sublink">T2</a>
                         <a href="/courseexamt3" class="nav_link sublink">T2</a>
+
                     </ul>
                 </li>
             </ul>
@@ -124,7 +131,7 @@
     </nav>
     <div class="container mt-5"></div>
     <div class="box-heading1">
-        <h5>T3 CO Mapping</h5>
+        <h5>T2 CO Mapping</h5>
     </div>
 <div class="container mt-5">
     <form id="inputForm">
@@ -193,7 +200,10 @@
     <!-- Add more buttons for additional pages as needed -->
     </div>
     <!-- ... (your existing HTML code) ... -->
-
+    <script>
+        const selectedSubject = '<%= selectedSubject %>';
+        window.selectedSubject = selectedSubject;
+    </script>
     <script src="dataval.js"></script>
     <script src="script8.js"></script>
     <script>

@@ -1,3 +1,4 @@
+console.log('Selected Subject:', window.selectedSubject);
 window.onload = function () {
     alert('Welcome to the next page!');
 };
@@ -172,7 +173,7 @@ function updateRow(moduleId, row) {
     };
 
     $.ajax({
-        url: `/api/module/${moduleId}`, // Change this URL to match your Express route
+        url: `/api/module/${moduleId}?code=${window.selectedSubject}`, // Change this URL to match your Express route
         type: 'PUT',
         dataType: 'json',
         contentType: 'application/json',
@@ -216,7 +217,7 @@ function updateRowco(moduleId, row) {
     };
 
     $.ajax({
-        url: `/api/course/${moduleId}`, // Change this URL to match your Express route
+        url: `/api/course/${moduleId}?code=${window.selectedSubject}`, // Change this URL to match your Express route
         type: 'PUT',
         dataType: 'json',
         contentType: 'application/json',
@@ -239,7 +240,7 @@ function updateRowco(moduleId, row) {
 
 function deleteRowco(moduleId) {
     $.ajax({
-        url: `/api/courses/${moduleId}`, // Change this URL to match your Express route
+        url: `/api/courses/${moduleId}?code=${window.selectedSubject}`, // Change this URL to match your Express route
         type: 'DELETE',
         success: function () {
             console.log('Data deleted successfully');
@@ -253,7 +254,7 @@ function deleteRowco(moduleId) {
 
 function deleteRow(moduleId) {
     $.ajax({
-        url: `/api/modules/${moduleId}`, // Change this URL to match your Express route
+        url: `/api/modules/${moduleId}?code=${window.selectedSubject}`, // Change this URL to match your Express route
         type: 'DELETE',
         success: function () {
             console.log('Data deleted successfully');
@@ -270,7 +271,7 @@ function deleteRow(moduleId) {
 // Rename the functions to have unique names
 function fetchSyllabusData() {
     $.ajax({
-        url: '/api/modules', // Change this URL to match your Express route
+        url: `/api/modules?code=${window.selectedSubject}`, // Change this URL to match your Express route
         type: 'GET',
         dataType: 'json',
         
@@ -314,7 +315,7 @@ function fetchSyllabusData() {
 
 function fetchcdData() {
     $.ajax({
-        url: '/api/cd', // Change this URL to match your Express route
+        url:`/api/cd?code=${window.selectedSubject}`, // Change this URL to match your Express route
         type: 'GET',
         dataType: 'json',
         
@@ -387,7 +388,7 @@ function fetchcourse(){
 }
 function fetchCourseData() {
     $.ajax({
-        url: '/api/courses', // Change this URL to match your Express route for courses
+        url: `/api/courses?code=${window.selectedSubject}`, // Change this URL to match your Express route for courses
         type: 'GET',
         dataType: 'json',
         success: function (data) {
@@ -539,7 +540,7 @@ function saveDataToServerco() {
     };
 
     $.ajax({
-        url: '/api/courses', // Change this URL to match your Express route
+        url: `/api/courses?code=${window.selectedSubject}`, // Change this URL to match your Express route
         type: 'POST',
         dataType: 'json',
         contentType: 'application/json',
@@ -576,7 +577,7 @@ function saveDataToServer() {
     };
 
     $.ajax({
-        url: '/api/modules', // Change this URL to match your Express route
+        url: `/api/modules?code=${window.selectedSubject}`, // Change this URL to match your Express route
         type: 'POST',
         dataType: 'json',
         contentType: 'application/json',

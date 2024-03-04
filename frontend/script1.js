@@ -1,8 +1,11 @@
+
 window.onload = function() {
     alert('Welcome to the next page!');
+    
 };
 
 $(document).ready(() => {
+    console.log('Selected Subject:', window.selectedSubject);
     fetchT1attainmentData()
     .then(fetchT1CO)
     .then(fetchT1CO2)
@@ -11,7 +14,7 @@ $(document).ready(() => {
     .catch(function(error) {
         console.error('Error:', error);
     });
-    fetchcdData();
+    fetchcdData(window.selectedSubject);
     fetchusername();
     fetchcourse();
     fetchuserrole();
@@ -136,7 +139,7 @@ function confirmUpload() {
     const formData = new FormData();
     formData.append('file', fileInput.files[0]);
 
-    fetch('/upload', {
+    fetch(`/upload?code=${window.selectedSubject}`, {
         method: 'POST',
         body: formData,
     })
@@ -277,7 +280,7 @@ attainmentValues.forEach((attainment, index) => {
 
 
     $.ajax({
-        url: `/api/t1attainment/${recordId}`, // Update the URL to match your Express route for T1attainment data
+        url: `/api/t1attainment/${recordId}?code=${window.selectedSubject}`, // Update the URL to match your Express route for T1attainment data
         type: 'PUT',
         dataType: 'json',
         contentType: 'application/json',
@@ -400,7 +403,7 @@ attainmentValues.forEach((attainment, index) => {
 
 
     $.ajax({
-        url: `/api/t1attainment/${recordId}`, // Update the URL to match your Express route for T1attainment data
+        url: `/api/t1attainment/${recordId}?code=${window.selectedSubject}`, // Update the URL to match your Express route for T1attainment data
         type: 'PUT',
         dataType: 'json',
         contentType: 'application/json',
@@ -430,7 +433,7 @@ attainmentValues.forEach((attainment, index) => {
 
 function deleteRowat(moduleId) {
     $.ajax({
-        url: `/api/t1attainment/${moduleId}`, // Change this URL to match your Express route
+        url: `/api/t1attainment/${moduleId}?code=${window.selectedSubject}`, // Change this URL to match your Express route
         type: 'DELETE',
         success: function() {
             console.log('Data deleted successfully');
@@ -501,7 +504,7 @@ function fetchcourse(){
 function fetchT1CO2(){
     return new Promise((resolve, reject) => {
     $.ajax({
-        url: '/api/t1marks', // Update the URL to match your Express route for T1attainment data
+        url: `/api/t1marks?code=${window.selectedSubject}`, // Update the URL to match your Express route for T1attainment data
         type: 'GET',
         dataType: 'json',
 
@@ -566,7 +569,7 @@ function fetchT1CO2(){
 function fetchT1CO(){
     return new Promise((resolve, reject) => {
     $.ajax({
-        url: '/api/t1co', // Update the URL to match your Express route for T1attainment data
+        url: `/api/t1co?code=${window.selectedSubject}`, // Update the URL to match your Express route for T1attainment data
         type: 'GET',
         dataType: 'json',
 
@@ -632,7 +635,7 @@ function fetchT1CO(){
 function fetchT1attainmentData2(){
     return new Promise((resolve, reject) => {
     $.ajax({
-        url: '/api/t1attainment', // Update the URL to match your Express route for T1attainment data
+        url: `/api/t1attainment?code=${window.selectedSubject}`, // Update the URL to match your Express route for T1attainment data
         type: 'GET',
         dataType: 'json',
 
@@ -818,7 +821,7 @@ function calculatePercentageAboveTarget(data, attainmentField) {
 function fetchT1attainmentData() {
     return new Promise((resolve, reject) => {
     $.ajax({
-        url: '/api/t1attainment', // Update the URL to match your Express route for T1attainment data
+        url: `/api/t1attainment?code=${window.selectedSubject}`, // Update the URL to match your Express route for T1attainment data
         type: 'GET',
         dataType: 'json',
 
@@ -907,7 +910,7 @@ function calculateStudentsAppeared(data) {
 let cno=0;
 function updatenewco(columnName,co){
     $.ajax({
-        url: '/api/updatedbco', // Update the URL to match your Express route for T1attainment data
+        url: `/api/updatedbco?code=${window.selectedSubject}`, // Update the URL to match your Express route for T1attainment data
         type: 'POST',
         dataType: 'json',
         contentType: 'application/json',
@@ -930,7 +933,7 @@ function updatenewco(columnName,co){
 function updatenewmarks(columnName,marks){
     
     $.ajax({
-        url: '/api/updatedbmarks', // Update the URL to match your Express route for T1attainment data
+        url: `/api/updatedbmarks?code=${window.selectedSubject}`, // Update the URL to match your Express route for T1attainment data
         type: 'POST',
         dataType: 'json',
         contentType: 'application/json',
@@ -1151,7 +1154,7 @@ function addColumnsar(noa) {
 
 function fetchcdData() {
     $.ajax({
-        url: '/api/cd', // Change this URL to match your Express route
+        url: `/api/cd?code=${window.selectedSubject}`, // Change this URL to match your Express route
         type: 'GET',
         dataType: 'json',
         
@@ -1400,7 +1403,7 @@ const newData = {
     
     
     $.ajax({
-        url: '/api/t1attainment', // Update the URL to match your Express route for T1attainment data
+        url: `/api/t1attainment?code=${window.selectedSubject}`, // Update the URL to match your Express route for T1attainment data
         type: 'POST',
         dataType: 'json',
         contentType: 'application/json',

@@ -9,8 +9,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="css/footer.css">
-
 </head>
 <body>
     <div class="navigation-strip">
@@ -66,8 +64,6 @@
                     <span class="navlink">Attainment</span>
                     <i class="bx bx-chevron-right arrow-left"></i>
                   </div>
-
-            
       
                   <ul class="menu_items submenu">
                     <a href="/attainmentt1" class="nav_link sublink">T1</a>
@@ -105,28 +101,23 @@
               </div>
             </div>
           </nav>
-            <!-- New container based on the image content -->
-
-            <div class="upper-container d-flex align-items-center justify-content-start">
-                <div class="institute-logo">
-                    <img src="logojiit.jpg" alt="Institute Logo">
-                </div>
-                <div class="institute-details">
-                    <h1>Jaypee Institute of Information Technology</h1>
-                    <p>Declared Deemed to be University under Sec 3 of UGC Act 1956</p>
-                    <p>Exam Event: TEST-2</p>
-                </div>
+          <div class="upper-container d-flex align-items-center justify-content-start">
+            <div class="institute-logo">
+                <img src="logojiit.jpg" alt="Institute Logo">
             </div>
-            <div class="exam-date">
-                <p>Date & Time: <span id="datePlaceholder"></span> & <span id="timePlaceholder"></span></p>
+            <div class="institute-details">
+                <h1>Jaypee Institute of Information Technology</h1>
+                <p>Declared Deemed to be University under Sec 3 of UGC Act 1956</p>
+                <p>Exam Event: TA</p>
             </div>
-            
-            <!-- The rest of your existing HTML content -->
-        
+        </div>
+        <div class="exam-date">
+            <p>Date & Time: <span id="datePlaceholder"></span> & <span id="timePlaceholder"></span></p>
+        </div>
 
 <div class="container mt-5"></div>
 <div class="box-heading1">
-    <h5>T2 Attainment Data</h5>
+    <h5>T3 Attainment Data</h5>
 </div>
 <!--<div class="box-heading">
     <h5>Lecture Wise Breakup</h5>
@@ -166,7 +157,7 @@
             </td>
             <th>Examination</th>
             <td>
-                <span id="contact_hours" class="form-control">T2</span>
+                <span id="contact_hours" class="form-control">T3</span>
             </td>
         </tr>
         <tr>
@@ -226,9 +217,7 @@
 </div>
 
 <div class="table-buttons text-end mt-3">
-
-    <div class="table-buttons text-end mt-3">
-        <button class="print-button" onclick="savePage()">Save</button>
+    <button class="print-button" onclick="savePage()">Save</button></div>
     <button class="print-button" onclick="printPage()">Print</button></div>
 <!-- ... (your existing HTML code) ... -->
 
@@ -242,19 +231,17 @@
             document.getElementById('footer').innerHTML = data;
         });
 </script>
-
-<!-- Add more buttons for additional pages as needed -->
 </div>
+</div> 
 
-<!-- Add more buttons for additional pages as needed -->
-</div>
-
-
+<script>
+    const selectedSubject = '<%= selectedSubject %>';
+    window.selectedSubject = selectedSubject;
+</script>
 <script src="dataval.js"></script>
-    <script src="scriptt2.js"></script>
+    <script src="scriptta.js"></script>
     <script>
-    // Get the current date and time
-    const currentDate = new Date();
+            const currentDate = new Date();
 
 // Define the fixed date you want to display
 const fixedDate = new Date('2023-09-28'); // Set the fixed date here (Year, Month - 1, Day)
@@ -289,10 +276,6 @@ const minutes = formatTime(currentDate.getMinutes());
 const seconds = formatTime(currentDate.getSeconds());
 
 document.getElementById('timePlaceholder').textContent = `${hours}:${minutes}:${seconds}`;
-
-
-document.getElementById('timePlaceholder').textContent = `${hours}:${minutes}:${seconds}`;
-
     function printPage() {
         // Call the window.print() method to initiate printing
         window.print();

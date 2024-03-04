@@ -1,0 +1,165 @@
+
+
+<div class="navigation-strip">
+        <!-- Hamburger Icon to Open Sidebar -->
+
+    
+        
+        <i class="bx bx-menu" id="sidebarOpen"></i>
+
+        <!-- Menu Options -->
+        <div class="navbar_content">
+            
+            <i class='bx bx-sun' id="darkLight"></i>
+          </div>
+          <img class="logo" src="LOGO.jpg" alt="Flowers in Chania">
+          <div class="contact-us-container">
+            Welcome<h4 id="username">User Name</h4></h4>
+        </div>
+          <span class="user-info-button">User Info</span>
+
+        <!-- User Info Popup -->
+        <div class="user-info-popup">
+            <!-- Add user information here -->
+            <h4 id="username1">User Name</h4>
+            <div><h7 id="userrole">User Role</h7></div>
+            <div><h8 id="course_code">Course Name</h8></div>
+        </div>
+    </div>
+
+        <!-- sidebar -->
+        <nav class="sidebar">
+            <div class="menu_content">
+              <ul class="menu_items">
+                <div class="menu_title menu_dahsboard"></div>
+                <!-- duplicate or remove this li tag if you want to add or remove navlink with submenu -->
+                <!-- start -->
+                <li class="item">
+                  <a href="/coursehome" class="nav_link">
+                    <span class="navlink_icon">
+                      <i class="bx bx-home-alt"></i>
+                    </span>
+                    <span class="navlink">Home</span></a>
+                </li>
+                <!-- end -->
+      
+                <!-- duplicate this li tag if you want to add or remove  navlink with submenu -->
+                <!-- start -->
+                <li class="item">
+                  <div href="#" class="nav_link submenu_item">
+                    <span class="navlink_icon">
+                      <i class="bx bx-user"></i>
+                    </span>
+                    <span class="navlink">Couse Details</span>
+                    <i class="bx bx-chevron-right arrow-left"></i>
+                  </div>
+      
+                  <ul class="menu_items submenu">
+                    <a href="/courseoutcome" class="nav_link sublink">Course Outcome</a>
+                    <a href="/attainmentt1" class="nav_link sublink">T1</a>
+                    <a href="/attainmentt2" class="nav_link sublink">T2</a>
+                    <a href="/attainmentt3" class="nav_link sublink">T3</a>
+                    <a href="/attainmentta" class="nav_link sublink">TA</a>
+                    <a href="/atcourseexit" class="nav_link sublink">Course Exit Survey</a>
+                    <a href="/atcopsomap" class="nav_link sublink">CO-PO Attainment</a>
+                    <a href="#" class="nav_link sublink">Update Database</a>
+                </ul>
+            </li>
+            <li class="item">
+                <div href="#" class="nav_link submenu_item">
+                    <span class="navlink_icon">
+                      <i class="bx bx-user"></i>
+                    </span>
+                    <span class="navlink">Examination</span>
+                    <i class="bx bx-chevron-right arrow-left"></i>
+                </div>
+
+                <ul class="menu_items submenu">
+                    <a href="/courseexamt1" class="nav_link sublink">T1</a>
+                    <a href="/courseexamt2" class="nav_link sublink">T2</a>
+                    <a href="/courseexamt3" class="nav_link sublink">T2</a>
+                </ul>
+                </li>
+              </ul> 
+      
+              <ul class="menu_items">
+                <div class="menu_title menu_setting"></div>
+                <li class="item">
+                  <a href="/logout" class="nav_link">
+                    <span class="navlink_icon">
+                      <i class="bx bx-log-out"></i>
+                    </span>
+                    <span class="navlink">Logout</span>
+                  </a>
+                </li>
+                
+      
+              <!-- Sidebar Open / Close -->
+              <div class="bottom_content">
+                <div class="bottom expand_sidebar">
+                  <span> Expand</span>
+                  <i class='bx bx-log-in' ></i>
+                </div>
+                <div class="bottom collapse_sidebar">
+                  <span> Collapse</span>
+                  <i class='bx bx-log-out'></i>
+                </div>
+              </div>
+            </div>
+          </nav>
+          <script>
+            const body = document.querySelector("body");
+const darkLight = document.querySelector("#darkLight");
+const sidebar = document.querySelector(".sidebar");
+$(".sidebar").addClass("close hoverable");
+
+const submenuItems = document.querySelectorAll(".submenu_item");
+const sidebarOpen = document.querySelector("#sidebarOpen");
+const sidebarClose = document.querySelector(".collapse_sidebar");
+const sidebarExpand = document.querySelector(".expand_sidebar");
+sidebarOpen.addEventListener("click", () => sidebar.classList.toggle("close"));
+sidebarClose.addEventListener("click", () => {
+  sidebar.classList.add("close", "hoverable");
+});
+sidebarExpand.addEventListener("click", () => {
+  sidebar.classList.remove("close", "hoverable");
+});
+
+sidebar.addEventListener("mouseenter", () => {
+  if (sidebar.classList.contains("hoverable")) {
+    sidebar.classList.remove("close");
+  }
+});
+sidebar.addEventListener("mouseleave", () => {
+  if (sidebar.classList.contains("hoverable")) {
+    sidebar.classList.add("close");
+  }
+});
+
+darkLight.addEventListener("click", () => {
+  body.classList.toggle("dark");
+  if (body.classList.contains("dark")) {
+    document.setI
+    darkLight.classList.replace("bx-sun", "bx-moon");
+  } else {
+    darkLight.classList.replace("bx-moon", "bx-sun");
+  }
+});
+
+submenuItems.forEach((item, index) => {
+  item.addEventListener("click", () => {
+    item.classList.toggle("show_submenu");
+    submenuItems.forEach((item2, index2) => {
+      if (index !== index2) {
+        item2.classList.remove("show_submenu");
+      }
+    });
+  });
+});
+
+if (window.innerWidth < 768) {
+  sidebar.classList.add("close");
+} else {
+  sidebar.classList.remove("close");
+}
+          </script>

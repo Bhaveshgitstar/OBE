@@ -66,13 +66,13 @@
                   </div>
       
                   <ul class="menu_items submenu">
-                    <a href="/courseoutcome" class="nav_link sublink">Course Outcome</a>
-                    <a href="/attainmentt1" class="nav_link sublink">T1</a>
-                    <a href="/attainmentt2" class="nav_link sublink">T2</a>
-                    <a href="/attainmentt3" class="nav_link sublink">T3</a>
-                    <a href="/attainmentta" class="nav_link sublink">TA</a>
-                    <a href="/atcourseexit" class="nav_link sublink">Course Exit Survey</a>
-                    <a href="/atcopsomap" class="nav_link sublink">CO-PO Attainment</a>
+                    <a href="/courseoutcomeopt" class="nav_link sublink">Course Outcome</a>
+                    <a href="/attainmentt1opt" class="nav_link sublink">T1</a>
+                    <a href="/attainmentt2opt" class="nav_link sublink">T2</a>
+                    <a href="/attainmentt3opt" class="nav_link sublink">T3</a>
+                    <a href="/attainmenttaopt" class="nav_link sublink">TA</a>
+                    <a href="/atcourseexitopt" class="nav_link sublink">Course Exit Survey</a>
+                    <a href="/atcopsomapopt" class="nav_link sublink">CO-PO Attainment</a>
                     <a href="#" class="nav_link sublink">Update Database</a>
                 </ul>
             </li>
@@ -86,9 +86,9 @@
                 </div>
 
                 <ul class="menu_items submenu">
-                    <a href="/courseexamt1" class="nav_link sublink">T1</a>
-                    <a href="/courseexamt2" class="nav_link sublink">T2</a>
-                    <a href="/courseexamt3" class="nav_link sublink">T2</a>
+                    <a href="/courseexamt1opt" class="nav_link sublink">T1</a>
+                    <a href="/courseexamt2opt" class="nav_link sublink">T2</a>
+                    <a href="/courseexamt3opt" class="nav_link sublink">T2</a>
                 </ul>
                 </li>
               </ul> 
@@ -320,7 +320,10 @@
     <!-- Add more buttons for additional pages as needed -->
 </div>
 <!-- ... (your existing HTML code) ... -->
-
+<script>
+    const selectedSubject = '<%= selectedSubject %>';
+    window.selectedSubject = selectedSubject;
+</script>
 <script src="dataval.js"></script>
     <script src="script.js"></script>
     <script>
