@@ -389,7 +389,7 @@ app.get('/generate-sample-excel', async (req, res) => {
 app.get('/generate-sample-excelt2', async (req, res) => {
     try {
         const c= req.query.code+"_t2co";
-        const AttainmentModel = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
+        const AttainmentModel = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schemaco, c);
         const firstDocument = await AttainmentModel.findOne();
 
         if (!firstDocument) {
@@ -1371,7 +1371,7 @@ app.get('/attainmentt2',checkSessionTimeout, async (req, res) => {
     try {
         const selectedSubject = req.query.subject;
         console.log(selectedSubject);
-        res.render('attainment2', { selectedSubject });
+        res.render('teacherHtml/exam/attainment2', { selectedSubject });
            
     } catch (error) {
         res.status(500).send(error.message);
@@ -1379,7 +1379,15 @@ app.get('/attainmentt2',checkSessionTimeout, async (req, res) => {
 });
 app.get('/attainmentt2opt',checkSessionTimeout, async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'frontend', 'options/attainmentt2opt.html'));
+        res.sendFile(path.join(__dirname, 'frontend', 'options/coordinator/attainmentt2opt.html'));
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+app.get('/attainmentt2teaopt',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'options/teacher/attainmentt2opt.html'));
            
     } catch (error) {
         res.status(500).send(error.message);
@@ -1389,7 +1397,7 @@ app.get('/attainmentt3',checkSessionTimeout, async (req, res) => {
     try {
         const selectedSubject = req.query.subject;
         console.log(selectedSubject);
-        res.render('attainment3', { selectedSubject });
+        res.render('teacherHtml/exam/attainment3', { selectedSubject });
            
     } catch (error) {
         res.status(500).send(error.message);
@@ -1397,7 +1405,15 @@ app.get('/attainmentt3',checkSessionTimeout, async (req, res) => {
 });
 app.get('/attainmentt3opt',checkSessionTimeout, async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'frontend', 'options/attainmentt3opt.html'));
+        res.sendFile(path.join(__dirname, 'frontend', 'options/coordinator/attainmentt3opt.html'));
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+app.get('/attainmentt3teaopt',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'options/teacher/attainmentt3opt.html'));
            
     } catch (error) {
         res.status(500).send(error.message);
