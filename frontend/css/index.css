@@ -4,6 +4,73 @@ html, body {
     padding: 0;
     font-family: Arial, Helvetica, sans-serif; /* Professional font */
 }
+
+.content-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 0vw;
+}
+.left-container {
+    left: 0vw;
+    right: 0vw;
+    width: 100%; /* Adjust as needed */
+    background-color: white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    padding: 1vw;
+    position: relative; /* Added for positioning the new container */
+}
+.left-container:first-child {
+    margin-right: 0vw; /* Create a small gap between containers */
+}
+@keyframes headingAnimation {
+    0% {
+        transform: translateY(40px);
+    }
+    100% {
+        transform: translateY(-40px);
+    }
+}
+.upward-heading {
+    animation: headingAnimation 2s ease infinite alternate;
+}
+h1 {
+    margin-top: 0;
+}
+p {
+    margin: 10px 0;
+}
+.form-group {
+    margin: 10px 0;
+}
+button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+h2 {
+    text-align: center;
+    margin: 20px 0;
+}
+.contact-us-container {
+    color: #333;
+    text-align: center;
+    padding: 20px 0;
+}
+/* New container styles */
+.about-container {
+    position: absolute;
+    bottom: 90px; /* Adjust as needed */
+    left: 40px;
+    right:20px;
+    width: 35%;
+    background-color:white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    color: #333;
+    padding: 10px;
+    text-align: center;
+}
 /*body {
     
   }*/
@@ -13,10 +80,10 @@ html, body {
     background-color: #f05a15;
     color: #fff;
     text-decoration: none; /* Remove underlines from links */
-    border-radius: 5px;
-    font-size: 16px;
+    border-radius: 0vw;
+    font-size: 1vw;
     position: relative ;
-    left: 86rem;
+    left: 90vw;
     
 }
 
@@ -47,21 +114,21 @@ html, body {
     text-decoration: #1593e7;
     animation: moveContactUs 3s linear infinite; /* Adjust the duration as needed */
     text-align: center; /* Center the "Contact Us" text horizontally */
-    margin-top: 675px; /* Add some margin between the form and the text */
+    margin-top: 20vw; /* Add some margin between the form and the text */
 }
 /* Define styles for the left and right containers */
 .left-container {
     transform: scale(0.9); 
     float: left;
     width: 50%;
-    padding: 20px;
+    padding: 1vw;
 }
 
 .right-container {
     transform: scale(0.9); 
     float: right;
     width: 50%;
-    padding: 20px;
+    padding: 1vw;
 }
 
 /* Clear the floats to prevent layout issues */
@@ -217,38 +284,8 @@ h2 {
     text-align: center;
 }
 
-/* Add some margin to the bottom of the buttons */
-.table-buttons {
-    margin-bottom: 20px;
-}
-
-/* Adjust margin for table rows */
-#syllabus-data tr:not(:last-child) {
-    margin-bottom: 10px;
-}
 
 
-
-/* Add margins to tables */
-
-
-/* Adjust margin for table rows */
-#syllabus-data tr:not(:last-child) {
-    margin-bottom: 10px;
-}
-
-/* Style table header */
-.table thead th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-}
-
-/* Style alternating rows */
-.table tbody tr:nth-child(even) {
-    background-color: #f7f7f7;
-}
-
-/* Style buttons */
 button {
     background-color: #003366; /* Dark blue */
     color: #fff;
