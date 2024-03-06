@@ -1,6 +1,6 @@
 .content-container {
-    display: flex;
-    justify-content: space-between;
+    display: inline-flex;
+
     padding: 0vw;
     max-width: 50%;
 }
@@ -22,6 +22,9 @@
         transform: translateY(0px);
     }
     100% {
+        transform: translateY(-40px);
+    }
+    0% {
         transform: translateY(-40px);
     }
 }
@@ -52,16 +55,17 @@ button {
     color: #333;
     text-align: center;
     padding: 0vw 0;
+    width: fit-content;
 }
 /* New container styles */
 .about-container {
     position: absolute; /* Adjust as needed */
-    left: 0.5vw;
+    left: 2.5vw;
+    top: 75vh;
     right: 0vw;
     width: 50%;
     background-color:white;
-    margin:7.5% 20% 5% 5%;
-    max-width: 40%;
+    max-width: 40vw;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     color: #333;
     padding: 0vw;
@@ -105,12 +109,12 @@ button {
 
 /* Apply the animation to the contact-us-container */
 .contact-us-container {
-    transform: scale(1); 
-    text-decoration: overline;
+    transform: scale(1);
     text-decoration: #1593e7;
     animation: moveContactUs 3s linear infinite; /* Adjust the duration as needed */
     text-align: center; /* Center the "Contact Us" text horizontally */
-    margin-top: 0vw; /* Add some margin between the form and the text */
+    margin-top: 90vh; /* Add some margin between the form and the text */
+    width: 20vw;
 }
 /* Define styles for the left and right containers */
 .left-container {
@@ -118,14 +122,18 @@ button {
     float: left;
     width: 50%;
     padding: 0vw;
-    bottom:100vw;
+    height: 50vh;
+    margin: auto 1vw;
 }
 
 .right-container {
     transform: scale(1); 
-    /*float: right;*/
+    float: right;
     width: 50%;
-    padding: 0vw;
+    height: 50%;
+    padding: 0;
+    top:10vh;
+    display: inline-flex;
 }
 
 /* Clear the floats to prevent layout issues */
@@ -142,6 +150,9 @@ button {
     }
     100% {
         transform: translateY(2.5vw);
+    }
+    0% {
+        transform: translateY(1vw);
     }
 }
 
@@ -161,7 +172,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     margin: 0;
     background-color: #f5f5f5; /* Light gray or any color of your choice */
 }
@@ -233,20 +243,22 @@ html, body {
 }
 
 form {
-    max-width: 450px;
-    width: 100%;
-    padding: 140px;
+    float: right;
+    margin-left: 2vw;
+    margin-top: 12vh;
+    padding: 1vw 10vw 1vw 10vw;
     background-color: #f5f5f5;
     border: 1px solid #ccc;
     border-radius: 0px;
+    max-width: 50%;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 
 .form-container {
     max-width: 450px;
-    width: 100%;
-    margin: 100px auto; /* Adjust margin from the top and center horizontally */
+    display: flex;
+    width: 100%; /* Adjust margin from the top and center horizontally */
     padding: 20px; /* Adjust padding to control the space inside the form */
     background-color: #f5f5f5;
     border: 1px solid #ccc;
@@ -257,7 +269,6 @@ form {
 form h2 {
     text-align: center;
     color: #333;
-    margin-bottom: 20px;
 }
 
 form label {
@@ -314,7 +325,7 @@ form .form-group {
 
 /*<style>*/
 /* Basic styling */
-label {
+#radiobutton{
     cursor: pointer;
     padding: 2vh 2vh 2vh 2vh;
     width: 8vw;
@@ -323,7 +334,7 @@ label {
     display: block;
 }
 
-label:hover {
+#radiobutton:hover {
     background-color: #f0f0f0;
     border: 1px solid #ccc;
 
@@ -335,14 +346,15 @@ input[type="radio"] {
 }
 
 /* Styling when the radio button is checked */
-input[type="radio"]:checked + label {
+input[type="radio"]:checked + #radiobutton {
     background-color: #a5d1e6;
     border-color: #596bab;
 }
 
 /* Icon and text styling */
 .fa {
-    margin-right: 15vw;
+   align-self: center;
+
 }
 
 /* Ensure table cells are aligned in the same row */

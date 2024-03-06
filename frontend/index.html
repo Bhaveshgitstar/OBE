@@ -12,7 +12,7 @@
 <body>
     <!-- Navigation Strip -->
     <div class="navigation-strip">
-        <h2>OBE Documentation Platform <a href="/" id ="aboutus" class="home-button">About us</a></h2>
+        <h2>&nbsp;&nbsp;OBE Documentation Platform <a href="/" id ="aboutus" class="home-button">About us</a></h2>
         <!-- Home Button (You are already on the home page) -->
         
     </div>
@@ -34,7 +34,6 @@
         </div>
 
         <!-- New Container for About Options -->
-
     </div>
     <div class="content-container">
         <div class="about-container">
@@ -49,22 +48,19 @@
     <div class="right-container">
         <form action="/loginextra" method="POST">
             <div class="form-group ">
-                <a>Choose your role to continue:</a>
-            </div>
-            <div class="form-group">
             <table>
                     <tr>
                         <td>
                             <input id="admin" type="radio" name="role" value="admin" required>
-                            <label for="admin"><i class="fa fa-user-shield"></i><p>Admin</p></label>
+                            <label id="radiobutton" for="admin"><i class="fa fa-user-shield"></i><p>Admin</p></label>
                         </td>
                         <td>
                             <input id="coordinator" type="radio" name="role" value="coordinator" checked="checked" required>
-                            <label for="coordinator"><i class="fa fa-user-tie"></i><p>Coordinator</p></label>
+                            <label id="radiobutton" for="coordinator"><i class="fa fa-user-tie"></i><p>Coordinator</p></label>
                         </td>
                         <td>
                             <input id="teacher" type="radio" name="role" value="teacher" required>
-                            <label for="teacher"><i class="fa fa-chalkboard-teacher"></i><p>Teacher</p></label>
+                            <label id="radiobutton" for="teacher"><i class="fa fa-chalkboard-teacher"></i><p>Teacher</p></label>
                         </td>
                     </tr>
                 </table>
@@ -78,21 +74,23 @@
                     <input type="password" id="password" name="password" placeholder="Enter your password" required>
                 </div>
         
-                <div class="form-group"><div>
-                    <img src="/captcha" alt="CAPTCHA"><br></br>
-                    <input type="text" id="captchaInput" placeholder="Enter Captcha" name="captchaInput" required></div>
-                  </div>
+                <div class="form-group">
+                    <img  id='captchaImg' src="/captcha" alt="CAPTCHA">  
+                    <i id="refreshCaptcha" class="fa fa-sync-alt" style="cursor: pointer;"></i><br></br>
+                    <input type="text" id="captchaInput" placeholder="Enter Captcha" name="captchaInput" required>
+                </div>
         
                 <!-- <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY_HERE"></div> -->
                 <div class="form-group text-center">
                     <button type="submit">Login</button>
                 </div>
         </form>
+        <div class="contact-us-container">
+            <div id="contact-us-line">Contact Us</div>
+        </div>
     </div>
 
-    <div class="contact-us-container">
-        <div id="contact-us-line">Contact Us</div>
-    </div>
+
     <div class="navigation-strip2">
         <h2></h2>
         <!-- Home Button (You are already on the home page) -->
@@ -104,5 +102,11 @@
     window.onpopstate = function () {
         window.history.pushState(null, '', window.location.href);
     };
+</script>
+<script>
+    document.getElementById('refreshCaptcha').addEventListener('click', function() {
+        // Refresh the captcha image by changing its source
+        document.getElementById('captchaImg').src = `/captcha?` + new Date().getTime();
+    });
 </script>
 </html>
