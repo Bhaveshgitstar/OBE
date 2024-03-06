@@ -1289,7 +1289,7 @@ app.get('/courseexamt2',checkSessionTimeout, async (req, res) => {
     try {
         const selectedSubject = req.query.subject;
         console.log(selectedSubject);
-        res.render('/coordinatorHtml/rights/exam/courseexamt2', { selectedSubject });
+        res.render('coordinatorHtml/rights/exam/courseexamt2', { selectedSubject });
            
     } catch (error) {
         res.status(500).send(error.message);
@@ -1316,7 +1316,7 @@ app.get('/courseexamt3',checkSessionTimeout, async (req, res) => {
     try {
         const selectedSubject = req.query.subject;
         console.log(selectedSubject);
-        res.render('/coordinatorHtml/rights/exam/courseexamt3', { selectedSubject });
+        res.render('coordinatorHtml/rights/exam/courseexamt3', { selectedSubject });
            
     } catch (error) {
         res.status(500).send(error.message);
@@ -2273,7 +2273,7 @@ app.post('/api/submitcot1', async (req, res) => {
 });
 app.post('/api/submitcot2', async (req, res) => {
     const c= req.query.code+"_t2co";
-    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule',attainmentT1Schema, c);
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule',attainmentT1Schemaco, c);
     await CourseOutcomeModule.deleteMany({});
     const formData = new CourseOutcomeModule(req.body);
     try {
@@ -2286,7 +2286,7 @@ app.post('/api/submitcot2', async (req, res) => {
 });
 app.post('/api/submitcot3', async (req, res) => {
     const c= req.query.code+"_t2co";
-    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule',attainmentT1Schema, c);
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule',attainmentT1Schemaco, c);
     await CourseOutcomeModule.deleteMany({});
     const formData = new CourseOutcomeModule(req.body);
     try {
@@ -2299,7 +2299,7 @@ app.post('/api/submitcot3', async (req, res) => {
 });
 app.post('/api/submitcota', async (req, res) => {
     const c= req.query.code+"_taco";
-    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule',attainmentT1Schema, c);
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule',attainmentT1Schemaco, c);
     await CourseOutcomeModule.deleteMany({});
     const formData = new CourseOutcomeModule(req.body);
     try {

@@ -201,9 +201,12 @@
     <!-- Add more buttons for additional pages as needed -->
     </div>
     <!-- ... (your existing HTML code) ... -->
-
+    <script>
+        const selectedSubject = '<%= selectedSubject %>';
+        window.selectedSubject = selectedSubject;
+    </script>
     <script src="dataval.js"></script>
-    <script src="../../../script/coordinator/rights/courseexamt1.js"></script>
+    <script src="../../../script/coordinator/rights/courseexamt3.js"></script>
     <script>
         function printPage() {
             // Call the window.print() method to initiate printing

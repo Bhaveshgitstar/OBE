@@ -106,6 +106,22 @@ $('.get-data-buttonsett1').click(function () {
   // Redirect to the attainmentt1 page with the selectedSubject as a query parameter
   window.location.href = `courseexamt1?subject=${encodeURIComponent(partBeforeParenthesis)}`;
 });
+$('.get-data-buttonsett2').click(function () {
+  const selectedSubject = $('#subjectDropdown').val();
+  const indexOfParenthesis = selectedSubject.indexOf(' ');
+  const partBeforeParenthesis = indexOfParenthesis !== -1 ? selectedSubject.substring(0, indexOfParenthesis).trim() : selectedSubject;
+
+  // Redirect to the attainmentt1 page with the selectedSubject as a query parameter
+  window.location.href = `courseexamt2?subject=${encodeURIComponent(partBeforeParenthesis)}`;
+});
+$('.get-data-buttonsett3').click(function () {
+  const selectedSubject = $('#subjectDropdown').val();
+  const indexOfParenthesis = selectedSubject.indexOf(' ');
+  const partBeforeParenthesis = indexOfParenthesis !== -1 ? selectedSubject.substring(0, indexOfParenthesis).trim() : selectedSubject;
+
+  // Redirect to the attainmentt1 page with the selectedSubject as a query parameter
+  window.location.href = `courseexamt3?subject=${encodeURIComponent(partBeforeParenthesis)}`;
+});
 
 
 sidebarClose.addEventListener("click", () => {
