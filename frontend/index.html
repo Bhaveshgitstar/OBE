@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/index.css"> <!-- Include your CSS file -->
-    <title>Home Page</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">    <title>Home Page</title>
     <style>
 
     </style>
@@ -12,62 +12,91 @@
 <body>
     <!-- Navigation Strip -->
     <div class="navigation-strip">
+        <h2>OBE Documentation Platform <a href="/" id ="aboutus" class="home-button">About us</a></h2>
         <!-- Home Button (You are already on the home page) -->
-        <a href="/" id ="aboutus" class="home-button">About us</a>
+        
     </div>
 
     <!-- Home Page Content -->
     <div class="content-container">
         <!-- Left Container - Latest News -->
         <div class="left-container">
-            <h2 class="upward-heading">Latest News</h2>
+            <h2 id="h2" class="upward-heading">Latest News</h2>
             <p class="upward-heading">1."This is to noted that a new app is going to be available soon to make your life more easier"<p>
             <!-- Content for the Latest News goes here -->
         </div>
 
         <!-- Left Container - Latest Circulars -->
         <div class="left-container">
-            <h2 class="upward-heading">Latest Circulars</h2>
+            <h2 id="h2" class="upward-heading">Latest Circulars</h2>
             <p class="upward-heading">1."Attainement correct format"</p>
             <!-- Content for the Latest Circulars goes here -->
         </div>
 
         <!-- New Container for About Options -->
+
+    </div>
+    <div class="content-container">
         <div class="about-container">
             <p>About Admin</p>
             <p>About Teacher</p>
             <p>About Coordinator</p>
         </div>
+
     </div>
 
     <!-- Right Container -->
     <div class="right-container">
-        <!-- Original content for the right container here -->
-        <h1>OBE Accreditation Platform</h1>
-        <form action="/login" method="POST">
+        <form action="/loginextra" method="POST">
             <div class="form-group ">
                 <a>Choose your role to continue:</a>
             </div>
             <div class="form-group">
-                <input type="radio" id="coordinator" name="role" value="coordinator" required>
-                <label for="coordinator">Coordinator</label>
-            </div>
-            <div class="form-group">
-                <input type="radio" id="admin" name="role" value="admin" required>
-                <label for="admin">Admin</label>
-            </div>
-            <div class="form-group">
-                <input type="radio" id="teacher" name="role" value="teacher" required>
-                <label for="teacher">Teacher</label>
-            </div>
-            <div class="form-group text-center">
-            <button type="submit">Continue</button>
-        </div>
+            <table>
+                    <tr>
+                        <td>
+                            <input id="admin" type="radio" name="role" value="admin" required>
+                            <label for="admin"><i class="fa fa-user-shield"></i><p>Admin</p></label>
+                        </td>
+                        <td>
+                            <input id="coordinator" type="radio" name="role" value="coordinator" checked="checked" required>
+                            <label for="coordinator"><i class="fa fa-user-tie"></i><p>Coordinator</p></label>
+                        </td>
+                        <td>
+                            <input id="teacher" type="radio" name="role" value="teacher" required>
+                            <label for="teacher"><i class="fa fa-chalkboard-teacher"></i><p>Teacher</p></label>
+                        </td>
+                    </tr>
+                </table>
+                </div>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+        
+                <div class="form-group"><div>
+                    <img src="/captcha" alt="CAPTCHA"><br></br>
+                    <input type="text" id="captchaInput" placeholder="Enter Captcha" name="captchaInput" required></div>
+                  </div>
+        
+                <!-- <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY_HERE"></div> -->
+                <div class="form-group text-center">
+                    <button type="submit">Login</button>
+                </div>
         </form>
     </div>
 
     <div class="contact-us-container">
         <div id="contact-us-line">Contact Us</div>
+    </div>
+    <div class="navigation-strip2">
+        <h2></h2>
+        <!-- Home Button (You are already on the home page) -->
+        
     </div>
 </body>
 <script>

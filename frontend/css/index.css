@@ -1,18 +1,13 @@
-html, body {
-
-    margin: 0;
-    padding: 0;
-    font-family: Arial, Helvetica, sans-serif; /* Professional font */
-}
-
 .content-container {
     display: flex;
     justify-content: space-between;
     padding: 0vw;
+    max-width: 50%;
 }
 .left-container {
     left: 0vw;
     right: 0vw;
+    top: 0vw;
     width: 100%; /* Adjust as needed */
     background-color: white;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
@@ -24,7 +19,7 @@ html, body {
 }
 @keyframes headingAnimation {
     0% {
-        transform: translateY(40px);
+        transform: translateY(0px);
     }
     100% {
         transform: translateY(-40px);
@@ -49,33 +44,34 @@ button {
     padding: 10px 20px;
     cursor: pointer;
 }
-h2 {
+#h2 {
     text-align: center;
-    margin: 20px 0;
+    margin: 0vw 0;
 }
 .contact-us-container {
     color: #333;
     text-align: center;
-    padding: 20px 0;
+    padding: 0vw 0;
 }
 /* New container styles */
 .about-container {
-    position: absolute;
-    bottom: 90px; /* Adjust as needed */
-    left: 40px;
-    right:20px;
-    width: 35%;
+    position: absolute; /* Adjust as needed */
+    left: 0.5vw;
+    right: 0vw;
+    width: 50%;
     background-color:white;
+    margin:7.5% 20% 5% 5%;
+    max-width: 40%;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     color: #333;
-    padding: 10px;
+    padding: 0vw;
     text-align: center;
 }
 /*body {
     
   }*/
 #aboutus{
-    display: inline-block;
+    display: inline-flex;
     padding: 10px 20px;
     background-color: #f05a15;
     color: #fff;
@@ -83,7 +79,7 @@ h2 {
     border-radius: 0vw;
     font-size: 1vw;
     position: relative ;
-    left: 90vw;
+    left: 68vw;
     
 }
 
@@ -96,39 +92,40 @@ h2 {
 /* Define the animation keyframes */
 @keyframes moveContactUs {
     0% {
-        transform: translateX(0px);
+        transform: translateX(-5vw);
     }
     0% {
-        transform: translateX(0px); /* Adjust the distance and direction of movement */
+        transform: translateX(-5vw); /* Adjust the distance and direction of movement */
     }
     100% {
-        transform: translateX(-775px);
+        transform: translateX(-45vw);
     }
 }
 
 
 /* Apply the animation to the contact-us-container */
 .contact-us-container {
-    transform: scale(0.9); 
+    transform: scale(1); 
     text-decoration: overline;
     text-decoration: #1593e7;
     animation: moveContactUs 3s linear infinite; /* Adjust the duration as needed */
     text-align: center; /* Center the "Contact Us" text horizontally */
-    margin-top: 20vw; /* Add some margin between the form and the text */
+    margin-top: 0vw; /* Add some margin between the form and the text */
 }
 /* Define styles for the left and right containers */
 .left-container {
-    transform: scale(0.9); 
+    transform: scale(1); 
     float: left;
     width: 50%;
-    padding: 1vw;
+    padding: 0vw;
+    bottom:100vw;
 }
 
 .right-container {
-    transform: scale(0.9); 
-    float: right;
+    transform: scale(1); 
+    /*float: right;*/
     width: 50%;
-    padding: 1vw;
+    padding: 0vw;
 }
 
 /* Clear the floats to prevent layout issues */
@@ -144,13 +141,13 @@ h2 {
         transform: translateY(0);
     }
     100% {
-        transform: translateY(-20px);
+        transform: translateY(2.5vw);
     }
 }
 
 /* Style for the heading animation */
 .upward-heading {
-    transform: scale(0.9); 
+    transform: scale(1); 
     animation: headingAnimation 1s ease infinite alternate;
 }
 
@@ -174,106 +171,35 @@ body {
     background-color: #f5f5f5; /* Light gray or any color of your choice */
 }
 
-/* Style the box heading */
-.box-heading {
-    transform: scale(0.9); 
-    background-color: #1593e7; /* Background color */
-    color: #fff; /* Text color */
-    padding: 8px; /* Add padding for spacing */
-    text-align: center; /* Center the text */
-    margin: 10px 0; /* Add margin for spacing between headings */
-    margin-top:0px;
-    margin-bottom: 50px;
-}
-
-
 /* Style the navigation strip */
 .navigation-strip {
     background-color: #003366; /* Professional dark blue color */
     color: #fff;
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: 0vw;
+    /*justify-content: space-between;*/
+    /*align-items: center;*/
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 999;
+    top: 0vw;
+    left: 0vw;
+    right: 0vw;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
 }
 
-/* Style the menu icon */
-.menu-icon {
-    transform: scale(0.9); 
-    cursor: pointer;
-    font-size: 24px;
+.navigation-strip2{
+    background-color: #003366; /* Professional dark blue color */
     color: #fff;
-    display: block;
-    margin-right: 20px; /* Add space to the right */
-}
-
-/* Style the menu options container */
-.menu-options {
-    transform: scale(0.9); 
-    flex-direction: column;
-    background-color: #003366; /* Match the navigation strip background color */
-    position: absolute;
-    top: 50px; /* Adjusted position */
-    left: 20px; /* Adjusted position */
-    z-index: 1000;
-    display: none;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
-}
-
-/* Style individual menu options */
-.menu-option {
-    padding: 10px;
-    color: #fff;
-    text-decoration: none;
-}
-
-/* Style the user info popup */
-.user-info-popup {
-    position: absolute;
-    top: 75px;
-    right: 20px;
-    background-color: #fff;
-    color: #333;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    display: none;
-}
-
-/* Style the user info button */
-.user-info-button {
-    cursor: pointer;
-    text-decoration: underline;
-    color: #fff;
-}
-
-/* Show the user info popup on button hover */
-.user-info-button:hover + .user-info-popup {
-    display: block;
-}
-
-/* Show the menu icon on smaller screens */
-@media (max-width: 768px) {
-    .menu-icon {
-        display: block;
-    }
-
-    .menu-options {
-        position: static;
-        display: none;
-    }
+    padding: 0vw;
+    /*justify-content: space-between;*/
+    /*align-items: center;*/
+    position: fixed;
+    bottom: 0vw;
+    left: 0vw;
+    right: 0vw;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
 }
 
 /* Style headings */
-h2 {
+#h2 {
     text-align: center;
     text-decoration: underline;
     margin: 20px 0;
@@ -284,10 +210,8 @@ h2 {
     text-align: center;
 }
 
-
-
-button {
-    background-color: #003366; /* Dark blue */
+/*button {
+    background-color: #003366;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -297,15 +221,15 @@ button {
 }
 
 button:hover {
-    background-color: #002855; /* Slightly darker blue on hover */
-}
+    background-color: #002855; 
+}*/
 
 /* Style form elements */
 /* Reset some default styles for consistency */
 html, body {
     margin: 0;
     padding: 0;
-    font-family: Arial, Helvetica, sans-serif; /* Professional font */
+    font-family: 'Source Sans Pro' , sans-serif; /* Professional font */
 }
 
 form {
@@ -387,3 +311,46 @@ form button[type="submit"]:hover {
 form .form-group {
     margin-bottom: 15px;
 }
+
+/*<style>*/
+/* Basic styling */
+label {
+    cursor: pointer;
+    padding: 2vh 2vh 2vh 2vh;
+    width: 8vw;
+    border: 1px solid #ccc;
+    margin: 5% 5% 5% 5%;
+    display: block;
+}
+
+label:hover {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+
+}
+
+/* Hide the default radio button */
+input[type="radio"] {
+    display: none;
+}
+
+/* Styling when the radio button is checked */
+input[type="radio"]:checked + label {
+    background-color: #a5d1e6;
+    border-color: #596bab;
+}
+
+/* Icon and text styling */
+.fa {
+    margin-right: 15vw;
+}
+
+/* Ensure table cells are aligned in the same row */
+table {
+    border-collapse: collapse;
+}
+
+table td {
+    vertical-align: top;
+}
+/*</style>*/

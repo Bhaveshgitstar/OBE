@@ -270,10 +270,6 @@ const courseschema = new mongoose.Schema({
 { versionKey: false });
 app.use(express.static(path.join(__dirname, 'frontend')));
 const upload = multer({ dest: 'uploads/' });
-
-
-
-
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'adminlogin.html'));
 });
@@ -313,7 +309,6 @@ function isValidNumber(value) {
     // Check if the value is a valid number
     return !isNaN(parseFloat(value)) && isFinite(value);
 }
-
 app.get('/generate-sample-excel', async (req, res) => {
     try {
         const c= req.query.code+"_t1co";
@@ -752,8 +747,6 @@ app.post('/upload', upload.single('file'), (req, res) => {
             res.status(500).send('Error parsing Excel file');
         });
 });
-
-
 app.post('/uploadt2', upload.single('file'), (req, res) => {
     const c= req.query.code+"_at2";
     readXlsxFile(req.file.path)
@@ -840,7 +833,6 @@ app.post('/uploadt2', upload.single('file'), (req, res) => {
             res.status(500).send('Error parsing Excel file');
         });
 });
-
 app.post('/uploadt3', upload.single('file'), (req, res) => {
     const c= req.query.code+"_at3";
     readXlsxFile(req.file.path)
@@ -1013,7 +1005,6 @@ app.post('/uploadta', upload.single('file'), (req, res) => {
             res.status(500).send('Error parsing Excel file');
         });
 });
-
 // Express route to fetch subject options based on selected year and semester
 app.get('/subjects', async(req, res) => {
     const selectedYear = parseInt(req.query.year, 10); // Parse the query parameter as an integer
@@ -1033,7 +1024,6 @@ app.get('/subjects', async(req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
-
 app.get('/subjectsopt', async(req, res) => {
     //const selectedYear = parseInt(req.query.year, 10); // Parse the query parameter as an integer
     const username = req.query.user;
@@ -1050,7 +1040,6 @@ app.get('/subjectsopt', async(req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
-
 app.post('/addsubjects', async(req, res) => {
     try{
     const selectedYear = parseInt(req.query.year, 10); // Parse the query parameter as an integer
@@ -1091,7 +1080,6 @@ app.post('/addsubjects', async(req, res) => {
     res.status(500).send(error.message);
 }
 });
-
 // Express route to fetch data based on selected values
 app.get('/fetch-data', async (req, res) => {
     const dept = req.query.department;
@@ -1111,7 +1099,6 @@ app.get('/fetch-data', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
-
 app.get('/fetch-datacm', async (req, res) => {
     const dept = req.query.department;
     const sem = req.query.semester;
@@ -1140,7 +1127,6 @@ app.get('/fetch-datacm', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
-
 app.post('/set-teachers', async (req, res) => {
     const teacherNames = req.body.name; // An array of selected teacher names
     const courseId = req.body.courseid; // The ID of the course to update
@@ -1175,7 +1161,6 @@ app.post('/set-teachers', async (req, res) => {
         res.status(500).json({ success: false, error: 'Internal server error' });
     }
 });
-
 app.post('/set-coordinators', async (req, res) => {
     const teacherNames = req.body.name; // An array of selected teacher names
     const courseId = req.body.courseid; // The ID of the course to update
@@ -1210,8 +1195,6 @@ app.post('/set-coordinators', async (req, res) => {
         res.status(500).json({ success: false, error: 'Internal server error' });
     }
 });
-
-
 app.get('/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) {
@@ -1221,8 +1204,6 @@ app.get('/logout', (req, res) => {
         }
     });
 });
-
-
 app.post('/admin-login',checkSessionTimeout, async (req, res) => {
     try {
         const user = await EduUser.findOne({ username: req.body.username });
@@ -1240,7 +1221,6 @@ app.post('/admin-login',checkSessionTimeout, async (req, res) => {
         res.status(500).send(error.message);
     }
 });
-
 app.get('/adminhome',checkSessionTimeout, async (req, res) => {
     try {
         res.sendFile(path.join(__dirname, 'frontend', 'adminHtml/home/adminhome.html'));
@@ -1249,7 +1229,6 @@ app.get('/adminhome',checkSessionTimeout, async (req, res) => {
         res.status(500).send(error.message);
     }
 });
-
 app.get('/coursehome',checkSessionTimeout, async (req, res) => {
     try {
         res.sendFile(path.join(__dirname, 'frontend', 'coordinatorHtml/home/coursehome.html'));
@@ -1258,7 +1237,6 @@ app.get('/coursehome',checkSessionTimeout, async (req, res) => {
         res.status(500).send(error.message);
     }
 });
-
 app.get('/courseexamt1',checkSessionTimeout, async (req, res) => {
     try {
         const selectedSubject = req.query.subject;
@@ -1284,7 +1262,6 @@ app.get('/courseexamt1teaopt',checkSessionTimeout, async (req, res) => {
         res.status(500).send(error.message);
     }
 });
-
 app.get('/courseexamt2',checkSessionTimeout, async (req, res) => {
     try {
         const selectedSubject = req.query.subject;
@@ -1311,7 +1288,6 @@ app.get('/courseexamt2teaopt',checkSessionTimeout, async (req, res) => {
         res.status(500).send(error.message);
     }
 });
-
 app.get('/courseexamt3',checkSessionTimeout, async (req, res) => {
     try {
         const selectedSubject = req.query.subject;
@@ -1506,34 +1482,30 @@ app.get('/atcopsomap',checkSessionTimeout, async (req, res) => {
         res.status(500).send(error.message);
     }
 });
-
 app.get('/adminmapping',checkSessionTimeout, async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'frontend', 'admincontrol.html'));
+        res.sendFile(path.join(__dirname, 'frontend', 'adminHtml/rights/mapping/admincontrol.html'));
            
     } catch (error) {
         res.status(500).send(error.message);
     }
 });
-
 app.get('/coursemapping',checkSessionTimeout, async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'frontend', 'coursemapping.html'));
+        res.sendFile(path.join(__dirname, 'frontend', 'adminHtml/rights/mapping/coursemapping.html'));
            
     } catch (error) {
         res.status(500).send(error.message);
     }
 });
-
 app.get('/adminmapping2',checkSessionTimeout, async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'frontend', 'admincontrol2.html'));
+        res.sendFile(path.join(__dirname, 'frontend', 'adminHtml/rights/mapping/admincontrol2.html'));
            
     } catch (error) {
         res.status(500).send(error.message);
     }
 });
-
 app.post('/coordinator-login', async (req, res) => {
     try {
         const user = await EduUser.findOne({ username: req.body.username });
@@ -1553,26 +1525,96 @@ app.post('/coordinator-login', async (req, res) => {
     }
     
 });
-
 app.post('/forgot-password', (req, res) => {
     // Handle the logic for forgot password here
     // You can send an email with a reset password link, for example
     res.send('Forgot Password Page');
 });
-
 app.post('/username-recovery', (req, res) => {
     // Handle the logic for username recovery here
     // You can send an email with the username or display it on this page
     res.send('Username Recovery Page');
 });
-
 app.post('/create-account', (req, res) => {
     // Handle the logic for username recovery here
     // You can send an email with the username or display it on this page
     res.send('Username Recovery Page');
 });
+app.post('/loginextra', async(req, res) => {
+    const selectedRole = req.body.role;
 
+    // You can add logic here to redirect the user based on the selected role
+    if (selectedRole === 'coordinator') {
+        try {
+            const user = await EduUser.findOne({ username: req.body.username });
+            const userInput = req.body.captchaInput;
+            const storedCaptcha = req.session.captcha;
+            if (user && await bcrypt.compare(req.body.password, user.password) && userInput===storedCaptcha) {
+                req.session.user = user;
 
+                if (req.session.user.Role.includes("Coordinator")) {
+                    res.sendFile(path.join(__dirname, 'frontend', 'coordinatorHtml/home/coursehome.html'));
+                } else {
+                    res.send("Invalid User");
+                }
+                
+            } else {
+                res.send('Invalid login credentials');
+            }
+        } catch (error) {
+            res.status(500).send(error.message);
+        }
+    } else if (selectedRole === 'admin') {
+        try {
+            const user = await EduUser.findOne({ username: req.body.username });
+            const userInput = req.body.captchaInput;
+            const storedCaptcha = req.session.captcha;
+            if (user && await bcrypt.compare(req.body.password, user.password) && userInput===storedCaptcha) {
+                req.session.user = user;
+
+                if (req.session.user.Role.includes("Admin")) {
+                    res.sendFile(path.join(__dirname, 'frontend', 'adminHtml/home/adminhome.html'));
+                } else {
+                    res.send("Invalid User");
+                }
+            } else {
+                res.send('Invalid login credentials');
+            }
+        } catch (error) {
+            res.status(500).send(error.message);
+        }
+    } else if (selectedRole === 'teacher') {
+        // Redirect the teacher to their login page
+        try {
+            const user = await EduUser.findOne({ username: req.body.username });
+            const userInput = req.body.captchaInput;
+            const storedCaptcha = req.session.captcha;
+            if (user && await bcrypt.compare(req.body.password, user.password) && userInput===storedCaptcha) {
+                req.session.user = user;
+                const role = req.session.user.Role;
+    
+                if (req.session.user.Role.includes("Teacher")||req.session.user.Role("Coordinator")) {
+                    res.sendFile(path.join(__dirname, 'frontend', 'teacherHtml/home/teacherhome.html'));
+                } else {
+                    res.send("Invalid User");
+                }
+            } else {
+                res.send('Invalid login credentials');
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            res.status(500).send(error.message);
+        }
+    } else {
+        // Handle invalid role selection
+        res.send('Invalid role selected');
+    }
+});
+app.get('/captcha', (req, res) => {
+    const captcha = svgCaptcha.create();
+    req.session.captcha = captcha.text; // Store the CAPTCHA value in session
+    res.type('svg').send(captcha.data);
+  });
 app.post('/login', (req, res) => {
     const selectedRole = req.body.role;
 
@@ -1591,13 +1633,11 @@ app.post('/login', (req, res) => {
         res.send('Invalid role selected');
     }
 });
-
 app.get('/captcha', (req, res) => {
     const captcha = svgCaptcha.create();
     req.session.captcha = captcha.text; // Store the CAPTCHA value in session
     res.type('svg').send(captcha.data);
   });
-
 app.post('/teacher-login', async (req, res) => {
     try {
         const user = await EduUser.findOne({ username: req.body.username });
@@ -1620,9 +1660,6 @@ app.post('/teacher-login', async (req, res) => {
         res.status(500).send(error.message);
     }
 });
-
-
-
 app.get('/api/get-username', async (req, res) => {
     try {
         const username = req.session.user.User;
@@ -1632,7 +1669,6 @@ app.get('/api/get-username', async (req, res) => {
         res.status(500).json({ error: 'Error fetching username' });
     }
 });
-
 app.get('/api/get-userrole', async (req, res) => {
     try {
         const userrole = req.session.user.Role;
@@ -1642,7 +1678,6 @@ app.get('/api/get-userrole', async (req, res) => {
         res.status(500).json({ error: 'Error fetching userrole' });
     }
 });
-
 app.post('/api/updatedb', async (req, res) => {
     const { columnName } = req.body;
     const c= req.query.code+"_at";
@@ -1727,9 +1762,6 @@ app.post('/api/updatedbta', async (req, res) => {
             res.status(500).json({ error: "Update failed" });
         });
 });
-
-
-
 app.post('/api/updatedbco', async (req, res) => {
     const { columnName,co } = req.body;
     const c= req.query.code+"_t1co";
@@ -1898,8 +1930,6 @@ app.post('/api/updatedbmarksta', async (req, res) => {
             res.status(500).json({ error: "Update failed" });
         });
 });
-
-
 app.get('/api/get-usercourse', async (req, res) => {
     try {
         const usercourse = req.session.user.Course;
@@ -1909,8 +1939,6 @@ app.get('/api/get-usercourse', async (req, res) => {
         res.status(500).json({ error: 'Error fetching usercourse' });
     }
 });
-
-
 app.get('/api/cd', async (req, res) => {
     try {
         const c= req.query.code+"_cd";
@@ -2251,7 +2279,8 @@ app.post('/api/modules', async (req, res) => {
      }
  });
 
- const FormSchema = new mongoose.Schema({
+
+const FormSchema = new mongoose.Schema({
     numQuestions: Number,
     marksPerQuestion: [Number],
     numCOs: Number,
