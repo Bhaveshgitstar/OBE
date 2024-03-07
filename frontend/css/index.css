@@ -1,7 +1,7 @@
 .content-container {
     display: inline-flex;
     padding: 0vw;
-    max-width: 50%;
+    max-width: 50vw;
 }
 .left-container {
     overflow: hidden;
@@ -65,7 +65,7 @@ button {
     left: 2.5vw;
     top: 75vh;
     right: 0vw;
-    width: 50%;
+    width: 50vw;
     align-items: center;
    /* background-color:white;*/
     max-width: 40vw;
@@ -419,8 +419,8 @@ table td {
     padding: 0.9vw;
     animation: headingAnimation 3s ease-in-out infinite alternate;
     animation-delay: 1s; /* Add a delay of 1 second */
-    border-bottom: 0.5vh dashed #2179b3;
-    border-top: 0.5vh ashed #2179b3;
+    border-bottom: 0.215vw dashed #2179b3;
+    border-top: 0.225vw ashed #2179b3;
     height: 5vh; /* Add border to the bottom only */
     font-family: 'Calibri', sans-serif;
     text-decoration: bold;
@@ -434,5 +434,4 @@ table td {
     font-size: 1vw;
 
 }
-
 
