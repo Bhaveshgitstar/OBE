@@ -208,6 +208,9 @@ body {
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
 }
 
+h2{
+    font-size: 1.55vw;
+}
 /* Style headings */
 #h2 {
     text-align: center;
@@ -425,7 +428,7 @@ table td {
 }
 
 .navigation-strip2{
-    font-size: 2vh;
+    font-size: 1vw;
 
 }
 
