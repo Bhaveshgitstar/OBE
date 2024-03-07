@@ -1,10 +1,10 @@
 .content-container {
     display: inline-flex;
-
     padding: 0vw;
     max-width: 50%;
 }
 .left-container {
+    overflow: hidden;
     left: 0vw;
     right: 0vw;
     top: 0vw;
@@ -47,6 +47,7 @@ button {
     padding: 10px 20px;
     cursor: pointer;
 }
+
 #h2 {
     text-align: center;
     margin: 0vw 0;
@@ -64,9 +65,10 @@ button {
     top: 75vh;
     right: 0vw;
     width: 50%;
-    background-color:white;
+    align-items: center;
+   /* background-color:white;*/
     max-width: 40vw;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    /*box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);*/
     color: #333;
     padding: 0vw;
     text-align: center;
@@ -149,17 +151,14 @@ button {
         transform: translateY(0);
     }
     100% {
-        transform: translateY(2.5vw);
-    }
-    0% {
-        transform: translateY(1vw);
+        transform: translateY(-30vh);
     }
 }
 
 /* Style for the heading animation */
 .upward-heading {
     transform: scale(1); 
-    animation: headingAnimation 1s ease infinite alternate;
+    animation: headingAnimation 1s ease-in-out infinite alternate;
 }
 
 /* Additional styles can be placed here */
@@ -211,8 +210,9 @@ body {
 /* Style headings */
 #h2 {
     text-align: center;
-    text-decoration: underline;
-    margin: 20px 0;
+    color: #fff;
+    padding: 1vh;
+    background-color:#003366;
 }
 
 /* Center the content */
@@ -328,10 +328,40 @@ form .form-group {
 #radiobutton{
     cursor: pointer;
     padding: 2vh 2vh 2vh 2vh;
-    width: 8vw;
+    width: 7.5vw;
     border: 1px solid #ccc;
     margin: 5% 5% 5% 5%;
     display: block;
+    
+}
+
+#about{
+    cursor: pointer;
+    padding: 2vh 2vh 2vh 2vh;
+    width: 8vw;
+    height:8vh;
+    border: 1px solid #ccc;
+    margin: 5% 5% 5% 5%;
+    display: block;
+    margin-left:1vw ;
+    background-color:  #003366;
+    color: #f5f5f5;
+}
+
+#aboutgap{
+    cursor: pointer;
+    padding: 2vh 2vh 2vh 2vh;
+    width: 1.25vw;
+    height:8vh;
+    margin: 5% 5% 5% 5%;
+    display: block;
+    
+}
+
+#about:hover {
+    background-color: #1c26ae;
+    border: 1px solid #ccc;
+
 }
 
 #radiobutton:hover {
@@ -366,3 +396,31 @@ table td {
     vertical-align: top;
 }
 /*</style>*/
+
+.about-info {
+    display: none;
+    position: absolute;
+    background-color: #a5d1e6;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 1;
+}
+
+#about:hover + .about-info {
+    display: block;
+}
+#banner {
+    padding: 2vh;
+    animation: headingAnimation 3s ease-in-out infinite alternate;
+    animation-delay: 1s; /* Add a delay of 1 second */
+    border-bottom: 0.5vh dashed #2179b3;
+    border-top: 0.5vh ashed #2179b3;
+    height: 5vh; /* Add border to the bottom only */
+    font-family: 'Calibri', sans-serif;
+    text-decoration: bold;
+    color: #333;
+    animation-iteration-count: 5;
+    overflow: hidden; /* Hide any overflowing text */ /* Show an ellipsis (...) if the text overflows */
+}
+
+

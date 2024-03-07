@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keyframe Animation Examples</title>
+<style>
+    /* Linear Animation */
+    @keyframes linearAnimation {
+        from { transform: translateX(0); }
+        to { transform: translateX(300px); }
+    }
+    
+    /* Ease-in Animation */
+    @keyframes easeInAnimation {
+        from { transform: translateX(0); }
+        to { transform: translateX(300px); }
+    }
+
+    /* Ease-out Animation */
+    @keyframes easeOutAnimation {
+        from { transform: translateX(0); }
+        to { transform: translateX(300px); }
+    }
+
+    /* Ease-in-out Animation */
+    @keyframes easeInOutAnimation {
+        from { transform: translateX(0); }
+        to { transform: translateX(300px); }
+    }
+
+    /* Step-start Animation */
+    @keyframes stepStartAnimation {
+        from { transform: translateX(0); }
+        to { transform: translateX(300px); }
+    }
+
+    /* Step-end Animation */
+    @keyframes stepEndAnimation {
+        from { transform: translateX(0); }
+        to { transform: translateX(300px); }
+    }
+
+    /* Cubic Bezier Animation */
+    @keyframes cubicBezierAnimation {
+        0% { transform: translateX(0); }
+        50% { transform: translateX(150px); }
+        100% { transform: translateX(300px); }
+    }
+
+    /* Custom Timing Function Animation */
+    @keyframes customTimingFunctionAnimation {
+        0% { transform: translateX(0); }
+        50% { transform: translateX(150px); }
+        100% { transform: translateX(300px); }
+    }
+
+    /* Apply animation to elements */
+    .box {
+        width: 50px;
+        height: 50px;
+        background-color: #3498db;
+        margin-bottom: 20px;
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+    }
+
+    .linear-animation { animation-name: linearAnimation; }
+    .ease-in-animation { animation-name: easeInAnimation; animation-timing-function: ease-in; }
+    .ease-out-animation { animation-name: easeOutAnimation; animation-timing-function: ease-out; }
+    .ease-in-out-animation { animation-name: easeInOutAnimation; animation-timing-function: ease-in-out; }
+    .step-start-animation { animation-name: stepStartAnimation; animation-timing-function: step-start; }
+    .step-end-animation { animation-name: stepEndAnimation; animation-timing-function: step-end; }
+    .cubic-bezier-animation { animation-name: cubicBezierAnimation; animation-timing-function: cubic-bezier(0.1, 0.7, 1.0, 0.1); }
+    .custom-timing-function-animation { animation-name: customTimingFunctionAnimation; animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1.0); }
+</style>
+</head>
+<body>
+    <div class="box linear-animation"></div>
+    <div class="box ease-in-animation"></div>
+    <div class="box ease-out-animation"></div>
+    <div class="box ease-in-out-animation"></div>
+    <div class="box step-start-animation"></div>
+    <div class="box step-end-animation"></div>
+    <div class="box cubic-bezier-animation"></div>
+    <div class="box custom-timing-function-animation"></div>
+</body>
+</html>
