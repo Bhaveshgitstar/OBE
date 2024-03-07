@@ -423,4 +423,9 @@ table td {
     overflow: hidden; /* Hide any overflowing text */ /* Show an ellipsis (...) if the text overflows */
 }
 
+.navigation-strip2{
+    font-size: 2vh;
+
+}
+
 
