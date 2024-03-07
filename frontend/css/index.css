@@ -79,7 +79,7 @@ button {
   }*/
 #aboutus{
     display: inline-flex;
-    padding: 10px 20px;
+    padding: 0.8vw 1.5vw;
     background-color: #f05a15;
     color: #fff;
     text-decoration: none; /* Remove underlines from links */
