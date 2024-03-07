@@ -19,7 +19,7 @@ app.set('views', path.join(__dirname, 'frontend'));
 app.use(bodyParser.json());
 
 // Establish the connection to the educational_platform database
-const educationalPlatformDb = mongoose.createConnection('mongodb+srv://bhasha12:cLU4rWC63vJIWt3o@obedoc.yjscp0h.mongodb.net/educational_platform', { useNewUrlParser: true, useUnifiedTopology: true });
+const educationalPlatformDb = mongoose.createConnection('mongodb+srv://bhasha12:cLU4rWC63vJIWt3o@obedoc.yjscp0h.mongodb.net/?retryWrites=true&w=majority&appName=obedoc/educational_platform', { useNewUrlParser: true, useUnifiedTopology: true });
 
 educationalPlatformDb.once('open', () => {
     console.log('Connected to educational_platform database');
@@ -75,7 +75,7 @@ const eduUserSchema = new mongoose.Schema({
 const EduUser = educationalPlatformDb.model('User', eduUserSchema);
 
 // Establish the connection to the course_outcome database
-const courseOutcomeDb = mongoose.createConnection('mongodb+srv://bhasha12:cLU4rWC63vJIWt3o@obedoc.yjscp0h.mongodb.net/course_outcome', { useNewUrlParser: true, useUnifiedTopology: true });
+const courseOutcomeDb = mongoose.createConnection('mongodb+srv://bhasha12:cLU4rWC63vJIWt3o@obedoc.yjscp0h.mongodb.net/?retryWrites=true&w=majority&appName=obedoc/course_outcome', { useNewUrlParser: true, useUnifiedTopology: true });
 
 courseOutcomeDb.once('open', () => {
     console.log('Connected to course_outcome database');

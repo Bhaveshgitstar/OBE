@@ -423,6 +423,7 @@ table td {
     font-family: 'Calibri', sans-serif;
     text-decoration: bold;
     color: #333;
+    font-size: 1.005vw;
     animation-iteration-count: 5;
     overflow: hidden; /* Hide any overflowing text */ /* Show an ellipsis (...) if the text overflows */
 }
