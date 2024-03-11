@@ -2,6 +2,7 @@ html, body {
     margin: 0;
     padding: 0;
     font-family: Arial, Helvetica, sans-serif; /* Professional font */
+    background: linear-gradient(to left, #A3B5DF, #F5FAFF);;
 }
 
 

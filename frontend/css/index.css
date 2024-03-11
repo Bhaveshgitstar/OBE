@@ -10,7 +10,9 @@
     top: 0vw;
     width: 100%; /* Adjust as needed */
     background-color: white;
+    background: linear-gradient(to top, #A3B5DF, #F5FAFF);
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 5%;
     padding: 1vw;
     position: relative; /* Added for positioning the new container */
 }
@@ -54,10 +56,10 @@ button {
     font-size: 1.2vw;
 }
 .contact-us-container {
+    display: inline;
     color: #333;
     text-align: center;
     padding: 0vw 0;
-    width: fit-content;
 }
 /* New container styles */
 .about-container {
@@ -80,7 +82,7 @@ button {
 #aboutus{
     cursor: pointer;
     padding: 0.8vw 1.5vw;
-    background-color: #f05a15;
+    background: linear-gradient(to right, #FF5F6D, #FFC371);
     color: #fff;
     text-decoration: none; /* Remove underlines from links */
     border-radius: 0vw;
@@ -196,9 +198,10 @@ body {
 }
 
 .navigation-strip2{
-    background-color: #003366; /* Professional dark blue color */
+    background: linear-gradient(to right, #614385, #516395); /* Professional dark blue color */
     color: #fff;
     padding: 0vw;
+    text-align: center;
     /*justify-content: space-between;*/
     /*align-items: center;*/
     position: fixed;
@@ -216,7 +219,7 @@ h2{
     text-align: center;
     color: #fff;
     padding: 1vh;
-    background-color:#003366;
+    background: linear-gradient(to right, #2E3192, #1BFFFF);
 }
 
 /* Center the content */
@@ -401,7 +404,7 @@ form .form-group {
 }
 
 #radiobutton:hover {
-    background-color: #f0f0f0;
+    background: linear-gradient(to left, #93A5CF, #E4EfE9);
     border: 1px solid #ccc;
 
 }
@@ -413,7 +416,7 @@ input[type="radio"] {
 
 /* Styling when the radio button is checked */
 input[type="radio"]:checked + #radiobutton {
-    background-color: #a5d1e6;
+    background: linear-gradient(to left, #A1C4FD, #C2E9FB);
     border-color: #596bab;
 }
 
@@ -462,7 +465,7 @@ table td {
     text-decoration: bold;
     color: #333;
     font-size: 1.005vw;
-    animation-iteration-count: 5;
+    animation-iteration-count: 7;
     overflow: hidden; /* Hide any overflowing text */ /* Show an ellipsis (...) if the text overflows */
 }
 
