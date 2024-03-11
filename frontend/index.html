@@ -12,7 +12,7 @@
 <body>
     <!-- Navigation Strip -->
     <div class="navigation-strip">
-        <h2>&nbsp;&nbsp;OBE Documentation Platform <a href="/" id ="aboutus" class="home-button">About us</a></h2>
+        <h2>&nbsp;&nbsp;OBE Documentation Platform <a id ="aboutus" class="home-button">About us</a><div class="about-info">Contact us:</div></td></h2>
         <!-- Home Button (You are already on the home page) -->
         
     </div>
@@ -87,6 +87,12 @@
                 <!-- <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY_HERE"></div> -->
                 <div class="form-group text-center">
                     <button type="submit">Login</button>
+                    <button onclick="run()" type="submit2">Register</button>
+                </div>
+                <div class="form-group text-center">
+                    <!-- Add Forgot Password and Create Account Links -->
+                    <a href="/forgot-password" class="/forgot-password">Forgot Password?</a> &nbsp;
+
                 </div>
         </form>
         <div class="contact-us-container">
@@ -96,7 +102,7 @@
 
 
     <div class="navigation-strip2">
-        <p>hello i am here<p>
+        <p><p>
         <!-- Home Button (You are already on the home page) -->
         
     </div>
@@ -107,6 +113,11 @@
         window.history.pushState(null, '', window.location.href);
     };
 </script>
+<script>
+    function run(){
+        window.location.href = '/register';
+
+    }</script>
 <script>
     document.getElementById('refreshCaptcha').addEventListener('click', function() {
         // Refresh the captcha image by changing its source

@@ -19,7 +19,7 @@ app.set('views', path.join(__dirname, 'frontend'));
 app.use(bodyParser.json());
 
 // Establish the connection to the educational_platform database
-const educationalPlatformDb = mongoose.createConnection('mongodb+srv://bhasha12:cLU4rWC63vJIWt3o@obedoc.yjscp0h.mongodb.net/?retryWrites=true&w=majority&appName=obedoc/educational_platform', { useNewUrlParser: true, useUnifiedTopology: true });
+const educationalPlatformDb = mongoose.createConnection('mongodb+srv://bhasha12:cLU4rWC63vJIWt3o@obedoc.yjscp0h.mongodb.net/educational_platform', { useNewUrlParser: true, useUnifiedTopology: true });
 
 educationalPlatformDb.once('open', () => {
     console.log('Connected to educational_platform database');
@@ -75,7 +75,7 @@ const eduUserSchema = new mongoose.Schema({
 const EduUser = educationalPlatformDb.model('User', eduUserSchema);
 
 // Establish the connection to the course_outcome database
-const courseOutcomeDb = mongoose.createConnection('mongodb+srv://bhasha12:cLU4rWC63vJIWt3o@obedoc.yjscp0h.mongodb.net/?retryWrites=true&w=majority&appName=obedoc/course_outcome', { useNewUrlParser: true, useUnifiedTopology: true });
+const courseOutcomeDb = mongoose.createConnection('mongodb+srv://bhasha12:cLU4rWC63vJIWt3o@obedoc.yjscp0h.mongodb.net/course_outcome', { useNewUrlParser: true, useUnifiedTopology: true });
 
 courseOutcomeDb.once('open', () => {
     console.log('Connected to course_outcome database');
@@ -309,6 +309,29 @@ function isValidNumber(value) {
     // Check if the value is a valid number
     return !isNaN(parseFloat(value)) && isFinite(value);
 }
+
+app.get('/register', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'adminHtml/login/adminlogin.html'));
+});
+
+app.post('/register', async (req, res) => {
+    try {
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        const newUser = new EduUser({
+            username: req.body.username,
+            password: hashedPassword,
+            User: req.body.user,
+            Role: req.body.role,
+            Department: req.body.Department,
+            Course: req.body.Course
+
+        });
+        await newUser.save();
+        res.redirect('/');
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
 app.get('/generate-sample-excel', async (req, res) => {
     try {
         const c= req.query.code+"_t1co";
