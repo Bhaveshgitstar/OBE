@@ -18,7 +18,9 @@ html, body {
         transform: translateX(-775px);
     }
 }
-
+.form-select{
+    width: 300px;
+}
 
 /* Apply the animation to the contact-us-container */
 .contact-us-container {
@@ -179,4 +181,27 @@ form button[type="submit"]:hover {
 
 form .form-group {
     margin-bottom: 15px;
+}
+
+.input-group {
+    position: relative;
+}
+
+.input-group-icon {
+    position: absolute;
+    top: 22%;
+    /*transform: translateY(-40%);*/
+    left: 10px;
+
+}
+
+
+.input-group input[type="text"],
+.input-group input[type="password"] {
+    padding-left: 40px; /* Adjust as needed to accommodate the icon */
+    /* Other input styles */
+}
+
+.invalid-password {
+    border-color: red;
 }

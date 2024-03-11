@@ -116,7 +116,7 @@ button {
     text-decoration: #1593e7;
     animation: moveContactUs 3s linear infinite; /* Adjust the duration as needed */
     text-align: center; /* Center the "Contact Us" text horizontally */
-    margin-top: 90vh; /* Add some margin between the form and the text */
+    margin-top: 92vh; /* Add some margin between the form and the text */
     width: 20vw;
 }
 /* Define styles for the left and right containers */
@@ -133,7 +133,7 @@ button {
     transform: scale(1); 
     float: right;
     width: 50vw;
-    height: 92vh;
+    height: 95vh;
     padding: 0;
     top:10vh;
     display: inline-flex;
