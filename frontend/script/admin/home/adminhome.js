@@ -93,6 +93,8 @@ $('#setCoordinatorButton').click(function () {
     const selectedSemester = $('#semesterDropdown').val();
     const selectedSubject = $('#subjectDropdown').val();
     const department = $('#deptDropdown').val();
+    const indexOfParenthesis = selectedSubject.indexOf(' ');
+    const partBeforeParenthesis = indexOfParenthesis !== -1 ? selectedSubject.substring(0, indexOfParenthesis).trim() : selectedSubject;
 
     // Make an AJAX request to fetch data based on all three selected values
     $.get(`/fetch-data?year=${selectedYear}&semester=${selectedSemester}&subject=${selectedSubject}&department=${department}`, function (data) {
@@ -108,12 +110,14 @@ $('#setCoordinatorButton').click(function () {
       tableHtml += '<tbody>';
 
       data.forEach(data => {
+        if(!data.Course.includes(partBeforeParenthesis)){
           tableHtml += '<tr>';
           tableHtml += `<td>${data.User}</td>`;
           tableHtml += '<td class="text-center">'; // Center-align the content
           tableHtml += `<input type="checkbox" class="form-check-input" id="makeCoordinatorCheckbox_${data.User}" name="coordinatorCheckbox" value="${data.User}">`;
           tableHtml += '</td>';
           tableHtml += '</tr>';
+        }
       });
       tableHtml += '</tbody></table>';
       corData.append(tableHtml);
@@ -127,6 +131,9 @@ $('.get-data2-button').click(function () {
   const selectedSemester = $('#semesterDropdown').val();
   const selectedSubject = $('#subjectDropdown').val();
   const department = $('#deptDropdown').val();
+  const indexOfParenthesis = selectedSubject.indexOf(' ');
+  const partBeforeParenthesis = indexOfParenthesis !== -1 ? selectedSubject.substring(0, indexOfParenthesis).trim() : selectedSubject;
+
 
   // Make an AJAX request to fetch data based on all three selected values
   $.get(`/fetch-data?year=${selectedYear}&semester=${selectedSemester}&subject=${selectedSubject}&department=${department}`, function (data) {
@@ -142,12 +149,14 @@ $('.get-data2-button').click(function () {
     tableHtml += '<tbody>';
 
     data.forEach(data => {
+      if(!data.Course.includes(partBeforeParenthesis)){
         tableHtml += '<tr>';
         tableHtml += `<td>${data.User}</td>`;
         tableHtml += '<td class="text-center">'; // Center-align the content
         tableHtml += `<input type="checkbox" class="form-check-input" id="makeCoordinatorCheckbox_${data.User}" name="coordinatorCheckbox" value="${data.User}">`;
         tableHtml += '</td>';
         tableHtml += '</tr>';
+      }
     });
     tableHtml += '</tbody></table>';
     corData.append(tableHtml);

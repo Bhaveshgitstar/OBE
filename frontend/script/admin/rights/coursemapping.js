@@ -133,27 +133,7 @@ $('#savesubjects').click(function () {
 });
 
 $(document).on('click', '#addsubjects', function () {
-  console.log("Hello");
-  // Get the selected teacher IDs from the checkboxes
-  const corData = $('#cor-data');
-  let tableHtml = '<table class="table table-bordered table-centered">';
-  tableHtml += '<thead><tr>';
-  tableHtml += '<th>Running Subjects</th>';
-  tableHtml += '<th>Year</th>';
-  tableHtml += '<th>Department</th>';
-  tableHtml += '<th>Credits</th>';
-  tableHtml += '<th>Contact Hours</th>';
-  tableHtml += `<th>NBA code</th>`;
-  tableHtml += '<th>Action</th></tr></thead>';
-  tableHtml += '<tbody>';
-  tableHtml += '</tbody></table>';
-  tableHtml +=`<div class="row mt-3">
-  <div class="centered-button">
-      <!-- Button to set selected teachers as coordinators -->
-      <button class="btn btn-success" id="savesubjects">Save Subjects</button>
-  </div>
-  </div>`;
-  corData.append(tableHtml);
+      window.location.href = '/registercourse';
 });
 
 

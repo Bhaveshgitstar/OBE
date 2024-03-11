@@ -10,6 +10,7 @@ const MongoDBSession = require('connect-mongodb-session')(session);
 const fs = require('fs');
 const svgCaptcha = require('svg-captcha');
 const excel = require('exceljs');
+const { notEqual } = require('assert');
 
 const app = express();
 // Set EJS as the view engine
@@ -312,6 +313,9 @@ function isValidNumber(value) {
 
 app.get('/register', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'adminHtml/login/adminlogin.html'));
+});
+app.get('/registercourse', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'adminHtml/rights/mapping/courseaddition.html'));
 });
 
 app.post('/register', async (req, res) => {
@@ -1106,6 +1110,7 @@ app.post('/addsubjects', async(req, res) => {
 // Express route to fetch data based on selected values
 app.get('/fetch-data', async (req, res) => {
     const dept = req.query.department;
+    const sub = req.query.subject;
     const teacher = educationalPlatformDb.model('CourseOutcomeModule', eduUserSchema, 'users');
 
     try {
@@ -1157,18 +1162,21 @@ app.post('/set-teachers', async (req, res) => {
     const c=courseId+"_cd";
     const cd = courseOutcomeDb.model('CourseOutcomeModule',cdSchema,c);
 
-
     try {
 
         // Find the course by its ID
         const course = await courses.findOne({ co_code: courseId });
         const cd1 = await cd.findOne({ co_code: courseId });
+        const user=await EduUser.findOne({ User : teacherNames})
 
         if (!course) {
             return res.status(404).json({ success: false, message: 'Course not found.' });
         }
 
-        cd1.teachers = course.teachers.concat(teacherNames);
+        cd1.teachers = cd1.teachers.concat(teacherNames); 
+
+        user.Role = user.Role.concat("Teacher");
+        user.Course = user.Course.concat(courseId);
 
 
         // Add the selected teacher names to the "coordinators" array
@@ -1176,7 +1184,8 @@ app.post('/set-teachers', async (req, res) => {
 
         // Save the updated course document
         await course.save();
-        await cd1.save()/
+        await cd1.save();
+        await user.save();
 
         res.json({ success: true, message: 'teachers added successfully.' });
     } catch (error) {
@@ -1192,17 +1201,22 @@ app.post('/set-coordinators', async (req, res) => {
     const cd = courseOutcomeDb.model('CourseOutcomeModule',cdSchema,c);
 
 
+
     try {
 
         // Find the course by its ID
         const course = await courses.findOne({ co_code: courseId });
         const cd1 = await cd.findOne({ co_code: courseId });
+        const user=await EduUser.findOne({ User : teacherNames})
+        
 
         if (!course) {
             return res.status(404).json({ success: false, message: 'Course not found.' });
         }
 
         cd1.coordinators = course.coordinators.concat(teacherNames);
+        user.Role = user.Role.concat("Coordinator");
+        user.Course = user.Course.concat(courseId);
 
 
         // Add the selected teacher names to the "coordinators" array
@@ -1210,7 +1224,8 @@ app.post('/set-coordinators', async (req, res) => {
 
         // Save the updated course document
         await course.save();
-        await cd1.save()/
+        await cd1.save();
+        await user.save();
 
         res.json({ success: true, message: 'Coordinators added successfully.' });
     } catch (error) {
