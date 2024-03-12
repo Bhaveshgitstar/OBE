@@ -318,10 +318,50 @@ app.get('/registercourse', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'adminHtml/rights/mapping/courseaddition.html'));
 });
 
+app.post('/registercourse', async(req, res) => {
+    const c=req.body.coursecode+"_cd";
+
+    const cd = courseOutcomeDb.model('CourseOutcomeModule', courseschema, c);
+    const cd2 = educationalPlatformDb.model('Course', courseschema);
+    try {
+        const newcourse = new cd({
+            coordinators: [],
+            teachers:[],
+            co_code: req.body.coursecode,
+            sem:req.body.semester,
+            co_name: req.body.coursename,
+            credits: req.body.coursecredits,
+            contact_hours:req.body.contacthours,
+            Branch: req.body.department,
+            NBAcode: req.body.nbacode,
+            Year: req.body.year
+        });
+        const newcourse2 = new cd2({
+            coordinators: [],
+            teachers:[],
+            co_code: req.body.coursecode,
+            sem:req.body.semester,
+            co_name: req.body.coursename,
+            credits: req.body.coursecredits,
+            contact_hours:req.body.contacthours,
+            Branch: req.body.department,
+            NBAcode: req.body.nbacode,
+            Year: req.body.year
+        });
+
+        await newcourse.save();
+        await newcourse2.save();
+        console.log("saved succesfully");
+        res.redirect('/registercourse');
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
 app.post('/register', async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
-        const newUser = new EduUser({
+        const newUser = new ({
             username: req.body.username,
             password: hashedPassword,
             User: req.body.user,
@@ -795,7 +835,7 @@ app.post('/uploadt2', upload.single('file'), (req, res) => {
                         continue;
                     }
 
-                    if (row.includes('Sr.No.') && row.includes('Roll No.') && row.includes('Name')) {
+                    if (row.includes('ModuleNo') && row.includes('RollNo') && row.includes('Name')) {
                         // Save the index of the header row
                         headerIndex = i;
                         headers = row.map((header) => header.trim());
@@ -881,7 +921,7 @@ app.post('/uploadt3', upload.single('file'), (req, res) => {
                         continue;
                     }
 
-                    if (row.includes('Sr.No.') && row.includes('Roll No.') && row.includes('Name')) {
+                    if (row.includes('ModuleNo') && row.includes('RollNo') && row.includes('Name')) {
                         // Save the index of the header row
                         headerIndex = i;
                         headers = row.map((header) => header.trim());
@@ -2352,7 +2392,7 @@ app.post('/api/submitcot2', async (req, res) => {
     }
 });
 app.post('/api/submitcot3', async (req, res) => {
-    const c= req.query.code+"_t2co";
+    const c= req.query.code+"_t3co";
     const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule',attainmentT1Schemaco, c);
     await CourseOutcomeModule.deleteMany({});
     const formData = new CourseOutcomeModule(req.body);

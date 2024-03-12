@@ -149,61 +149,41 @@
             <span class="input-group-icon">
                 <i class="fa fa-book"></i>
             </span>
-    <input type="text" name="Course" placeholder="Course Code" required minlength="10" maxlength="10"><br>
+    <input type="text" name="coursecode" placeholder="Course Code" required minlength="10" maxlength="10"><br>
     </div></div>
     <div class="form-group">
       <div class="input-group">
           <span class="input-group-icon">
               <i class="fa fa-book"></i>
           </span>
-        <input type="text" name="Coursename" placeholder="Course Name" required minlength="10" maxlength="10"><br>
+        <input type="text" name="coursename" placeholder="Course Name" required minlength="10"><br>
       </div></div>
       <div class="form-group">
         <div class="input-group">
             <span class="input-group-icon">
                 <i class="fa fa-book"></i>
             </span>
-          <input type="number" name="Coursename" placeholder="Course Credits"><br>
-        </div></div>
-        <div class="form-group">
-            <div class="input-group">
-                <span class="input-group-icon">
-                    <i class="fa fa-user"></i>
-                </span>
-                <input type="text" name="user" placeholder="Full Name" required minlength="3">
-            </div>
-        </div>
+          <input type="number" name="coursecredits" placeholder="Course Credits"><br></div></div>
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-icon">
                         <i class="fa fa-user-shield"></i>
                     </span>
-                    <input type="text" id="username" name="username" placeholder="Username" required minlength="3">
+                    <input type="text" id="contacthours" name="contacthours" placeholder="Contact Hours" required minlength="5" maxlength="5">
                 </div>
             </div>
             <div class="form-group">
-                <div class="input-group">
-                    <span class="input-group-icon">
-                        <i class="fa fa-lock"></i>
-                    </span>
-                    <input type="password" class="" id="password" name="password" placeholder="Password" required  minlength="8">
-                </div>
-            </div>
+              <div class="input-group">
+                  <span class="input-group-icon">
+                      <i class="fa fa-user-shield"></i>
+                  </span>
+                  <input type="text" id="nbacode" name="nbacode" placeholder="NBA Code" required minlength="1">
+              </div>
+          </div>
             <div class="col-md-6 d-flex mb-3">
                 <div class="col-md-6">
                     <!-- Academic Year Select -->
-                    <select class="form-select" name="role" id="academicYearDropdown" style="width: 43vw;">
-                        <option value="" disabled selected>Select Your Role</option> 
-                        <option id="Teacher" value="Teacher"><i class="fas fa-chalkboard-teachers"></i>Teacher</option>
-                        <option id="Coordinator" value="Coordinator">Coordinator</option>
-                        <option id="Admin" value="Admin">Admin</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-6 d-flex mb-3">
-                <div class="col-md-6">
-                    <!-- Academic Year Select -->
-                    <select class="form-select" name="Department" style="width: 43vw;">
+                    <select class="form-select" name="department" style="width: 43vw;">
                         <option value="" disabled selected>Select Course Department</option> 
                         <option id="CSE" value="CSE">CSE</option>
                         <option id="IT" value="IT">IT</option>
@@ -211,6 +191,30 @@
                     </select>
                 </div>
             </div>
+            <div class="col-md-6 d-flex mb-3">
+              <div class="col-md-6">
+                  <!-- Academic Year Select -->
+                  <select class="form-select" name="semester" style="width: 43vw;">
+                      <option value="" disabled selected>Select Course Semester</option> 
+                      <option id="2024EVENSEM" value="2024EVENSEM">2024EVENSEM</option>
+                      <option id="2023ODDSEM" value="2023ODDSEM">2023ODDSEM</option>
+                      <option id="2023EVENSEM" value="2023EVENSEM">2023EVENSEM</option>
+                  </select>
+              </div>
+
+          </div>
+          <div class="col-md-6 d-flex mb-3">
+            <div class="col-md-6">
+                <!-- Academic Year Select -->
+                <select class="form-select" name="year" style="width: 43vw;">
+                    <option value="" disabled selected>Select Year</option> 
+                    <option id="year1" value=1><i class="fas fa-chalkboard-teachers"></i>Year 1</option>
+                    <option id="year2" value=2>Year 2</option>
+                    <option id="year3" value=3>Year 3</option>
+                    <option id="year4" value=4>Year 4</option>
+                </select>
+            </div>
+        </div>
 
         <!-- <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY_HERE"></div> -->
         <div class="form-group text-center">
