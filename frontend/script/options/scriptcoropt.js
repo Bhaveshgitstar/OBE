@@ -98,6 +98,14 @@ $('.get-data-buttonta').click(function () {
   // Redirect to the attainmentt1 page with the selectedSubject as a query parameter
   window.location.href = `attainmentta?subject=${encodeURIComponent(partBeforeParenthesis)}`;
 });
+$('.get-data-buttoncopso').click(function () {
+  const selectedSubject = $('#subjectDropdown').val();
+  const indexOfParenthesis = selectedSubject.indexOf(' ');
+  const partBeforeParenthesis = indexOfParenthesis !== -1 ? selectedSubject.substring(0, indexOfParenthesis).trim() : selectedSubject;
+
+  // Redirect to the attainmentt1 page with the selectedSubject as a query parameter
+  window.location.href = `atcopsomap?subject=${encodeURIComponent(partBeforeParenthesis)}`;
+});
 $('.get-data-buttonsett1').click(function () {
   const selectedSubject = $('#subjectDropdown').val();
   const indexOfParenthesis = selectedSubject.indexOf(' ');
@@ -122,6 +130,7 @@ $('.get-data-buttonsett3').click(function () {
   // Redirect to the attainmentt1 page with the selectedSubject as a query parameter
   window.location.href = `courseexamt3?subject=${encodeURIComponent(partBeforeParenthesis)}`;
 });
+
 
 
 sidebarClose.addEventListener("click", () => {

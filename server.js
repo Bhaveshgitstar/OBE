@@ -361,7 +361,7 @@ app.post('/registercourse', async(req, res) => {
 app.post('/register', async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
-        const newUser = new ({
+        const newUser = new EduUser({
             username: req.body.username,
             password: hashedPassword,
             User: req.body.user,
@@ -371,8 +371,10 @@ app.post('/register', async (req, res) => {
 
         });
         await newUser.save();
+        console.log(newUser);
         res.redirect('/');
     } catch (error) {
+        console.log("Hello");
         res.status(500).send(error.message);
     }
 });
@@ -887,8 +889,6 @@ app.post('/uploadt2', upload.single('file'), (req, res) => {
                 console.log('Documents:', documents);
 
                 const insertResult = await AttainmentModel.insertMany(documents);
-
-
                 res.send({ rowCount: insertResult.length });
             } catch (error) {
                 console.error('MongoDB Error:', error);
@@ -1552,13 +1552,37 @@ app.get('/atcourseexitopt',checkSessionTimeout, async (req, res) => {
         res.status(500).send(error.message);
     }
 });
-app.get('/atcopsomap',checkSessionTimeout, async (req, res) => {
+app.get('/atcopsomapopt',checkSessionTimeout, async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'frontend', 'atcopsomap.html'));
+        res.sendFile(path.join(__dirname, 'frontend', 'options/coordinator/copso.html'));
            
     } catch (error) {
         res.status(500).send(error.message);
     }
+
+   /* try {
+        res.sendFile(path.join(__dirname, 'frontend', 'teacherHtml/copsoatcopsomap.html'));
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }*/
+});
+app.get('/atcopsomap',checkSessionTimeout, async (req, res) => {
+    try {
+       const selectedSubject = req.query.subject;
+        console.log(selectedSubject);
+        res.render('teacherHtml/copso/atcopsomap', { selectedSubject }) 
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+
+   /* try {
+        res.sendFile(path.join(__dirname, 'frontend', 'teacherHtml/copsoatcopsomap.html'));
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }*/
 });
 app.get('/adminmapping',checkSessionTimeout, async (req, res) => {
     try {
@@ -2125,7 +2149,7 @@ app.get('/api/copo', async(req, res) => {
 });
 app.get('/api/coposo', async(req, res) => {
     try {
-        const c= req.query.code + "_coposo";
+        const c= req.query.code + "";
         const copoModule = courseOutcomeDb.model('CourseOutcomeModule', coposoSchema, c);
 
         const modules = await copoModule.find();

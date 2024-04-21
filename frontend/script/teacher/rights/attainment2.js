@@ -605,163 +605,163 @@ function fetchT1CO(){
   });});
 }
 function fetchT1attainmentData2(){
-  return new Promise((resolve, reject) => {
-  $.ajax({
-      url: `/api/t2attainment?code=${window.selectedSubject}`, // Update the URL to match your Express route for T1attainment data
-      type: 'GET',
-      dataType: 'json',
-
-      success: function(data) {
-          const attainmentData = $('#attainment-data');
-
-
-          if (data.length > 0) {
-              // Create an array of column headers based on the keys of the first record
-              const tableHeaders = Object.keys(data[0]);
-              const qColumns = tableHeaders.filter(header => /^Q\d+$/.test(header)).sort(numericSort);
-              const aColumns = tableHeaders.filter(header => /^Attainment\d+$/.test(header)).sort(numericSort);
-              qColumns.sort((a, b) => {
-                  const aNumber = parseInt(a.slice(1));
-                  const bNumber = parseInt(b.slice(1));
-                  return aNumber - bNumber;
-              });
-              
-              aColumns.sort((a, b) => {
-                  const aNumber = parseInt(a.slice(1));
-                  const bNumber = parseInt(b.slice(1));
-                  return aNumber - bNumber;
-              });
-              // Specify the desired order of columns (S.No, RollNo, Name, Batch, Q1 to Qn, Total, Attainment, Action)
-              const desiredOrder = ['ModuleNo', 'RollNo', 'Name', 'Batch', ...qColumns, 'Total', ...aColumns];
-
-              tableHtml = '<tbody>';
-              data.forEach((record, index) => {
-                  tableHtml += '<tr data-record-id="' + record._id + '">';
-                      desiredOrder.forEach(header => {
-                          if (tableHeaders.includes(header)) {
-                              if (header === 'ModuleNo') {
-                                  tableHtml += `<td>${index+ 1}</td>`;
-                              } else {
-                                  tableHtml += `<td>${record[header]}</td>`;
-                              }
-                          }
-                      });
-                      tableHtml += `
-                      <td class="action-buttons">
-                          <button class="btn btn-info update-buttonat">Edit</button>
-                          <button class="btn btn-danger delete-buttonat">Delete</button>
-                          <button class="btn btn-primary save-buttonatu" style="display: none;">Save</button>
-                      </td>`;
-              
-                  tableHtml += '</tr>';
-              
-                  
-      
-          
-              });
-              
-              tableHtml += '</tbody>';
-              attainmentData.append(tableHtml);
-              const studentsAppeared = calculateStudentsAppeared(data);
-
-              // Calculate and add summary rows
-            /*  const totalStudents = data.length ;
-              const averageMarks = calculateAverageMarks(data);
-              const studentsAboveTarget1 = calculateStudentsAboveTarget1(data);
-              const studentsAboveTarget2 = calculateStudentsAboveTarget2(data);
-              const percentageAboveTarget1 = calculatePercentageAboveTarget1(data);
-              const percentageAboveTarget2 = calculatePercentageAboveTarget2(data);
-              const coAttainment = calculateCOAttainment(data);
-              const studentsAppeared = calculateStudentsAppeared(data);
-
-              const summaryRow = `
-                  <tbody>
-                      <tr>
-                          <th colspan="4">Total Students:</th>
-                          <td colspan="${qColumns.length + 4}">${totalStudents}</td>
-                  
-                      </tr>
-                      <tr>
-                          <th colspan="4">Average Marks:</th>
-                          <td colspan="${qColumns.length + 4}">${averageMarks}</td>
-                      
-                      </tr>
-                      <tr>
-                          <th colspan="4">No. of Students Scored >= Target % (50%):</th>
-                          <td colspan="${(qColumns.length + 4) -4}">${studentsAboveTarget1}</td>
-                          <td colspan="4">${studentsAboveTarget2}</td>
-                  
-                      </tr>
-                      <tr>
-                          <th colspan="4">% of Students Scored >= Target % (50%):</th>
-                          <td colspan="${(qColumns.length + 4)-4}">${percentageAboveTarget1}</td>
-                          <td colspan="4">${percentageAboveTarget2}</td>
-      
-                      </tr>
-                      <tr>
-                          <th colspan="4">CO Attainment Levels:</th>
-                          <td colspan="${qColumns.length + 4}">${coAttainment}</td>
-                      
-                      </tr>
-                      <tr>
-                          <th colspan="4">No. of Students Appeared in T1:</th>
-                          <td colspan="${qColumns.length + 4}">${studentsAppeared}</td>
-                  
-                      </tr>
-                  </tbody>
-              `;*/
-              let summaryRow = '<tbody>';
-              summaryRow += `<tr><th colspan="4">Total Students:</th><td colspan="${qColumns.length + 5}">${data.length}</td></tr>`;
-              summaryRow += `<tr><th colspan="4">Average Marks:</th><td colspan="${qColumns.length + 5}">${calculateAverageMarks(data)}</td></tr>`;
-              summaryRow += `<tr>
-              <th colspan="4">No. of Students Scored >= 50% </th>`;
-              
-              aColumns.forEach(aCol => {
-                  const studentsAboveTarget = calculateStudentsAboveTarget(data, aCol);
-                  summaryRow += `
-                          <td colspan="4">${studentsAboveTarget}</td>`;
-              });
-              summaryRow += `</tr>`;
-              summaryRow += `<tr>
-              <th colspan="4">% of Students Scored >= 50% </th>`;
-
-                  aColumns.forEach(aCol => {
-                  const percentageAboveTarget = calculatePercentageAboveTarget(data, aCol);
-                  summaryRow += `
-                          <td colspan="4">${percentageAboveTarget}</td>
-                  `;
-              });
-              summaryRow += `</tr>`;
-              summaryRow += `<tr>
-              <th colspan="4">CO Attainment Level </th>`;
-              aColumns.forEach(aCol => {
-                  const percentageAboveTarget = calculateCOAttainment(data, aCol);
-                  summaryRow += `
-                          <td colspan="4">${percentageAboveTarget}</td>
-                  `;
-              });
-              summaryRow += `</tr>
-              <tr>
-              <th colspan="4">No. of Students Appeared in T1:</th>
-              <td colspan="${qColumns.length + 4}">${studentsAppeared}</td>
-      
-          </tr>`;
-
-              summaryRow += '</tbody>';
-              attainmentData.append(summaryRow);
-          } else {
-              // Handle the case where there is no data
-              attainmentData.html('<p>No data available.</p>');
-          }
-          resolve();
-      },
-      error: function(error) {
-          console.error('Error fetching data:', error);
-          reject(error);
-      }
-  });
-  });
-}
+    return new Promise((resolve, reject) => {
+    $.ajax({
+        url: `/api/t2attainment?code=${window.selectedSubject}`, // Update the URL to match your Express route for T1attainment data
+        type: 'GET',
+        dataType: 'json',
+  
+        success: function(data) {
+            const attainmentData = $('#attainment-data');
+  
+  
+            if (data.length > 0) {
+                // Create an array of column headers based on the keys of the first record
+                const tableHeaders = Object.keys(data[0]);
+                const qColumns = tableHeaders.filter(header => /^Q\d+$/.test(header)).sort(numericSort);
+                const aColumns = tableHeaders.filter(header => /^Attainment\d+$/.test(header)).sort(numericSort);
+                qColumns.sort((a, b) => {
+                    const aNumber = parseInt(a.slice(1));
+                    const bNumber = parseInt(b.slice(1));
+                    return aNumber - bNumber;
+                });
+                
+                aColumns.sort((a, b) => {
+                    const aNumber = parseInt(a.slice(1));
+                    const bNumber = parseInt(b.slice(1));
+                    return aNumber - bNumber;
+                });
+                // Specify the desired order of columns (S.No, RollNo, Name, Batch, Q1 to Qn, Total, Attainment, Action)
+                const desiredOrder = ['ModuleNo', 'RollNo', 'Name', 'Batch', ...qColumns, 'Total', ...aColumns];
+  
+                tableHtml = '<tbody>';
+                data.forEach((record, index) => {
+                    tableHtml += '<tr data-record-id="' + record._id + '">';
+                        desiredOrder.forEach(header => {
+                            if (tableHeaders.includes(header)) {
+                                if (header === 'ModuleNo') {
+                                    tableHtml += `<td>${index+ 1}</td>`;
+                                } else {
+                                    tableHtml += `<td>${record[header]}</td>`;
+                                }
+                            }
+                        });
+                        tableHtml += `
+                        <td class="action-buttons">
+                            <button class="btn btn-info update-buttonat">Edit</button>
+                            <button class="btn btn-danger delete-buttonat">Delete</button>
+                            <button class="btn btn-primary save-buttonatu" style="display: none;">Save</button>
+                        </td>`;
+                
+                    tableHtml += '</tr>';
+                
+                    
+        
+            
+                });
+                
+                tableHtml += '</tbody>';
+                attainmentData.append(tableHtml);
+                const studentsAppeared = calculateStudentsAppeared(data);
+  
+                // Calculate and add summary rows
+              /*  const totalStudents = data.length ;
+                const averageMarks = calculateAverageMarks(data);
+                const studentsAboveTarget1 = calculateStudentsAboveTarget1(data);
+                const studentsAboveTarget2 = calculateStudentsAboveTarget2(data);
+                const percentageAboveTarget1 = calculatePercentageAboveTarget1(data);
+                const percentageAboveTarget2 = calculatePercentageAboveTarget2(data);
+                const coAttainment = calculateCOAttainment(data);
+                const studentsAppeared = calculateStudentsAppeared(data);
+  
+                const summaryRow = `
+                    <tbody>
+                        <tr>
+                            <th colspan="4">Total Students:</th>
+                            <td colspan="${qColumns.length + 4}">${totalStudents}</td>
+                    
+                        </tr>
+                        <tr>
+                            <th colspan="4">Average Marks:</th>
+                            <td colspan="${qColumns.length + 4}">${averageMarks}</td>
+                        
+                        </tr>
+                        <tr>
+                            <th colspan="4">No. of Students Scored >= Target % (50%):</th>
+                            <td colspan="${(qColumns.length + 4) -4}">${studentsAboveTarget1}</td>
+                            <td colspan="4">${studentsAboveTarget2}</td>
+                    
+                        </tr>
+                        <tr>
+                            <th colspan="4">% of Students Scored >= Target % (50%):</th>
+                            <td colspan="${(qColumns.length + 4)-4}">${percentageAboveTarget1}</td>
+                            <td colspan="4">${percentageAboveTarget2}</td>
+        
+                        </tr>
+                        <tr>
+                            <th colspan="4">CO Attainment Levels:</th>
+                            <td colspan="${qColumns.length + 4}">${coAttainment}</td>
+                        
+                        </tr>
+                        <tr>
+                            <th colspan="4">No. of Students Appeared in T1:</th>
+                            <td colspan="${qColumns.length + 4}">${studentsAppeared}</td>
+                    
+                        </tr>
+                    </tbody>
+                `;*/
+                let summaryRow = '<tbody>';
+                summaryRow += `<tr><th colspan="4">Total Students:</th><th colspan="${qColumns.length + 5}">${data.length}</th></tr>`;
+                summaryRow += `<tr><th colspan="4">Average Marks:</th><th colspan="${qColumns.length + 5}">${calculateAverageMarks(data)}</th></tr>`;
+                summaryRow += `<tr>
+                <th colspan="4">No. of Students Scored >= 50% </th>`;
+                
+                aColumns.forEach(aCol => {
+                    const studentsAboveTarget = calculateStudentsAboveTarget(data, aCol);
+                    summaryRow += `
+                            <th colspan="4">${studentsAboveTarget}</th>`;
+                });
+                summaryRow += `</tr>`;
+                summaryRow += `<tr>
+                <th colspan="4">% of Students Scored >= 50% </th>`;
+  
+                    aColumns.forEach(aCol => {
+                    const percentageAboveTarget = calculatePercentageAboveTarget(data, aCol);
+                    summaryRow += `
+                            <th colspan="4">${percentageAboveTarget}</th>
+                    `;
+                });
+                summaryRow += `</tr>`;
+                summaryRow += `<tr>
+                <th colspan="4">CO Attainment Level </th>`;
+                aColumns.forEach(aCol => {
+                    const percentageAboveTarget = calculateCOAttainment(data, aCol);
+                    summaryRow += `
+                            <th colspan="4">${percentageAboveTarget}</th>
+                    `;
+                });
+                summaryRow += `</tr>
+                <tr>
+                <th colspan="4">No. of Students Appeared in T1:</th>
+                <th colspan="${qColumns.length + 4}">${studentsAppeared}</th>
+        
+            </tr>`;
+  
+                summaryRow += '</tbody>';
+                attainmentData.append(summaryRow);
+            } else {
+                // Handle the case where there is no data
+                attainmentData.html('<p>No data available.</p>');
+            }
+            resolve();
+        },
+        error: function(error) {
+            console.error('Error fetching data:', error);
+            reject(error);
+        }
+    });
+    });
+  }
 function calculateCOAttainment(data, attainmentField) {
   const attainmentCount = data.filter(record => record[attainmentField] >= 50).length;
   let attainmentLevel;

@@ -51,6 +51,8 @@ button {
 }
 
 #h2 {
+    overflow: hidden; /* or overflow: auto; */
+    white-space: nowrap;
     text-align: center;
     margin: 0vw 0;
     font-size: 1.2vw;
@@ -466,6 +468,7 @@ table td {
     color: #333;
     font-size: 1.005vw;
     animation-iteration-count: 7;
+    top: 30px;              /* Adjust positioning as needed */
     overflow: hidden; /* Hide any overflowing text */ /* Show an ellipsis (...) if the text overflows */
 }
 

@@ -570,7 +570,7 @@ function fetchT1CO2(){
       }
   });});
 }
-
+var atGlobalColumn=[];
 function fetchT1CO(){
   return new Promise((resolve, reject) => {
   $.ajax({
@@ -606,9 +606,16 @@ function fetchT1CO(){
 
                   desiredOrder.forEach(header => {
                       if (tableHeaders.includes(header)) {
-                          if ( /^Q\d+$/.test(header)|| /^Attainment\d+$/.test(header)) {
-                              tableHtml += `<td><strong>${record[header]}</strong></td>`;      
+                          if ( /^Q\d+$/.test(header)) {
+                              tableHtml += `<td><strong>${record[header]}</strong></td>`;  
+
                           } 
+                          else if( /^Attainment\d+$/.test(header)){
+                            tableHtml += `<td><strong>${record[header]}</strong></td>`;  
+                            atGlobalColumn.push(record[header]);  
+                            console.log("Hi",record[header]); 
+
+                          }
                            else {
                               tableHtml += `<td></td>`;
                           }
@@ -696,63 +703,16 @@ function fetchT1attainmentData2(){
               tableHtml += '</tbody>';
               attainmentData.append(tableHtml);
               const studentsAppeared = calculateStudentsAppeared(data);
-
-              // Calculate and add summary rows
-            /*  const totalStudents = data.length ;
-              const averageMarks = calculateAverageMarks(data);
-              const studentsAboveTarget1 = calculateStudentsAboveTarget1(data);
-              const studentsAboveTarget2 = calculateStudentsAboveTarget2(data);
-              const percentageAboveTarget1 = calculatePercentageAboveTarget1(data);
-              const percentageAboveTarget2 = calculatePercentageAboveTarget2(data);
-              const coAttainment = calculateCOAttainment(data);
-              const studentsAppeared = calculateStudentsAppeared(data);
-
-              const summaryRow = `
-                  <tbody>
-                      <tr>
-                          <th colspan="4">Total Students:</th>
-                          <td colspan="${qColumns.length + 4}">${totalStudents}</td>
-                  
-                      </tr>
-                      <tr>
-                          <th colspan="4">Average Marks:</th>
-                          <td colspan="${qColumns.length + 4}">${averageMarks}</td>
-                      
-                      </tr>
-                      <tr>
-                          <th colspan="4">No. of Students Scored >= Target % (50%):</th>
-                          <td colspan="${(qColumns.length + 4) -4}">${studentsAboveTarget1}</td>
-                          <td colspan="4">${studentsAboveTarget2}</td>
-                  
-                      </tr>
-                      <tr>
-                          <th colspan="4">% of Students Scored >= Target % (50%):</th>
-                          <td colspan="${(qColumns.length + 4)-4}">${percentageAboveTarget1}</td>
-                          <td colspan="4">${percentageAboveTarget2}</td>
-      
-                      </tr>
-                      <tr>
-                          <th colspan="4">CO Attainment Levels:</th>
-                          <td colspan="${qColumns.length + 4}">${coAttainment}</td>
-                      
-                      </tr>
-                      <tr>
-                          <th colspan="4">No. of Students Appeared in T1:</th>
-                          <td colspan="${qColumns.length + 4}">${studentsAppeared}</td>
-                  
-                      </tr>
-                  </tbody>
-              `;*/
               let summaryRow = '<tbody>';
-              summaryRow += `<tr><th colspan="4">Total Students:</th><td colspan="${qColumns.length + 5}">${data.length}</td></tr>`;
-              summaryRow += `<tr><th colspan="4">Average Marks:</th><td colspan="${qColumns.length + 5}">${calculateAverageMarks(data)}</td></tr>`;
+              summaryRow += `<tr><th colspan="4">Total Students:</th><th colspan="${qColumns.length + 5}">${data.length}</th></tr>`;
+              summaryRow += `<tr><th colspan="4">Average Marks:</th><th colspan="${qColumns.length + 5}">${calculateAverageMarks(data)}</th></tr>`;
               summaryRow += `<tr>
               <th colspan="4">No. of Students Scored >= 50% </th>`;
               
               aColumns.forEach(aCol => {
                   const studentsAboveTarget = calculateStudentsAboveTarget(data, aCol);
                   summaryRow += `
-                          <td colspan="4">${studentsAboveTarget}</td>`;
+                          <th colspan="4">${studentsAboveTarget}</th>`;
               });
               summaryRow += `</tr>`;
               summaryRow += `<tr>
@@ -761,22 +721,26 @@ function fetchT1attainmentData2(){
                   aColumns.forEach(aCol => {
                   const percentageAboveTarget = calculatePercentageAboveTarget(data, aCol);
                   summaryRow += `
-                          <td colspan="4">${percentageAboveTarget}</td>
+                          <th colspan="4">${percentageAboveTarget}</th>
                   `;
               });
               summaryRow += `</tr>`;
               summaryRow += `<tr>
               <th colspan="4">CO Attainment Level </th>`;
+              var i=0;
               aColumns.forEach(aCol => {
                   const percentageAboveTarget = calculateCOAttainment(data, aCol);
+                  console.log("Hello2",atGlobalColumn[i]);
+                  i+=1;
                   summaryRow += `
-                          <td colspan="4">${percentageAboveTarget}</td>
+                          <th colspan="4">${percentageAboveTarget}</th>
                   `;
               });
+              
               summaryRow += `</tr>
               <tr>
               <th colspan="4">No. of Students Appeared in T1:</th>
-              <td colspan="${qColumns.length + 4}">${studentsAppeared}</td>
+              <th colspan="${qColumns.length + 4}">${studentsAppeared}</th>
       
           </tr>`;
 
@@ -1407,7 +1371,7 @@ const newData = {
 
   
   
-  $.ajax({
+$.ajax({
       url: `/api/t1attainment?code=${window.selectedSubject}`, // Update the URL to match your Express route for T1attainment data
       type: 'POST',
       dataType: 'json',

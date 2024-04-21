@@ -38,8 +38,9 @@ function validatePassword() {
 </script>
 <body>
 
-    <!-- Admin Login Form -->
-    <form action="/register" method="POST" onsubmit="return validatePassword()">
+    <!-- Admin Login Form
+    <form action="/register" method="POST" onsubmit="return validatePassword()"> -->
+        <form action="/register" method="POST" >
         <h2 class="box-heading">Register</h2>
         <div class="form-group">
             <div class="input-group">
@@ -62,7 +63,8 @@ function validatePassword() {
                     <span class="input-group-icon">
                         <i class="fa fa-lock"></i>
                     </span>
-                    <input type="password" class="" id="password" name="password" placeholder="Password" required onchange="validatePassword()" minlength="8">
+                  <!-- <input type="password" class="" id="password" name="password" placeholder="Password" required onchange="validatePassword()" minlength="8"> -->
+                  <input type="password" class="" id="password" name="password" placeholder="Password" required minlength="8">
                 </div>
             </div>
             <div class="col-md-12 d-flex mb-3">
@@ -79,7 +81,7 @@ function validatePassword() {
             <div class="col-md-12 d-flex mb-3">
                 <div class="col-md-3">
                     <!-- Academic Year Select -->
-                    <select class="form-select" name="Department" id="academicYearDropdown" style="width: 30vw;">
+                    <select class="form-select" name="Department" id="departmentDropdown" style="width: 30vw;">
                         <option value="" disabled selected>Select Your Department</option> 
                         <option id="CSE" value="CSE">CSE</option>
                         <option id="IT" value="IT">IT</option>
@@ -108,7 +110,6 @@ function validatePassword() {
             window.location.href = '/';
     
         }
-        
     </script>
 </body>
 </html>
