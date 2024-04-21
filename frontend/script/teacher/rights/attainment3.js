@@ -562,6 +562,7 @@ function fetchT1CO2(){
       }
   });});
 }
+var atGlobalColumn=[];
 function fetchT1CO(){
   return new Promise((resolve, reject) => {
   $.ajax({
@@ -597,9 +598,16 @@ function fetchT1CO(){
 
                   desiredOrder.forEach(header => {
                       if (tableHeaders.includes(header)) {
-                          if ( /^Q\d+$/.test(header)|| /^Attainment\d+$/.test(header)) {
-                              tableHtml += `<td><strong>${record[header]}</strong></td>`;      
-                          } 
+                        if ( /^Q\d+$/.test(header)) {
+                            tableHtml += `<td><strong>${record[header]}</strong></td>`;  
+
+                        } 
+                        else if( /^Attainment\d+$/.test(header)){
+                          tableHtml += `<td><strong>${record[header]}</strong></td>`;  
+                          atGlobalColumn.push(record[header]);  
+                          console.log("Hi",record[header]); 
+
+                        }
                            else {
                               tableHtml += `<td></td>`;
                           }
@@ -626,6 +634,17 @@ function fetchT1CO(){
           reject(error);
       }
   });});
+}
+
+function coPsoMaker(data,attainment){
+    $.post(`/coPsoMaker?code=${window.selectedSubject}`, { co: attainment, eaxm: "T3" ,at : data}, function (response) {
+        if (response.success) {
+            console.log('Teachers set as coordinators successfully!');
+            // You can also update the UI or perform any other actions as needed.
+        } else {
+            console.log('Failed to set teachers as coordinators.');
+        }
+    });
 }
 function fetchT1attainmentData2(){
     return new Promise((resolve, reject) => {
@@ -757,8 +776,12 @@ function fetchT1attainmentData2(){
                 summaryRow += `</tr>`;
                 summaryRow += `<tr>
                 <th colspan="4">CO Attainment Level </th>`;
+                var i=0;
                 aColumns.forEach(aCol => {
                     const percentageAboveTarget = calculateCOAttainment(data, aCol);
+                    coPsoMaker(percentageAboveTarget,atGlobalColumn[i]);
+                    console.log("Hello2",atGlobalColumn[i]);
+                    i+=1;
                     summaryRow += `
                             <th colspan="4">${percentageAboveTarget}</th>
                     `;

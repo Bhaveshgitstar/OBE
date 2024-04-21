@@ -181,15 +181,10 @@ const copoSchema = new mongoose.Schema({
     T1: Number,
     T2: Number,
     T3: Number,
-    'T-AVG': Number, // Avg. of T1, T2, and T3
     Project: Number,
     Quiz: Number,
-    'Assgn-AVG': Number, // Avg. of Assignments/Project
-    'Direct Attainment': Number, // 60% T-AVG + 20% Assgn-AVG
     'Student Feedback': String, // Assuming this is a string, update it according to your needs
-    Final: Number, // Direct + 20% Indirect
-    CIE: Number,
-    SIE: Number,
+
 
 }, { versionKey: false });
 const coposoSchema = new mongoose.Schema({
@@ -1273,6 +1268,33 @@ app.post('/set-coordinators', async (req, res) => {
         res.status(500).json({ success: false, error: 'Internal server error' });
     }
 });
+
+app.post('/coPsoMaker', async (req, res) => {
+    const c= req.query.code + "_copo";
+    console.log(c);
+    const copoModule = courseOutcomeDb.model('CourseOutcomeModule', copoSchema, c);
+    const co=req.body.co;
+    const exam=req.body.exam;
+    console.log(co);
+    try {
+
+        const coPo = await copoModule.findOne({ COs : co});
+
+        if (!coPo) {
+            return res.status(404).json({ success: false, message: 'Course not found.' });
+        }
+        
+        coPo.exam = req.body.data;
+
+        await coPo.save();
+
+        res.json({ success: true, message: 'Coordinators added successfully.' });
+    } catch (error) {
+        console.error('Error adding coordinators:', error);
+        res.status(500).json({ success: false, error: 'Internal server error' });
+    }
+});
+
 app.get('/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) {

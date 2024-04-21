@@ -643,7 +643,16 @@ function fetchT1CO(){
       }
   });});
 }
-
+function coPsoMaker(data,attainment){
+    $.post(`/coPsoMaker?code=${window.selectedSubject}`, { co: attainment, eaxm: "T1" ,at : data}, function (response) {
+        if (response.success) {
+            alert('Teachers set as coordinators successfully!');
+            // You can also update the UI or perform any other actions as needed.
+        } else {
+            alert('Failed to set teachers as coordinators.');
+        }
+    });
+}
 function fetchT1attainmentData2(){
   return new Promise((resolve, reject) => {
   $.ajax({
@@ -730,8 +739,10 @@ function fetchT1attainmentData2(){
               var i=0;
               aColumns.forEach(aCol => {
                   const percentageAboveTarget = calculateCOAttainment(data, aCol);
+                  coPsoMaker(percentageAboveTarget,atGlobalColumn[i]);
                   console.log("Hello2",atGlobalColumn[i]);
                   i+=1;
+        
                   summaryRow += `
                           <th colspan="4">${percentageAboveTarget}</th>
                   `;
@@ -759,6 +770,8 @@ function fetchT1attainmentData2(){
   });
   });
 }
+
+
 function calculateCOAttainment(data, attainmentField) {
   const attainmentCount = data.filter(record => record[attainmentField] >= 50).length;
   let attainmentLevel;
