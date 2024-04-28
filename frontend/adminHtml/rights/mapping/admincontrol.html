@@ -108,8 +108,8 @@
 
     <div class="container mt-5">
         <div class="row">
-            <div class="col-md-12 d-flex mb-3">
-                <div class="col-md-3">
+            <div class="col -12 col-md-12 col-sm-12 d-flex mb-3">
+                <div class="col-md-3 col-sm-3 col-lg-3 col-3">
                     <!-- Academic Year Select -->
                     <select class="form-select" name="academic-year" id="academicYearDropdown">
                         <option value="" disabled selected>Select Year</option> 
@@ -161,10 +161,24 @@
     </div>
     </div>
 
+    <table class="table" id="curr-cor-table">
+      <thead>
+      </thead>
+      <tbody id="curr-cor-data">
+          <!-- Data will be added here dynamically -->
+      </tbody>
+  </table>
+
+  
+  <div class="row mt-3">
+    <div class="centered-button">
+        <!-- Button to set selected teachers as coordinators -->
+        <button class="btn btn-success" id="removeCoordinatorButton">Remove from Coordinator Role</button>
+    </div>
+</div>
+
     <table class="table" id="cor-table">
         <thead>
-    
-    
         </thead>
         <tbody id="cor-data">
             <!-- Data will be added here dynamically -->

@@ -11,11 +11,8 @@ const fs = require('fs');
 const svgCaptcha = require('svg-captcha');
 const excel = require('exceljs');
 const { notEqual } = require('assert');
-
 const app = express();
-// Set EJS as the view engine
 app.set('view engine', 'ejs');
-// Specify the directory where your views/templates are located
 app.set('views', path.join(__dirname, 'frontend'));
 app.use(bodyParser.json());
 
@@ -30,7 +27,6 @@ educationalPlatformDb.on('error', (err) => {
     console.error('Error connecting to educational_platform database:', err);
 });
 
-// Session store
 const store = new MongoDBSession({
     uri: 'mongodb+srv://bhasha12:cLU4rWC63vJIWt3o@obedoc.yjscp0h.mongodb.net/educational_platform_sessions',
     collection: 'sessions'
@@ -1269,6 +1265,59 @@ app.post('/set-coordinators', async (req, res) => {
     }
 });
 
+app.post('/remove-coordinators', async (req, res) => {
+    const teacherNames = req.body.name; // An array of selected teacher names
+    const courseId = req.body.courseid; // The ID of the course to update
+    const courses = educationalPlatformDb.model('CourseOutcomeModule',courseschema,"courses");
+    const c=courseId+"_cd";
+    const cd = courseOutcomeDb.model('CourseOutcomeModule',cdSchema,c);
+
+    try {
+
+        // Find the course by its ID
+        const course = await courses.findOne({ co_code: courseId });
+        const cd1 = await cd.findOne({ co_code: courseId });
+        const user=await EduUser.findOne({ User : teacherNames})
+
+        console.log(user.Course);
+        console.log(user.Role);
+        
+
+        if (!course) {
+            return res.status(404).json({ success: false, message: 'Course not found.' });
+        }
+        var index=-1;
+        for(var i=0;i<user.Role.length;i++){
+            if(user.Role[i]=="Coordinator" && user.Course[i]==courseId){
+                index=i;
+            }
+        }
+        console.log(index);
+       
+        if(index!=-1){
+
+        course.coordinators.splice(teacherNames,1);
+        user.Role.splice(index,1);
+        user.Course.splice(index,1);
+        course.coordinators.splice(teacherNames,1);
+        }
+
+
+        // Add the selected teacher names to the "coordinators" array
+        
+
+        // Save the updated course document
+       await course.save();
+       await cd1.save();
+       await user.save();
+
+        res.json({ success: true, message: 'Coordinators removed successfully.' });
+    } catch (error) {
+        console.error('Error removing coordinators:', error);
+        res.status(500).json({ success: false, error: 'Internal server error' });
+    }
+});
+
 app.post('/coPsoMaker', async (req, res) => {
     const c= req.query.code + "_copo";
     console.log(c);
@@ -1419,6 +1468,43 @@ app.get('/courseexamta',checkSessionTimeout, async (req, res) => {
 app.get('/courseexamtaopt',checkSessionTimeout, async (req, res) => {
     try {
         res.sendFile(path.join(__dirname, 'frontend', 'options/coordinator/courseexamtaopt.html'));
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+app.get('/openingreportopt',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'options/coordinator/OpeningReport.html'));
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+app.get('/closingreportopt',checkSessionTimeout, async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'frontend', 'options/coordinator/ClosingReport.html'));
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+app.get('/openingreport',checkSessionTimeout, async (req, res) => {
+    try {
+        const selectedSubject = req.query.subject;
+        console.log(selectedSubject);
+        res.render('coordinatorHtml/rights/exam/opening', { selectedSubject });
+           
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+app.get('/closingreport',checkSessionTimeout, async (req, res) => {
+    try {
+        const selectedSubject = req.query.subject;
+        console.log(selectedSubject);
+        res.render('coordinatorHtml/rights/exam/closing', { selectedSubject });
            
     } catch (error) {
         res.status(500).send(error.message);

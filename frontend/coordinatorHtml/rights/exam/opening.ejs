@@ -147,11 +147,9 @@
         </div>
     </div>  <div class="container mt-5"></div>
     <div class="box-heading1">
-        <h5>Detailed Syllabus</h5>
+        <h5>Opening Report</h5>
     </div>
-    <div class="box-heading">
-        <h5>Lecture Wise Breakup</h5>
-    </div></div>
+    
     <table class="table" id="course_table">
         <thead>
             <tr>
@@ -191,19 +189,10 @@
                 </td>
             </tr>
             <tr>
-                <th rowspan="2" colspan="2"  class="top">Faculty (Names)</th> 
-                <th>Faculty Coordinator</th>
-                <td>
-                    <div class="form-group" >
+                <th   class="top">Names of Course Coordinator</th> 
+                <td colspan="4">
+                    <div class="form-group"  >
                         <input type="text" id="coordinators" name="coordinators" class="form-control">
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th>Teacher(s) Alphabetically</th>
-                <td>
-                    <div class="form-group">
-                        <input type="text" id="teacher" name="teacher" class="form-control">
                     </div>
                 </td>
             </tr>
@@ -212,15 +201,32 @@
             <!-- Data will be added here dynamically -->
         </tbody>
     </table>
-    <div class="table-buttons text-end mt-3">
-        <button class="btn btn-info save-buttoncd">Save</button>
+
+    <div class="box-heading3">
+        <h5>1.Course Outcome</h5>
     </div>
     
-    <table class="custom-table" id="co_table">
+    <table class="table" id="co_table">
         <thead>
             <tr>
                 <th colspan="2" class="top">Course Outcomes</th> 
                 <th>Cognitive Levels</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tbody id="co_data"></tbody>
+            <!-- Data will be added here dynamically -->
+        </tbody>
+    </table>
+
+    <div class="box-heading3">
+        <h5>2.CO PO PSO Mapping</h5>
+    </div>
+
+    <table class="table" id="co_table1">
+        <thead>
+            <tr>
+                <th>COs</th> 
                 <th>PO1</th>
                 <th>PO2</th>
                 <th>PO3</th>
@@ -235,123 +241,176 @@
                 <th>PO12</th>
                 <th>PSO1</th>
                 <th>PSO2</th>
-
-
-
-                <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            <tbody id="co_data"></tbody>
+            <tbody id="co_data2"></tbody>
             <!-- Data will be added here dynamically -->
         </tbody>
     </table>
-    <div class="table-buttons text-end mt-3">
-        <button class="btn btn-info add-row-buttonco">Add New Row</button>
-        <button class="btn btn-info save-buttonco">Save</button>
+
+    <div class="box-heading3">
+        <h5>3.Identified Curriculum Gaps (if any)</h5>
     </div>
-    <table class="custom-table" id="syllabus-table">
+
+    <table class="custom-table" id="curriculum-gap-table">
         <thead>
             <tr>
-                <th>Module No.</th>
-                <th>Title of the Module</th>
-                <th>Topics in the Module</th>
-                <th>No. of Lectures for the module</th>
+                <th>Topics to be introduced</th>
+                <th>Strengthens CO</th>
+                <th>Strengthens PO PSO</th>
+                <th>Method of Identification</th>
                 <th>Action</th>
             </tr>
 
         </thead>
-        <tbody id="syllabus-data">
+        <tbody id="curriculum-gap-data">
             <!-- Data will be added here dynamically -->
         </tbody>
     </table>
+
     <div class="table-buttons text-end mt-3">
         <button class="btn btn-info add-row-button">Add New Row</button>
         <button class="btn btn-info save-button">Save</button>
     </div>
-    <table class="table" id="co_table">
-        <tr>
-          <th>Evaluation Criteria</th>
-          <th>Maximum Marks</th>
-        </tr>
-        <tr>
-          <td>T1</td>
-          <td><div class="form-group">
-          <input type="number" id="T1" value="20" class="form-control"  oninput="calculateTotalMarks()"></td>
-          </div>
-        </tr>
-        <tr>
-          <td>T2</td>
-          <td><div class="form-group">
-          <input type="number" id="T2" value="20"  class="form-control" oninput="calculateTotalMarks()"></td>
-        </div>
-        </tr>
-        <tr>
-          <td>End Term</td>
-          <td><div class="form-group">
-            <input type="number" id="EndTerm" value="35"  class="form-control" oninput="calculateTotalMarks()"></div></td>
-        </tr>
-        <tr>
-          <td>TA (Attendance: 10, Assignment/Quiz/Mini-Project: 15)</td>
-          <td><div class="form-group">
-          <input type="number" id="TA" value="25"  class="form-control" oninput="calculateTotalMarks()">
-        </div></td>
-        </tr>
-        <tr>
-          <td>Total</td>
-          <td id="Total">&nbsp;&nbsp;&nbsp;100</td>
-        </tr>
-      </table>
-      <table class="table" id="book-data">
-        <thead>
-        <tr>
-            <td colspan="3">
-                <p><strong>Recommended Reading Material:</strong> Author(s), Title, Edition, Publisher, Year of Publication etc. (Text Books, Reference Books, Journals, Reports, Websites etc. in IEEE format)</p>
-            </td>
-        </tr>
-        <tr>
-            <th>Sr.No.</th>
-            <th>Text Book(s)</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-        <tbody><tbody id="book_data"></tbody></tbody>
-      </table>
-      <div class="table-buttons text-end mt-3">
-        <button class="btn btn-info add-row-button-book">Add New Row</button>
-        <button class="btn btn-info save-button-book">Save</button>
+
+    <div class="box-heading3">
+        <h5>4.Modifications in Curriculum (if Any)</h5>
     </div>
 
-    <table class="table" id="refBook-data">
+    <table class="custom-table" id="curriculum-mod-table">
         <thead>
-        <tr>
-            <th>Sr.No.</th>
-            <th>Reference Book(s)</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-        <tbody>
-        <tbody id="refBook_data">
+            <tr>
+                <th>Details of Modification</th>
+                <th>Justification</th>
+                <th>Action</th>
+            </tr>
+
+        </thead>
+        <tbody id="curriculum-mod-data">
             <!-- Data will be added here dynamically -->
-        </tbody></tbody>
-      </table>
-      <div class="table-buttons text-end mt-3">
-        <button class="btn btn-info add-row-button-refBook">Add New Row</button>
-        <button class="btn btn-info save-button-refBook">Save</button>
+        </tbody>
+    </table>
+
+    <div class="table-buttons text-end mt-3">
+        <button class="btn btn-info add-row-button">Add New Row</button>
+        <button class="btn btn-info save-button">Save</button>
     </div>
-        <!-- <div class="reference-material">
-            <h5>Recommended Reading Material</h5>
-            <ul class="list-group">
-                <li class="list-group-item">Author(s), Title, Edition, Publisher, Year of Publication etc. (Text Books, Reference Books, Journals, Reports, Websites etc. in the IEEE format)</li>
-                 Repeat the list item for each book/reference -
-                <li class="list-group-item"><strong>Text Book(s):</strong></li>
-                <li class="list-group-item">Dey, N., Hassanien, A. E., Bhatt, C., Ashour, A., & Satapathy, S. C. (Eds.). (2018). Internet of Things and Big Data Analytics Toward Next-Generation Intelligence (pp. 3-549). Berlin: Springer.</li>
-                - ... more list items ... 
-            </ul>
-        </div> -->
-    
+    <div class="box-heading3">
+        <h5>5.Actions for Improving CO Attainment</h5>
+    </div>
+
+    <table class="custom-table" id="action-table">
+        <thead>
+            <tr>
+                <th>COs</th>
+                <th>Attainment in 2022-23 </th>
+                <th>Identified Gap</th>
+                <th>Actions to be taken in 2023-24 to improve Co Attainment</th>
+                <th>Action</th>
+                </tr>
+
+        </thead>
+        <tbody id="action-data">
+            <!-- Data will be added here dynamically -->
+        </tbody>
+    </table>
+
+    <div class="table-buttons text-end mt-3">
+        <button class="btn btn-info add-row-button">Add New Row</button>
+        <button class="btn btn-info save-button">Save</button>
+    </div>
+
+
+    <div class="box-heading3">
+        <h5>6.Innovative Teaching and Learning Method to be used(if any)</h5>
+    </div>
+    <br>
+    <div>
+    <textarea id="innovativemethod" placeholder="Write your suggestions here" ></textarea>
+    </div>
+
+    <div class="box-heading3">
+        <h5>7. Strategies:</h5>
+    </div>
+    <div class="box-heading3">
+        <h5>7.1. For Weak Learners</h5>
+    </div>
+
+    <table class="custom-table" id="weak-strategy-table">
+        <thead>
+            <tr>
+                <th>S.No.</th>
+                <th>Strategy </th>
+                <th>Expected Outcomes</th>
+                <th>Documents to be produced</th>
+                <th>Action</th>
+                </tr>
+
+        </thead>
+        <tbody id="weak-strategy-data">
+            <!-- Data will be added here dynamically -->
+        </tbody>
+    </table>
+
+    <div class="table-buttons text-end mt-3">
+        <button class="btn btn-info add-row-button">Add New Row</button>
+        <button class="btn btn-info save-button">Save</button>
+    </div>
+
+
+    <div class="box-heading3">
+        <h5>7.2. For Bright Students</h5>
+    </div>
+
+
+    <table class="custom-table" id="bright-strategy-table">
+        <thead>
+            <tr>
+                <th>S.No.</th>
+                <th>Strategy </th>
+                <th>Expected Outcomes</th>
+                <th>Documents to be produced</th>
+                <th>Action</th>
+                </tr>
+
+        </thead>
+        <tbody id="bright-strategy-data">
+            <!-- Data will be added here dynamically -->
+        </tbody>
+    </table>
+
+    <div class="table-buttons text-end mt-3">
+        <button class="btn btn-info add-row-button">Add New Row</button>
+        <button class="btn btn-info save-button">Save</button>
+    </div>
+
+
+    <div class="box-heading3">
+        <h5>8. Innovative Evaluation Strategy to be used(if any)</h5>
+    </div>
+    <br>
+    <div>
+        <textarea id="innovative-evaluation" placeholder="Write your suggestions here" ></textarea>
+        </div>
 
     
+   
+        <div class="upper-container d-flex align-items-center justify-content-start">
+            <div class="signature-details">
+                <h6>Signature</h6>
+                <h6>Module Coordinator:</h6>
+                <br>
+                <h6>Signature</h6>
+                <h6>Course Coordinator:</h6>
+                
+
+            </div>
+        </div>
+        <!--<div class="exam-date">
+            <p>Date & Time: <span id="datePlaceholder"></span> & <span id="timePlaceholder"></span></p>
+        </div>-->
+    </div>  <div class="container mt-5"></div>    
 
 </div>
 <div class="table-buttons text-end mt-3">
@@ -377,7 +436,7 @@
     window.selectedSubject = selectedSubject;
 </script>
 <script src="dataval.js"></script>
-    <script src="../../script/coordinator/home/coursehome.js"></script>
+    <script src="../../../script/coordinator/reports/opening.js"></script>
     <script>
                 const currentDate = new Date();
 

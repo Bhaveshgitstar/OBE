@@ -6,6 +6,7 @@ window.onload = function () {
 $(document).ready(() => {
     fetchSyllabusData();
     fetchCourseData();
+    fetchCourseData2();
     fetchusername();
     fetchcourse();
     fetchuserrole();
@@ -416,25 +417,6 @@ function fetchCourseData() {
                         <td>${module.coid}</td>
                         <td>${module.cotitle}</td>
                         <td>${module.colevels}</td>
-                        <td>${module.PO1}</td>
-                        <td>${module.PO2}</td>
-                        <td>${module.PO3}</td>
-                        <td>${module.PO4}</td>
-                        <td>${module.PO5}</td>
-                        <td>${module.PO6}</td>
-                        <td>${module.PO7}</td>
-                        <td>${module.PO8}</td>
-                        <td>${module.PO9}</td>
-                        <td>${module.PO10}</td>
-                        <td>${module.PO11}</td>
-                        <td>${module.PO12}</td>
-                        <td>${module.PSO1}</td>
-                        <td>${module.PSO2}</td>
-                        <td class="action-buttons">
-                            <button class="btn btn-info update-buttonco">Edit</button>
-                            <button class="btn btn-danger delete-buttonco">Delete</button>
-                            <button class="btn btn-primary save-buttonuco" style="display: none;">Save</button>
-                        </td>
                     </tr>
                 `;
                 courseData.append(row);
@@ -445,6 +427,113 @@ function fetchCourseData() {
             console.error('Error fetching course data:', error);
         }
     });
+}
+function fetchCourseData2() {
+  $.ajax({
+      url: `/api/courses?code=${window.selectedSubject}`, // Change this URL to match your Express route for courses
+      type: 'GET',
+      dataType: 'json',
+      success: function (data) {
+          const courseData = $('#co_data2');
+          courseData.empty(); // Clear existing table data
+          var avg=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+          var count=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+          data.forEach(module => {
+              avg[1]+=parseInt(module.PO1);
+              avg[2]+=parseInt(module.PO2);
+              avg[3]+=parseInt(module.PO3);
+              avg[4]+=parseInt(module.PO4);
+              avg[5]+=parseInt(module.PO5);
+              avg[6]+=parseInt(module.PO6);
+              avg[7]+=parseInt(module.PO7);
+              avg[8]+=parseInt(module.PO8);
+              avg[9]+=parseInt(module.PO9);
+              avg[10]+=parseInt(module.PO10);
+              avg[11]+=parseInt(module.PO11);
+              avg[12]+=parseInt(module.PO12);          
+              avg[13]+=parseInt(module.PSO1);
+              avg[14]+=parseInt(module.PSO2);
+
+              if(parseInt(module.PO1)!=0){
+                count[1]+=1;
+              }
+              if(parseInt(module.PO2)!=0){
+                count[2]+=1;
+              }
+              if(parseInt(module.PO3)!=0){
+                count[3]+=1;
+              }
+              if(parseInt(module.PO4)!=0){
+                count[4]+=1;
+              }
+              if(parseInt(module.PO5)!=0){
+                count[5]+=1;
+              }
+              if(parseInt(module.PO6)!=0){
+                count[6]+=1;
+              }
+              if(parseInt(module.PO7)!=0){
+                count[7]+=1;
+              }
+              if(parseInt(module.PO8)!=0){
+                count[8]+=1;
+              }
+              if(parseInt(module.PO9)!=0){
+                count[9]+=1;
+              }
+              if(parseInt(module.PO10)!=0){
+                count[10]+=1;
+              }
+              if(parseInt(module.PO11)!=0){
+                count[11]+=1;
+              }
+              if(parseInt(module.PO12)!=0){
+                count[12]+=1;
+              }
+              if(parseInt(module.PSO1)!=0){
+                count[13]+=1;
+              }
+              if(parseInt(module.PSO2)!=0){
+                count[14]+=1;
+              }
+   
+              const row = `
+                  <tr data-module-id="${module._id}">
+                      <td>${module.coid}</td>
+                      <td>${module.PO1}</td>
+                      <td>${module.PO2}</td>
+                      <td>${module.PO3}</td>
+                      <td>${module.PO4}</td>
+                      <td>${module.PO5}</td>
+                      <td>${module.PO6}</td>
+                      <td>${module.PO7}</td>
+                      <td>${module.PO8}</td>
+                      <td>${module.PO9}</td>
+                      <td>${module.PO10}</td>
+                      <td>${module.PO11}</td>
+                      <td>${module.PO12}</td>
+                      <td>${module.PSO1}</td>
+                      <td>${module.PSO2}</td>
+                  </tr>
+              `;
+              courseData.append(row);
+          }        
+        );
+        var row = `
+        <tr data-module-id="100">
+        <td>Avg</td>`
+        for(var i=1;i<=14;i++){
+          row+=`<td>${(Math.round((avg[i]/count[i]) ||0))}</td>`   
+        }
+        row+=`</tr>`
+        courseData.append(row);
+        
+      
+      },
+      error: function (error) {
+          console.error('Error fetching course data:', error);
+      }
+  });
 }
 
 function fetchBookData() {

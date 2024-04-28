@@ -1,6 +1,6 @@
 
 window.onload = function() {
-  alert('Welcome to the next page!');
+  //alert('Welcome to the next page!');
   
 };
 

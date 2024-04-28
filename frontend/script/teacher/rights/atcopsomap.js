@@ -1,23 +1,9 @@
 window.onload = function() {
-  alert('Welcome to the next page!');
+  //alert('Welcome to the next page!');
 };
 
 $(document).ready(() => {
-  fetchcopoData()
-      .then(() => fetchcopoData2())
-      .catch(error => {
-          console.error('Error in fetching data:', error);
-      });
-  fetchcoposoData()
-      .then(() => fetchcoposoData2())
-      .catch(error => {
-          console.error('Error in fetching data:', error);
-      });
-  fetchcoposoatData()
-      .then(() => fetchcoposoatData2())
-      .catch(error => {
-          console.error('Error in fetching data:', error);
-      });
+  fetchcopoData();
   fetchcdData();
   fetchusername();
   fetchcourse();
@@ -177,7 +163,6 @@ function fetchcourse() {
       }
   });
 }
-
 function fetchcopoData2() {
   return new Promise((resolve, reject) => {
       $.ajax({
@@ -189,6 +174,7 @@ function fetchcopoData2() {
               const attainmentData = $('#copo-data');
 
               if (data.length > 0) {
+                data.sort((a, b) => a.COs.localeCompare(b.COs));
                   // Create an array of column headers based on the keys of the first record
                   const tableHeaders = Object.keys(data[0]);
 
@@ -197,6 +183,7 @@ function fetchcopoData2() {
                   
                   
                   tableHtml = '<tbody>';
+                  var coAttainment=[];
                   data.forEach((record, index) => {
                     var currArray=[0,0,0,0,0,0,0,0,0,0,0,0,0,0];
                     var present=[0,0,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -224,6 +211,7 @@ function fetchcopoData2() {
                           else if(header==="Final (Direct + 20% Indirect)"){
                             currArray[i]= (currArray[8]+0.2*currArray[9])|| 0;
                             tableHtml += `<td>${currArray[i].toFixed(1)}</td>`;
+                            coAttainment.push(currArray[i].toFixed(1));
                           }
                           else if(header==="CIE"){
                             currArray[i]= (currArray[1]+currArray[2]+currArray[5]+currArray[6])/(present[1]+present[2]+present[5]+present[6])|| 0;
@@ -244,6 +232,7 @@ function fetchcopoData2() {
                       tableHtml += '</tr>';
                       console.log(currArray);
                       console.log(present);
+                      console.log(coAttainment);
                   });
 
                  
@@ -261,6 +250,8 @@ function fetchcopoData2() {
                   attainmentData.html('<p>No data available.</p>');
               }
               resolve();
+              fetchcoposoData();
+              fetchcoposoData2(coAttainment);
           },
           error: function(error) {
               console.error('Error fetching data:', error);
@@ -270,7 +261,7 @@ function fetchcopoData2() {
   });
 }
 
-function fetchcoposoData2() {
+function fetchcoposoData2(coAttainment) {
   return new Promise((resolve, reject) => {
       $.ajax({
           url: `/api/coposo?code=${window.selectedSubject}`,
@@ -278,38 +269,45 @@ function fetchcoposoData2() {
           dataType: 'json',
 
           success: function(data) {
+              console.log(data);
               const attainmentData = $('#coposo-data');
 
               if (data.length > 0) {
-                  // Create an array of column headers based on the keys of the first record
+                data.sort((a, b) => a.coid.localeCompare(b.coid));
+                resolve(data);
                   const tableHeaders = Object.keys(data[0]);
 
                   // Exclude '_id' from the desired order
-                  const desiredOrder = ['coid', 'attainment','PO1', 'PO2', 'PO3', 'PO4', 'PO5', 'PO6', 'PO7', 'PO8', 'PO9', 'PO10','PO11','PO12','PSO1','PSO2'];
+                  const desiredOrder = ['coid', 'CO Attainments','PO1', 'PO2', 'PO3', 'PO4', 'PO5', 'PO6', 'PO7', 'PO8', 'PO9', 'PO10','PO11','PO12','PSO1','PSO2'];
 
                   tableHtml = '<tbody>';
                   const avgArray=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
                   const countArray=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+                  var lastTable=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
                   var co="";
-
+                  var j=0;
                   data.forEach((record, index) => {
                       var i=0;
+                      
                       tableHtml += '<tr data-record-id="' + record._id + '">';
                       
                       desiredOrder.forEach(header => {
                         avgArray[i]=avgArray[i]+parseFloat(record[header]);
+                        lastTable[i]=lastTable[i]+coAttainment[j]*parseFloat(record[header]);
                         if(parseInt(record[header])!=0){
                         countArray[i]=countArray[i]+1;
                         }
                         i++;
-                        if(header==="attainment"){
-                            tableHtml += `<td>0</td>`;
+                        if(header==="CO Attainments"){
+                            tableHtml += `<td>${coAttainment[j]}</td>`;
                         }
                         else{
                         tableHtml += `<td>${record[header]}</td>`;
                         }
                         co=record["coid"];
+                        
                       });
+                      j++;
                       tableHtml += '</tr>';
                   });
 
@@ -320,9 +318,12 @@ function fetchcoposoData2() {
                   
  
                   for(var i=2;i<16;i++){
+                    lastTable[i]=(lastTable[i]/avgArray[i]) || 0;
                     avgArray[i]=Math.round(avgArray[i]/countArray[i])||0;
                         tableHtml += `<td>${avgArray[i]}</td>`;
                 }
+
+                //console.log("last",lastTable);
                 tableHtml += '</tr>';
 
                   tableHtml += '</tbody>';
@@ -338,6 +339,8 @@ function fetchcoposoData2() {
                   attainmentData.html('<p>No data available.</p>');
               }
               resolve();
+              fetchcoposoatData();
+              fetchcoposoatData2(lastTable,co);
           },
           error: function(error) {
               console.error('Error fetching data:', error);
@@ -347,7 +350,7 @@ function fetchcoposoData2() {
   });
 }
 
-function fetchcoposoatData2() {
+function fetchcoposoatData2(lastTable,co) {
   return new Promise((resolve, reject) => {
       $.ajax({
           url: `/api/coposoat?code=${window.selectedSubject}`,
@@ -360,15 +363,24 @@ function fetchcoposoatData2() {
               if (data.length > 0) {
                   // Create an array of column headers based on the keys of the first record
                   const tableHeaders = Object.keys(data[0]);
+                  console.log(lastTable);
 
                   // Exclude '_id' from the desired order
                   const desiredOrder = tableHeaders.filter(header => header !== '_id');
 
                   tableHtml = '<tbody>';
+                  var result = co.substring(0, co.length - 2);
                   data.forEach((record, index) => {
+                    var i=2;
                       tableHtml += '<tr data-record-id="' + record._id + '">';
                       desiredOrder.forEach(header => {
-                          tableHtml += `<td>${record[header]}</td>`;
+                
+                        if(header==="Course"){
+                            tableHtml += `<td>NBA Code:${result}</td>`;
+                        }
+                        else{
+                          tableHtml += `<td>${lastTable[i].toFixed(1)}</td>`;
+                          i++;}
                       });
 
                       tableHtml += '</tr>';
@@ -424,6 +436,8 @@ function fetchcopoData() {
                   attainmentData.html('<p>No data available.</p>');
               }
               resolve();
+              fetchcopoData2();
+
           },
           error: function(error) {
               console.error('Error fetching data:', error);

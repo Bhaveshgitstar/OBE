@@ -34,6 +34,14 @@ body {
     display: none;/* Allow the details to take up available space */
 }
 
+
+.signature-details {
+    flex-grow: 1;
+    text-align: center;
+    margin-left: 0px; 
+    display: none;/* Allow the details to take up available space */
+}
+
 .institute-details h1 {
     margin: 0;
     font-size: 24px;
@@ -461,6 +469,14 @@ body.dark {
         margin-bottom: -20px;
         margin-top: -40px;
     }
+    .signature-details {
+        flex-grow: 1;
+        text-align: justify;
+        margin-left: 0px; 
+        display: block;/* Allow the details to take up available space */
+        margin-bottom: 0px;
+        margin-top:100px;
+    }
     
     .institute-details h1 {
         margin: 0;
@@ -635,6 +651,7 @@ body.dark {
     .custom-table th:last-child {
         display: none;
     }
+    
 
     #book-data td:last-child,
     #book-data th:last-child {
@@ -784,6 +801,21 @@ body {
     /* Add margin for spacing between headings */
 }
 
+.box-heading3 {
+    background-color: blue;
+    /* Background color */
+    color: #fff;
+    /* Text color */
+    padding: 10px;
+    /* Add padding for spacing */
+    text-align: center;
+    /* Center the text */
+    margin: 20px 0 0;
+    margin-left: -20px;
+    margin-right: -20px;
+    /* Add margin for spacing between headings */
+}
+
 
 /* Style the navigation strip */
 
@@ -797,6 +829,13 @@ body {
 .form-select {
     width: 300px;
 }
+
+textarea {
+    width: 1400px; /* Adjust as needed */
+    height: 100px; /* Adjust as needed */
+    padding: 1%;
+}
+
 
 .navigation-strip {
     background-color: #181E4E;

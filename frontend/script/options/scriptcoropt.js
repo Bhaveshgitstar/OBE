@@ -130,6 +130,23 @@ $('.get-data-buttonsett3').click(function () {
   // Redirect to the attainmentt1 page with the selectedSubject as a query parameter
   window.location.href = `courseexamt3?subject=${encodeURIComponent(partBeforeParenthesis)}`;
 });
+$('.get-data-buttonopeningreport').click(function () {
+  const selectedSubject = $('#subjectDropdown').val();
+  const indexOfParenthesis = selectedSubject.indexOf(' ');
+  const partBeforeParenthesis = indexOfParenthesis !== -1 ? selectedSubject.substring(0, indexOfParenthesis).trim() : selectedSubject;
+
+  // Redirect to the attainmentt1 page with the selectedSubject as a query parameter
+  window.location.href = `openingreport?subject=${encodeURIComponent(partBeforeParenthesis)}`;
+});
+
+$('.get-data-buttonclosingreport').click(function () {
+  const selectedSubject = $('#subjectDropdown').val();
+  const indexOfParenthesis = selectedSubject.indexOf(' ');
+  const partBeforeParenthesis = indexOfParenthesis !== -1 ? selectedSubject.substring(0, indexOfParenthesis).trim() : selectedSubject;
+
+  // Redirect to the attainmentt1 page with the selectedSubject as a query parameter
+  window.location.href = `closingreport?subject=${encodeURIComponent(partBeforeParenthesis)}`;
+});
 
 
 
