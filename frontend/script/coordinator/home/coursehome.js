@@ -1,164 +1,134 @@
-console.log('Selected Subject:', window.selectedSubject);
+console.log("Selected Subject:", window.selectedSubject);
 window.onload = function () {
-   // alert('Welcome to the next page!');
+  // alert('Welcome to the next page!');
 };
 
 $(document).ready(() => {
-    fetchSyllabusData();
-    fetchCourseData();
-    fetchusername();
-    fetchcourse();
-    fetchuserrole();
-    fetchcdData();
-    fetchBookData();
-    fetchrefBookData();
+  fetchSyllabusData();
+  fetchCourseData();
+  fetchusername();
+  fetchcourse();
+  fetchuserrole();
+  fetchcdData();
+  fetchBookData();
+  fetchrefBookData();
+  updateTotalLectures();
+
+  const body = document.querySelector("body");
+  const darkLight = document.querySelector("#darkLight");
+  const sidebar = document.querySelector(".sidebar");
+  $(".sidebar").addClass("close hoverable");
+
+  const submenuItems = document.querySelectorAll(".submenu_item");
+  const sidebarOpen = document.querySelector("#sidebarOpen");
+  const sidebarClose = document.querySelector(".collapse_sidebar");
+  const sidebarExpand = document.querySelector(".expand_sidebar");
+
+  sidebarOpen.addEventListener("click", () =>
+    sidebar.classList.toggle("close")
+  );
+
+  $(".add-row-button").click(() => {
+    addEmptyRow();
+  });
+
+  $(".add-row-button-book").click(() => {
+    addEmptyRowBook();
+  });
+  $(".add-row-button-refBook").click(() => {
+    addEmptyRowrefBook();
+  });
+
+  $(".add-row-buttonco").click(() => {
+    addEmptyRow2();
+  });
+
+  $(".save-button").click(() => {
+    saveDataToServer();
+  });
+
+  $(".save-button-book").click(() => {
+    saveDataToServerBook();
+  });
+
+  $(".save-button-refBook").click(() => {
+    saveDataToServerrefBook();
+  });
+
+  $(".save-buttonco").click(() => {
+    saveDataToServerco();
+  });
+
+  $(document).on("input", "#syllabus-data td:nth-child(4)", function () {
     updateTotalLectures();
+  });
+  sidebarClose.addEventListener("click", () => {
+    sidebar.classList.add("close", "hoverable");
+  });
+  sidebarExpand.addEventListener("click", () => {
+    sidebar.classList.remove("close", "hoverable");
+  });
 
-const body = document.querySelector("body");
-const darkLight = document.querySelector("#darkLight");
-const sidebar = document.querySelector(".sidebar");
-$(".sidebar").addClass("close hoverable");
+  sidebar.addEventListener("mouseenter", () => {
+    if (sidebar.classList.contains("hoverable")) {
+      sidebar.classList.remove("close");
+    }
+  });
+  sidebar.addEventListener("mouseleave", () => {
+    if (sidebar.classList.contains("hoverable")) {
+      sidebar.classList.add("close");
+    }
+  });
 
-const submenuItems = document.querySelectorAll(".submenu_item");
-const sidebarOpen = document.querySelector("#sidebarOpen");
-const sidebarClose = document.querySelector(".collapse_sidebar");
-const sidebarExpand = document.querySelector(".expand_sidebar");
+  darkLight.addEventListener("click", () => {
+    body.classList.toggle("dark");
+    if (body.classList.contains("dark")) {
+      document.setI;
+      darkLight.classList.replace("bx-sun", "bx-moon");
+    } else {
+      darkLight.classList.replace("bx-moon", "bx-sun");
+    }
+  });
+  $(document).on("click", ".update-button", function () {
+    const row = $(this).closest("tr");
+    const cells = row.find("td");
+    cells.attr("contenteditable", "true"); // Make cells editable
+    row.find(".update-button").hide();
+    row.find(".delete-button").hide();
+    row.find(".save-buttonu").show();
+  });
 
-sidebarOpen.addEventListener("click", () => sidebar.classList.toggle("close"));
+  $(document).on("click", ".update-buttonco", function () {
+    const row = $(this).closest("tr");
+    const cells = row.find("td");
+    cells.attr("contenteditable", "true"); // Make cells editable
+    row.find(".update-buttonco").hide();
+    row.find(".delete-buttonco").hide();
+    row.find(".save-buttonuco").show();
+  });
+  $(document).on("click", ".save-buttonuco", function () {
+    const row = $(this).closest("tr");
+    const moduleId = row.data("moduleId");
+    updateRowco(moduleId, row);
+  });
 
-    $('.add-row-button').click(() => {
-        addEmptyRow();
-    });
+  $(document).on("click", ".delete-buttonco", function () {
+    const row = $(this).closest("tr");
+    const moduleId = row.data("moduleId");
+    deleteRowco(moduleId);
+  });
 
-    $('.add-row-button-book').click(() => {
-        addEmptyRowBook();
-    });
-    $('.add-row-button-refBook').click(() => {
-        addEmptyRowrefBook();
-    });
+  $(document).on("click", ".delete-button", function () {
+    const row = $(this).closest("tr");
+    const moduleId = row.data("moduleId");
+    deleteRow(moduleId);
+  });
 
-    $('.add-row-buttonco').click(() => {
-        addEmptyRow2();
-    });
-
-
-    $('.save-button').click(() => {
-        saveDataToServer();
-    });
-
-    $('.save-button-book').click(() => {
-        saveDataToServerBook();
-    });
-
-    $('.save-button-refBook').click(() => {
-        saveDataToServerrefBook();
-    });
-    
-    $('.save-buttonco').click(() => {
-        saveDataToServerco();
-    });
-
-    $(document).on('input', '#syllabus-data td:nth-child(4)', function () {
-        updateTotalLectures();
-    });
-
-
-    $('.generate-pdf-button').click(() => {
-        // Send a GET request to the /generate-pdf endpoint to generate the PDF
-        fetch('/generate-pdf')
-            .then(response => response.blob())
-            .then(blob => {
-                // Create a Blob URL for the PDF
-                const url = window.URL.createObjectURL(blob);
-    
-                // Create a link element to trigger the download
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'your-pdf-file.pdf'; // Set the desired file name
-    
-                // Trigger the click event on the link to initiate the download
-                document.body.appendChild(a);
-                a.click();
-    
-                // Clean up the Blob URL
-                window.URL.revokeObjectURL(url);
-            })
-            .catch(error => {
-                console.error('Error generating PDF:', error);
-            });
-    });
-    
-    sidebarClose.addEventListener("click", () => {
-        sidebar.classList.add("close", "hoverable");
-      });
-      sidebarExpand.addEventListener("click", () => {
-        sidebar.classList.remove("close", "hoverable");
-      });
-      
-      sidebar.addEventListener("mouseenter", () => {
-        if (sidebar.classList.contains("hoverable")) {
-          sidebar.classList.remove("close");
-        }
-      });
-      sidebar.addEventListener("mouseleave", () => {
-        if (sidebar.classList.contains("hoverable")) {
-          sidebar.classList.add("close");
-        }
-      });
-      
-      darkLight.addEventListener("click", () => {
-        body.classList.toggle("dark");
-        if (body.classList.contains("dark")) {
-          document.setI
-          darkLight.classList.replace("bx-sun", "bx-moon");
-        } else {
-          darkLight.classList.replace("bx-moon", "bx-sun");
-        }
-      });
-    $(document).on('click', '.update-button', function () {
-        const row = $(this).closest('tr');
-        const cells = row.find('td');
-        cells.attr('contenteditable', 'true'); // Make cells editable
-        row.find('.update-button').hide();
-        row.find('.delete-button').hide();
-        row.find('.save-buttonu').show();
-    });
-   // $(document).on('click', '.generatepdf-button', function () {
-     //     generatePDF();
-    //});
-
-    $(document).on('click', '.update-buttonco', function () {
-        const row = $(this).closest('tr');
-        const cells = row.find('td');
-        cells.attr('contenteditable', 'true'); // Make cells editable
-        row.find('.update-buttonco').hide();
-        row.find('.delete-buttonco').hide();
-        row.find('.save-buttonuco').show();
-    });
-    $(document).on('click', '.save-buttonuco', function () {
-        const row = $(this).closest('tr');
-        const moduleId = row.data('moduleId');
-        updateRowco(moduleId, row);
-    });
-
-    $(document).on('click', '.delete-buttonco', function () {
-        const row = $(this).closest('tr');
-        const moduleId = row.data('moduleId');
-        deleteRowco(moduleId);
-    });
-
-    $(document).on('click', '.delete-button', function () {
-        const row = $(this).closest('tr');
-        const moduleId = row.data('moduleId');
-        deleteRow(moduleId);
-    });
-
-    $(document).on('click', '.save-buttonu', function () {
-        const row = $(this).closest('tr');
-        const moduleId = row.data('moduleId');
-        updateRow(moduleId, row);
-    });
-
+  $(document).on("click", ".save-buttonu", function () {
+    const row = $(this).closest("tr");
+    const moduleId = row.data("moduleId");
+    updateRow(moduleId, row);
+  });
 
   submenuItems.forEach((item, index) => {
     item.addEventListener("click", () => {
@@ -170,133 +140,132 @@ sidebarOpen.addEventListener("click", () => sidebar.classList.toggle("close"));
       });
     });
   });
-  
+
   if (window.innerWidth < 768) {
     sidebar.classList.add("close");
   } else {
     sidebar.classList.remove("close");
   }
-  
-  });
+});
 
 function updateRow(moduleId, row) {
-    const cells = row.find('td');
-    const updatedData = {
-        ModuleNo: parseInt(cells.eq(0).text()),
-        ModuleTitle: cells.eq(1).text(),
-        Topics: cells.eq(2).text(),
-        NoOfLectures: parseInt(cells.eq(3).text())
-    };
+  const cells = row.find("td");
+  const updatedData = {
+    ModuleNo: parseInt(cells.eq(0).text()),
+    ModuleTitle: cells.eq(1).text(),
+    Topics: cells.eq(2).text(),
+    NoOfLectures: parseInt(cells.eq(3).text()),
+  };
 
-    $.ajax({
-        url: `/api/module/${moduleId}?code=${window.selectedSubject}`, // Change this URL to match your Express route
-        type: 'PUT',
-        dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify(updatedData),
-        success: function (response) {
-            console.log('Data updated successfully:', response);
-            fetchSyllabusData();
-        },
-        error: function (error) {
-            console.error('Error updating data:', error);
-        }
-    });
+  $.ajax({
+    url: `/api/module/${moduleId}?code=${window.selectedSubject}`, // Change this URL to match your Express route
+    type: "PUT",
+    dataType: "json",
+    contentType: "application/json",
+    data: JSON.stringify(updatedData),
+    success: function (response) {
+      console.log("Data updated successfully:", response);
+      fetchSyllabusData();
+    },
+    error: function (error) {
+      console.error("Error updating data:", error);
+    },
+  });
 
-    // Restore UI state
-    cells.attr('contenteditable', 'false');
-    row.find('.save-buttonu').hide();
-    row.find('.update-button').show();
-    row.find('.delete-button').show();
+  // Restore UI state
+  cells.attr("contenteditable", "false");
+  row.find(".save-buttonu").hide();
+  row.find(".update-button").show();
+  row.find(".delete-button").show();
 }
 
 function updateRowco(moduleId, row) {
-    const cells = row.find('td');
-    const updatedData = {
-        coid: cells.eq(0).text(),
-        cotitle: cells.eq(1).text(),
-        colevels: cells.eq(2).text(),
-        PO1: parseInt(cells.eq(3).text()),
-        PO2: parseInt(cells.eq(4).text()),
-        PO3: parseInt(cells.eq(5).text()),
-        PO4: parseInt(cells.eq(6).text()),
-        PO5: parseInt(cells.eq(7).text()),
-        PO6: parseInt(cells.eq(8).text()),
-        PO7: parseInt(cells.eq(9).text()),
-        PO8: parseInt(cells.eq(10).text()),
-        PO9: parseInt(cells.eq(11).text()),
-        PO10: parseInt(cells.eq(12).text()),
-        PO11: parseInt(cells.eq(13).text()),
-        PO12: parseInt(cells.eq(14).text()),
-        PSO1: parseInt(cells.eq(15).text()),
-        PSO2: parseInt(cells.eq(16).text())
-    };
+  const cells = row.find("td");
+  const updatedData = {
+    coid: cells.eq(0).text(),
+    cotitle: cells.eq(1).text(),
+    colevels: cells.eq(2).text(),
+    PO1: parseInt(cells.eq(3).text()) || 0,
+    PO2: parseInt(cells.eq(4).text()) || 0,
+    PO3: parseInt(cells.eq(5).text()) || 0,
+    PO4: parseInt(cells.eq(6).text()) || 0,
+    PO5: parseInt(cells.eq(7).text()) || 0,
+    PO6: parseInt(cells.eq(8).text()) || 0,
+    PO7: parseInt(cells.eq(9).text()) || 0,
+    PO8: parseInt(cells.eq(10).text()) || 0,
+    PO9: parseInt(cells.eq(11).text()) || 0,
+    PO10: parseInt(cells.eq(12).text()) || 0,
+    PO11: parseInt(cells.eq(13).text()) || 0,
+    PO12: parseInt(cells.eq(14).text()) || 0,
+    PSO1: parseInt(cells.eq(15).text()) || 0,
+    PSO2: parseInt(cells.eq(16).text()) || 0,
+  };
 
-    $.ajax({
-        url: `/api/course/${moduleId}?code=${window.selectedSubject}`, // Change this URL to match your Express route
-        type: 'PUT',
-        dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify(updatedData),
-        success: function (response) {
-            console.log('Data updated successfully:', response);
-            fetchSyllabusData();
-        },
-        error: function (error) {
-            console.error('Error updating data:', error);
-        }
-    });
+  $.ajax({
+    url: `/api/course/${moduleId}?code=${window.selectedSubject}`, // Change this URL to match your Express route
+    type: "PUT",
+    dataType: "json",
+    contentType: "application/json",
+    data: JSON.stringify(updatedData),
+    success: function (response) {
+      console.log("Data updated successfully:", response);
+      fetchSyllabusData();
+    },
+    error: function (error) {
+      console.error("Error updating data:", error);
+    },
+  });
 
-    // Restore UI state
-    cells.attr('contenteditable', 'false');
-    row.find('.save-buttonuco').hide();
-    row.find('.update-buttonco').show();
-    row.find('.delete-buttonco').show();
+  // Restore UI state
+  cells.attr("contenteditable", "false");
+  row.find(".save-buttonuco").hide();
+  row.find(".update-buttonco").show();
+  row.find(".delete-buttonco").show();
 }
 
 function deleteRowco(moduleId) {
-    $.ajax({
-        url: `/api/courses/${moduleId}?code=${window.selectedSubject}`, // Change this URL to match your Express route
-        type: 'DELETE',
-        success: function () {
-            console.log('Data deleted successfully');
-            fetchCourseData();
-        },
-        error: function (error) {
-            console.error('Error deleting data:', error);
-        }
-    });
+  $.ajax({
+    url: `/api/courses/${moduleId}?code=${window.selectedSubject}`, // Change this URL to match your Express route
+    type: "DELETE",
+    success: function () {
+      console.log("Data deleted successfully");
+      fetchCourseData();
+    },
+    error: function (error) {
+      console.error("Error deleting data:", error);
+    },
+  });
 }
 
 function deleteRow(moduleId) {
-    $.ajax({
-        url: `/api/modules/${moduleId}?code=${window.selectedSubject}`, // Change this URL to match your Express route
-        type: 'DELETE',
-        success: function () {
-            console.log('Data deleted successfully');
-            fetchSyllabusData();
-        },
-        error: function (error) {
-            console.error('Error deleting data:', error);
-        }
-    });
+  $.ajax({
+    url: `/api/modules/${moduleId}?code=${window.selectedSubject}`, // Change this URL to match your Express route
+    type: "DELETE",
+    success: function () {
+      console.log("Data deleted successfully");
+      fetchSyllabusData();
+    },
+    error: function (error) {
+      console.error("Error deleting data:", error);
+    },
+  });
 }
 
 // ... (rest of your functions, like fetchSyllabusData, addEmptyRow, saveDataToServer)
 
 // Rename the functions to have unique names
 function fetchSyllabusData() {
-    $.ajax({
-        url: `/api/modules?code=${window.selectedSubject}`, // Change this URL to match your Express route
-        type: 'GET',
-        dataType: 'json',
-        
-        success: function (data) {
-            const syllabusData = $('#syllabus-data');
-            syllabusData.empty();
-            let totalLectures = 0; // Clear existing table data
-            data.forEach(module => {
-                const row = `
+  $.ajax({
+    url: `/api/modules?code=${window.selectedSubject}`, // Change this URL to match your Express route
+    type: "GET",
+    dataType: "json",
+
+    success: function (data) {
+      const syllabusData = $("#syllabus-data");
+      syllabusData.empty();
+      let totalLectures = 0; // Clear existing table data
+      data.forEach((module) => {
+        const row = `
                     <tr data-module-id="${module._id}">
                         <td>${module.ModuleNo}</td>
                         <td>${module.ModuleTitle}</td>
@@ -309,11 +278,10 @@ function fetchSyllabusData() {
                         </td>
                     </tr>
                 `;
-                syllabusData.append(row);
-                totalLectures += module.NoOfLectures;
-
-            });
-            const totalRow = `
+        syllabusData.append(row);
+        totalLectures += module.NoOfLectures;
+      });
+      const totalRow = `
                 <tr id="total-lectures-row">
                     <th colspan="3">Total Lectures</th>
                     <th>${totalLectures}</th>
@@ -321,97 +289,96 @@ function fetchSyllabusData() {
                 </tr>-
             `;
 
-            syllabusData.append(totalRow);
-        },
-        error: function (error) {
-            console.error('Error fetching data:', error);
-        }
-    });
+      syllabusData.append(totalRow);
+    },
+    error: function (error) {
+      console.error("Error fetching data:", error);
+    },
+  });
 }
 
 function fetchcdData() {
-    $.ajax({
-        url:`/api/cd?code=${window.selectedSubject}`, // Change this URL to match your Express route
-        type: 'GET',
-        dataType: 'json',
-        
-        success: function (data) {
-            const cdData = $('#cd_data');
-            cdData.empty(); // Clear existing table data
-            data.forEach(module => {
-                const row = 
-                $('#co_code').val(module.co_code);
-                $('#sem').val(module.sem);
-                $('#co_name').val(module.co_name);
-                $('#credits').val(module.credits);
-                $('#contact_hours').val(module.contact_hours);
-                $('#coordinators').val(module.coordinators);
-                $('#teacher').val(module.teachers);
-            });
-        },
-        error: function (error) {
-            console.error('Error fetching data:', error);
-        }
-    });
+  $.ajax({
+    url: `/api/cd?code=${window.selectedSubject}`, // Change this URL to match your Express route
+    type: "GET",
+    dataType: "json",
+
+    success: function (data) {
+      const cdData = $("#cd_data");
+      cdData.empty(); // Clear existing table data
+      data.forEach((module) => {
+        const row = $("#co_code").val(module.co_code);
+        $("#sem").val(module.sem);
+        $("#co_name").val(module.co_name);
+        $("#credits").val(module.credits);
+        $("#contact_hours").val(module.contact_hours);
+        $("#coordinators").val(module.coordinators);
+        $("#teacher").val(module.teachers);
+      });
+    },
+    error: function (error) {
+      console.error("Error fetching data:", error);
+    },
+  });
 }
-function fetchusername(){
-    $.ajax({
-        url: '/api/get-username',
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-            const username = data.username;
-            console.log('Username:', username);
-            $('#username').text(username);
-            $('#username1').text(username);
-        },
-        error: function (error) {
-            console.error('Error fetching username', error);
-        }
-    });
+function fetchusername() {
+  $.ajax({
+    url: "/api/get-username",
+    type: "GET",
+    dataType: "json",
+    success: function (data) {
+      const username = data.username;
+      console.log("Username:", username);
+      $("#username").text(username);
+      $("#username1").text(username);
+    },
+    error: function (error) {
+      console.error("Error fetching username", error);
+    },
+  });
 }
 
-function fetchuserrole(){
-    $.ajax({
-        url: '/api/get-userrole',
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-            const userrole = data.userrole;
-            console.log('Userrole:', userrole);
-            $('#userrole').text(userrole);
-        },
-        error: function (error) {
-            console.error('Error fetching userrole', error);
-        }
-    });
+function fetchuserrole() {
+  $.ajax({
+    url: "/api/get-userrole",
+    type: "GET",
+    dataType: "json",
+    success: function (data) {
+      const userrole = data.userrole;
+      console.log("Userrole:", userrole);
+      $("#userrole").text(userrole);
+    },
+    error: function (error) {
+      console.error("Error fetching userrole", error);
+    },
+  });
 }
 
-function fetchcourse(){
-    $.ajax({
-        url: '/api/get-usercourse',
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-            const usercourse = data.usercourse;
-            console.log('Userrole:', usercourse);
-            $('#course_code').text(usercourse);
-        },
-        error: function (error) {
-            console.error('Error fetching usercourse', error);
-        }
-    });
+function fetchcourse() {
+  $.ajax({
+    url: "/api/get-usercourse",
+    type: "GET",
+    dataType: "json",
+    success: function (data) {
+      const usercourse = data.usercourse;
+      console.log("Userrole:", usercourse);
+      $("#course_code").text(usercourse);
+    },
+    error: function (error) {
+      console.error("Error fetching usercourse", error);
+    },
+  });
 }
 function fetchCourseData() {
-    $.ajax({
-        url: `/api/courses?code=${window.selectedSubject}`, // Change this URL to match your Express route for courses
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-            const courseData = $('#co_data');
-            courseData.empty(); // Clear existing table data
-            data.forEach(module => {
-                const row = `
+  $.ajax({
+    url: `/api/courses?code=${window.selectedSubject}`, // Change this URL to match your Express route for courses
+    type: "GET",
+    dataType: "json",
+    success: function (data) {
+      const courseData = $("#co_data");
+      courseData.empty(); // Clear existing table data
+      data.forEach((module) => {
+        const row = `
                     <tr data-module-id="${module._id}">
                         <td>${module.coid}</td>
                         <td>${module.cotitle}</td>
@@ -437,27 +404,26 @@ function fetchCourseData() {
                         </td>
                     </tr>
                 `;
-                courseData.append(row);
-            });
-        
-        },
-        error: function (error) {
-            console.error('Error fetching course data:', error);
-        }
-    });
+        courseData.append(row);
+      });
+    },
+    error: function (error) {
+      console.error("Error fetching course data:", error);
+    },
+  });
 }
 
 function fetchBookData() {
-    $.ajax({
-        url: `/api/bookEntry?code=${window.selectedSubject}`, // Change this URL to match your Express route for courses
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-            console.log(data);
-            const courseData = $('#book_data');
-            courseData.empty(); // Clear existing table data
-            data.forEach(module => {
-                const row = `
+  $.ajax({
+    url: `/api/bookEntry?code=${window.selectedSubject}`, // Change this URL to match your Express route for courses
+    type: "GET",
+    dataType: "json",
+    success: function (data) {
+      console.log(data);
+      const courseData = $("#book_data");
+      courseData.empty(); // Clear existing table data
+      data.forEach((module) => {
+        const row = `
                     <tr data-module-id="${module._id}">
                         <td>${module.Sr_No}</td>
                         <td>${module.Detail}</td>
@@ -468,26 +434,25 @@ function fetchBookData() {
                     </td>
                     </tr>
                 `;
-                courseData.append(row);
-            });
-        
-        },
-        error: function (error) {
-            console.error('Error fetching course data:', error);
-        }
-    });
+        courseData.append(row);
+      });
+    },
+    error: function (error) {
+      console.error("Error fetching course data:", error);
+    },
+  });
 }
 function fetchrefBookData() {
-    $.ajax({
-        url: `/api/refBookEntry?code=${window.selectedSubject}`, // Change this URL to match your Express route for courses
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-            console.log(data);
-            const courseData = $('#refBook_data');
-            courseData.empty(); // Clear existing table data
-            data.forEach(module => {
-                const row = `
+  $.ajax({
+    url: `/api/refBookEntry?code=${window.selectedSubject}`, // Change this URL to match your Express route for courses
+    type: "GET",
+    dataType: "json",
+    success: function (data) {
+      console.log(data);
+      const courseData = $("#refBook_data");
+      courseData.empty(); // Clear existing table data
+      data.forEach((module) => {
+        const row = `
                     <tr data-module-id="${module._id}">
                         <td>${module.Sr_No}</td>
                         <td>${module.Detail}</td>
@@ -498,14 +463,13 @@ function fetchrefBookData() {
                     </td>
                     </tr>
                 `;
-                courseData.append(row);
-            });
-        
-        },
-        error: function (error) {
-            console.error('Error fetching course data:', error);
-        }
-    });
+        courseData.append(row);
+      });
+    },
+    error: function (error) {
+      console.error("Error fetching course data:", error);
+    },
+  });
 }
 // Update the references to these functions in your event handlers
 /*$(document).ready(() => {
@@ -517,26 +481,23 @@ function fetchrefBookData() {
 
 });*/
 
-
 function updateTotalLectures() {
-    const rows = $('#syllabus-data tr');
-    let totalLectures = 0;
+  const rows = $("#syllabus-data tr");
+  let totalLectures = 0;
 
-    rows.each(function () {
-        const lectures = parseInt($(this).find('td').eq(3).text()) || 0;
-        totalLectures += lectures;
-    });
+  rows.each(function () {
+    const lectures = parseInt($(this).find("td").eq(3).text()) || 0;
+    totalLectures += lectures;
+  });
 
-    // Update the total lectures in the UI
-    $('#total-lectures').text(totalLectures);
-    $('#total-lectures').data('lectures', totalLectures);
+  // Update the total lectures in the UI
+  $("#total-lectures").text(totalLectures);
+  $("#total-lectures").data("lectures", totalLectures);
 }
-let newModuleNo1=0;
-
+let newModuleNo1 = 0;
 
 function addEmptyRow2() {
-
-    const emptyRow = `
+  const emptyRow = `
         <tr>
             <td contenteditable="true"></td>
             <td contenteditable="true"></td>
@@ -558,55 +519,74 @@ function addEmptyRow2() {
 
         </tr>
     `;
-    $('#co_data').append(emptyRow);
+  $("#co_data").append(emptyRow);
 }
 function addEmptyRowBook() {
-    const rows = $('#book_data tr');
-    const lastRow = rows.last(); // Get the last row
-    const cells = lastRow.find('td');
-    const lastModuleNo = parseInt(rows.eq(rows.length - 1).find('td').eq(0).text()) || 0;
-    newModuleNo1=lastModuleNo;
-    const newModuleNo = lastModuleNo + 1;
-    const emptyRow = `
+  const rows = $("#book_data tr");
+  const lastRow = rows.last(); // Get the last row
+  const cells = lastRow.find("td");
+  const lastModuleNo =
+    parseInt(
+      rows
+        .eq(rows.length - 1)
+        .find("td")
+        .eq(0)
+        .text()
+    ) || 0;
+  newModuleNo1 = lastModuleNo;
+  const newModuleNo = lastModuleNo + 1;
+  const emptyRow = `
         <tr>
             <td contenteditable="false">${newModuleNo}</td>
             <td contenteditable="true"></td>
         </tr>
     `;
-    $('#book_data').append(emptyRow);
+  $("#book_data").append(emptyRow);
 }
 function addEmptyRowrefBook() {
-    const rows = $('#refBook_data tr');
-    const lastRow = rows.last(); // Get the last row
-    const cells = lastRow.find('td');
-    const lastModuleNo = parseInt(rows.eq(rows.length - 1).find('td').eq(0).text()) || 0;
-    newModuleNo1=lastModuleNo;
-    const newModuleNo = lastModuleNo + 1;
-    const emptyRow = `
+  const rows = $("#refBook_data tr");
+  const lastRow = rows.last(); // Get the last row
+  const cells = lastRow.find("td");
+  const lastModuleNo =
+    parseInt(
+      rows
+        .eq(rows.length - 1)
+        .find("td")
+        .eq(0)
+        .text()
+    ) || 0;
+  newModuleNo1 = lastModuleNo;
+  const newModuleNo = lastModuleNo + 1;
+  const emptyRow = `
         <tr>
             <td contenteditable="false">${newModuleNo}</td>
             <td contenteditable="true"></td>
         </tr>
     `;
-    $('#refBook_data').append(emptyRow);
+  $("#refBook_data").append(emptyRow);
 }
-
 
 function addEmptyRow() {
+  const rows = $("#syllabus-data tr");
+  const lastRow = rows.last(); // Get the last row
+  const cells = lastRow.find("td");
+  const lastModuleNo =
+    parseInt(
+      rows
+        .eq(rows.length - 2)
+        .find("td")
+        .eq(0)
+        .text()
+    ) || 0;
+  newModuleNo1 = lastModuleNo;
+  const newModuleNo = lastModuleNo + 1;
 
-    const rows = $('#syllabus-data tr');
-    const lastRow = rows.last(); // Get the last row
-    const cells = lastRow.find('td');
-    const lastModuleNo = parseInt(rows.eq(rows.length - 2).find('td').eq(0).text()) || 0;
-    newModuleNo1=lastModuleNo;
-    const newModuleNo = lastModuleNo + 1;
+  console.log("Last Module No:", lastModuleNo);
+  console.log("New Module No:", newModuleNo);
 
-    console.log('Last Module No:', lastModuleNo);
-    console.log('New Module No:', newModuleNo);
+  cells.eq(0).text(newModuleNo);
 
-    cells.eq(0).text(newModuleNo);
-
-    const emptyRow = `
+  const emptyRow = `
         <tr>
             <td contenteditable="false">${newModuleNo}</td>
             <td contenteditable="true"></td>
@@ -614,155 +594,143 @@ function addEmptyRow() {
             <td contenteditable="true"></td>
         </tr>
     `;
-    $('#syllabus-data').append(emptyRow);
-
+  $("#syllabus-data").append(emptyRow);
 }
 
-
 function saveDataToServerco() {
-    const rows = $('#co_data tr');
-    const lastRow = rows.last(); // Get the last added row
-    const cells = lastRow.find('td');
+  const rows = $("#co_data tr");
+  const lastRow = rows.last(); // Get the last added row
+  const cells = lastRow.find("td");
 
+  const newData = {
+    coid: cells.eq(0).text(),
+    cotitle: cells.eq(1).text(),
+    colevels: cells.eq(2).text(),
+    PO1: parseInt(cells.eq(3).text()) || 0,
+    PO2: parseInt(cells.eq(4).text()) || 0,
+    PO3: parseInt(cells.eq(5).text()) || 0,
+    PO4: parseInt(cells.eq(6).text()) || 0,
+    PO5: parseInt(cells.eq(7).text()) || 0,
+    PO6: parseInt(cells.eq(8).text()) || 0,
+    PO7: parseInt(cells.eq(9).text()) || 0,
+    PO8: parseInt(cells.eq(10).text()) || 0,
+    PO9: parseInt(cells.eq(11).text()) || 0,
+    PO10: parseInt(cells.eq(12).text()) || 0,
+    PO11: parseInt(cells.eq(13).text()) || 0,
+    PO12: parseInt(cells.eq(14).text()) || 0,
+    PSO1: parseInt(cells.eq(15).text()) || 0,
+    PSO2: parseInt(cells.eq(16).text()) || 0,
+  };
 
-    const newData = {
-        coid: cells.eq(0).text(),
-        cotitle: cells.eq(1).text(),
-        colevels: cells.eq(2).text(),
-        PO1: parseInt(cells.eq(3).text()),
-        PO2: parseInt(cells.eq(4).text()),
-        PO3: parseInt(cells.eq(5).text()),
-        PO4: parseInt(cells.eq(6).text()),
-        PO5: parseInt(cells.eq(7).text()),
-        PO6: parseInt(cells.eq(8).text()),
-        PO7: parseInt(cells.eq(9).text()),
-        PO8: parseInt(cells.eq(10).text()),
-        PO9: parseInt(cells.eq(11).text()),
-        PO10: parseInt(cells.eq(12).text()),
-        PO11: parseInt(cells.eq(13).text()),
-        PO12: parseInt(cells.eq(14).text()),
-        PSO1: parseInt(cells.eq(15).text()),
-        PSO2: parseInt(cells.eq(16).text())
+  $.ajax({
+    url: `/api/courses?code=${window.selectedSubject}`, // Change this URL to match your Express route
+    type: "POST",
+    dataType: "json",
+    contentType: "application/json",
+    data: JSON.stringify(newData),
+    success: function (response) {
+      console.log("Data saved successfully:", response);
+      fetchCourseData(); // Refresh table with updated data
+    },
 
-    };
-
-    $.ajax({
-        url: `/api/courses?code=${window.selectedSubject}`, // Change this URL to match your Express route
-        type: 'POST',
-        dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify(newData),
-        success: function (response) {
-            console.log('Data saved successfully:', response);
-            fetchCourseData(); // Refresh table with updated data
-        },
-        
-        error: function (error) {
-            console.error('Error saving data:', error);
-        }
-    });
+    error: function (error) {
+      console.error("Error saving data:", error);
+    },
+  });
 }
 
 function saveDataToServerrefBook() {
-    const rows = $('#refBook-data tr');
-    const lastRow = rows.last(); // Get the last added row
-    const cells = lastRow.find('td');
+  const rows = $("#refBook-data tr");
+  const lastRow = rows.last(); // Get the last added row
+  const cells = lastRow.find("td");
 
+  const newData = {
+    Sr_No: parseInt(cells.eq(0).text()),
+    Detail: cells.eq(1).text(),
+  };
 
-    const newData = {
-        Sr_No:  parseInt(cells.eq(0).text()),
-        Detail: cells.eq(1).text()
+  $.ajax({
+    url: `/api/refBookEntry?code=${window.selectedSubject}`, // Change this URL to match your Express route
+    type: "POST",
+    dataType: "json",
+    contentType: "application/json",
+    data: JSON.stringify(newData),
+    success: function (response) {
+      console.log("Data saved successfully:", response);
+      fetchCourseData(); // Refresh table with updated data
+    },
 
-    };
-
-    $.ajax({
-        url: `/api/refBookEntry?code=${window.selectedSubject}`, // Change this URL to match your Express route
-        type: 'POST',
-        dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify(newData),
-        success: function (response) {
-            console.log('Data saved successfully:', response);
-            fetchCourseData(); // Refresh table with updated data
-        },
-        
-        error: function (error) {
-            console.error('Error saving data:', error);
-        }
-    });
+    error: function (error) {
+      console.error("Error saving data:", error);
+    },
+  });
 }
 
 function saveDataToServerBook() {
-    const rows = $('#book_data tr');
-    const lastRow = rows.last(); // Get the last added row
-    const cells = lastRow.find('td');
-    const lastModuleNo = newModuleNo1;
-   // const lastModuleNo = parseInt(rows.eq(rows.length - 2).find('td').eq(0).text()) || 6 ;// Get the last Module No. or 0 if none exists
-    const newModuleNo = lastModuleNo + 1;
+  const rows = $("#book_data tr");
+  const lastRow = rows.last(); // Get the last added row
+  const cells = lastRow.find("td");
+  const lastModuleNo = newModuleNo1;
+  // const lastModuleNo = parseInt(rows.eq(rows.length - 2).find('td').eq(0).text()) || 6 ;// Get the last Module No. or 0 if none exists
+  const newModuleNo = lastModuleNo + 1;
 
-    cells.eq(0).text(newModuleNo);
+  cells.eq(0).text(newModuleNo);
 
+  const newData = {
+    Sr_No: newModuleNo,
+    Detail: cells.eq(1).text(),
+  };
 
-    const newData = {
-        Sr_No:  newModuleNo,
-        Detail: cells.eq(1).text()
+  $.ajax({
+    url: `/api/bookEntry?code=${window.selectedSubject}`, // Change this URL to match your Express route
+    type: "POST",
+    dataType: "json",
+    contentType: "application/json",
+    data: JSON.stringify(newData),
+    success: function (response) {
+      console.log("Data saved successfully:", response);
+      fetchCourseData(); // Refresh table with updated data
+    },
 
-    };
-
-    $.ajax({
-        url: `/api/bookEntry?code=${window.selectedSubject}`, // Change this URL to match your Express route
-        type: 'POST',
-        dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify(newData),
-        success: function (response) {
-            console.log('Data saved successfully:', response);
-            fetchCourseData(); // Refresh table with updated data
-        },
-        
-        error: function (error) {
-            console.error('Error saving data:', error);
-        }
-    });
+    error: function (error) {
+      console.error("Error saving data:", error);
+    },
+  });
 }
-
 
 function saveDataToServer() {
-    if(validateTable()){
-    const rows = $('#syllabus-data tr');
+  if (validateTable()) {
+    const rows = $("#syllabus-data tr");
     const lastRow = rows.last(); // Get the last added row
-    const cells = lastRow.find('td');
+    const cells = lastRow.find("td");
     const lastModuleNo = newModuleNo1;
-   // const lastModuleNo = parseInt(rows.eq(rows.length - 2).find('td').eq(0).text()) || 6 ;// Get the last Module No. or 0 if none exists
+    // const lastModuleNo = parseInt(rows.eq(rows.length - 2).find('td').eq(0).text()) || 6 ;// Get the last Module No. or 0 if none exists
     const newModuleNo = lastModuleNo + 1;
 
     cells.eq(0).text(newModuleNo);
 
-
     const newData = {
-        ModuleNo: newModuleNo,
-        ModuleTitle: cells.eq(1).text(),
-        Topics: cells.eq(2).text(),
-        NoOfLectures: parseInt(cells.eq(3).text())
+      ModuleNo: newModuleNo,
+      ModuleTitle: cells.eq(1).text(),
+      Topics: cells.eq(2).text(),
+      NoOfLectures: parseInt(cells.eq(3).text()),
     };
 
     $.ajax({
-        url: `/api/modules?code=${window.selectedSubject}`, // Change this URL to match your Express route
-        type: 'POST',
-        dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify(newData),
-        success: function (response) {
-            console.log('Data saved successfully:', response);
-            fetchSyllabusData(); // Refresh table with updated data
-        },
-        
-        error: function (error) {
-            console.error('Error saving data:', error);
-        }
+      url: `/api/modules?code=${window.selectedSubject}`, // Change this URL to match your Express route
+      type: "POST",
+      dataType: "json",
+      contentType: "application/json",
+      data: JSON.stringify(newData),
+      success: function (response) {
+        console.log("Data saved successfully:", response);
+        fetchSyllabusData(); // Refresh table with updated data
+      },
+
+      error: function (error) {
+        console.error("Error saving data:", error);
+      },
     });
     updateTotalLectures();
-}
-else
-console.log("Error");
+  } else console.log("Error");
 }

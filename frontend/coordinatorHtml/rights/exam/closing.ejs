@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -11,145 +12,152 @@
     <link rel="stylesheet" href="../../../css/styles.css">
     <link rel="stylesheet" href="../../../css/footer.css">
 </head>
+
 <body>
     <div class="navigation-strip">
         <!-- Hamburger Icon to Open Sidebar -->
 
-    
-        
+
+
         <i class="bx bx-menu" id="sidebarOpen"></i>
 
         <!-- Menu Options -->
         <div class="navbar_content">
-            
+
             <i class='bx bx-sun' id="darkLight"></i>
-          </div>
-          <img class="logo" src="LOGO.jpg" alt="Flowers in Chania">
-          <div class="contact-us-container">
-            Welcome<h4 id="username">User Name</h4></h4>
         </div>
-          <span class="user-info-button">User Info</span>
+        <img class="logo" src="LOGO.jpg" alt="Flowers in Chania">
+        <div class="contact-us-container">
+            Welcome<h4 id="username">User Name</h4>
+            </h4>
+        </div>
+        <span class="user-info-button">User Info</span>
 
         <!-- User Info Popup -->
         <div class="user-info-popup">
             <!-- Add user information here -->
             <h4 id="username1">User Name</h4>
-            <div><h7 id="userrole">User Role</h7></div>
-            <div><h8 id="course_code">Course Name</h8></div>
+            <div>
+                <h7 id="userrole">User Role</h7>
+            </div>
+            <div>
+                <h8 id="course_code">Course Name</h8>
+            </div>
         </div>
     </div>
 
-        <!-- sidebar -->
-        <nav class="sidebar">
-            <div class="menu_content">
-              <ul class="menu_items">
+    <!-- sidebar -->
+    <nav class="sidebar">
+        <div class="menu_content">
+            <ul class="menu_items">
                 <div class="menu_title menu_dahsboard"></div>
                 <!-- duplicate or remove this li tag if you want to add or remove navlink with submenu -->
                 <!-- start -->
                 <li class="item">
-                  <a href="/coursehome" class="nav_link">
-                    <span class="navlink_icon">
-                      <i class="bx bx-home-alt"></i>
-                    </span>
-                    <span class="navlink">Home</span></a>
+                    <a href="/coursehome" class="nav_link">
+                        <span class="navlink_icon">
+                            <i class="bx bx-home-alt"></i>
+                        </span>
+                        <span class="navlink">Home</span></a>
                 </li>
                 <!-- end -->
-      
+
                 <!-- duplicate this li tag if you want to add or remove  navlink with submenu -->
                 <!-- start -->
                 <li class="item">
-                  <div href="#" class="nav_link submenu_item">
-                    <span class="navlink_icon">
-                      <i class="bx bx-user"></i>
-                    </span>
-                    <span class="navlink">Attainment</span>
-                    <i class="bx bx-chevron-right arrow-left"></i>
-                  </div>
-                  <ul class="menu_items submenu">
-                    <a href="/courseoutcomeopt" class="nav_link sublink">Course Outcome</a>
-                    <a href="/attainmentt1opt" class="nav_link sublink">T1</a>
-                    <a href="/attainmentt2opt" class="nav_link sublink">T2</a>
-                    <a href="/attainmentt3opt" class="nav_link sublink">T3</a>
-                    <a href="/attainmenttaopt" class="nav_link sublink">TA</a>
-                    <a href="/atcourseexitopt" class="nav_link sublink">Course Exit Survey</a>
-                    <a href="/atcopsomapopt" class="nav_link sublink">CO-PO Attainment</a>
-                </ul>
-            </li>
-            <li class="item">
-                <div href="#" class="nav_link submenu_item">
-                    <span class="navlink_icon">
-                      <i class="bx bx-user"></i>
-                    </span>
-                    <span class="navlink">Examination</span>
-                    <i class="bx bx-chevron-right arrow-left"></i>
-                </div>
-  
-                <ul class="menu_items submenu">
-                    <a href="/courseexamt1opt" class="nav_link sublink">T1</a>
-                    <a href="/courseexamt2opt" class="nav_link sublink">T2</a>
-                    <a href="/courseexamt3opt" class="nav_link sublink">T3</a>
-                    <a href="/courseexamtaopt" class="nav_link sublink">TA</a>
-                </ul>
+                    <div href="#" class="nav_link submenu_item">
+                        <span class="navlink_icon">
+                            <i class="bx bx-user"></i>
+                        </span>
+                        <span class="navlink">Attainment</span>
+                        <i class="bx bx-chevron-right arrow-left"></i>
+                    </div>
+                    <ul class="menu_items submenu">
+                        <a href="/courseoutcomeopt" class="nav_link sublink">Course Outcome</a>
+                        <a href="/attainmentt1opt" class="nav_link sublink">T1</a>
+                        <a href="/attainmentt2opt" class="nav_link sublink">T2</a>
+                        <a href="/attainmentt3opt" class="nav_link sublink">T3</a>
+                        <a href="/attainmenttaopt" class="nav_link sublink">TA</a>
+                        <a href="/atcourseexitopt" class="nav_link sublink">Course Exit Survey</a>
+                        <a href="/atcopsomapopt" class="nav_link sublink">CO-PO Attainment</a>
+                    </ul>
                 </li>
-  
                 <li class="item">
-                  <div href="#" class="nav_link submenu_item">
-                      <span class="navlink_icon">
-                        <i class="bx bx-user"></i>
-                      </span>
-                      <span class="navlink">Reports</span>
-                      <i class="bx bx-chevron-right arrow-left"></i>
-                  </div>
-    
-                  <ul class="menu_items submenu">
-                      <a href="/openingreportopt" class="nav_link sublink">Opening Report</a>
-                      <a href="/closingreportopt" class="nav_link sublink">Closing Report</a>
-                  </ul>
-                  </li>
-              </ul> 
-      
-              <ul class="menu_items">
+                    <div href="#" class="nav_link submenu_item">
+                        <span class="navlink_icon">
+                            <i class="bx bx-user"></i>
+                        </span>
+                        <span class="navlink">Examination</span>
+                        <i class="bx bx-chevron-right arrow-left"></i>
+                    </div>
+
+                    <ul class="menu_items submenu">
+                        <a href="/courseexamt1opt" class="nav_link sublink">T1</a>
+                        <a href="/courseexamt2opt" class="nav_link sublink">T2</a>
+                        <a href="/courseexamt3opt" class="nav_link sublink">T3</a>
+                        <a href="/courseexamtaopt" class="nav_link sublink">TA</a>
+                    </ul>
+                </li>
+
+                <li class="item">
+                    <div href="#" class="nav_link submenu_item">
+                        <span class="navlink_icon">
+                            <i class="bx bx-user"></i>
+                        </span>
+                        <span class="navlink">Reports</span>
+                        <i class="bx bx-chevron-right arrow-left"></i>
+                    </div>
+
+                    <ul class="menu_items submenu">
+                        <a href="/openingreportopt" class="nav_link sublink">Opening Report</a>
+                        <a href="/closingreportopt" class="nav_link sublink">Closing Report</a>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="menu_items">
                 <div class="menu_title menu_setting"></div>
                 <li class="item">
-                  <a href="/logout" class="nav_link">
-                    <span class="navlink_icon">
-                      <i class="bx bx-log-out"></i>
-                    </span>
-                    <span class="navlink">Logout</span>
-                  </a>
+                    <a href="/logout" class="nav_link">
+                        <span class="navlink_icon">
+                            <i class="bx bx-log-out"></i>
+                        </span>
+                        <span class="navlink">Logout</span>
+                    </a>
                 </li>
-                
-      
-              <!-- Sidebar Open / Close -->
-              <div class="bottom_content">
-                <div class="bottom expand_sidebar">
-                  <span> Expand</span>
-                  <i class='bx bx-log-in' ></i>
+
+
+                <!-- Sidebar Open / Close -->
+                <div class="bottom_content">
+                    <div class="bottom expand_sidebar">
+                        <span> Expand</span>
+                        <i class='bx bx-log-in'></i>
+                    </div>
+                    <div class="bottom collapse_sidebar">
+                        <span> Collapse</span>
+                        <i class='bx bx-log-out'></i>
+                    </div>
                 </div>
-                <div class="bottom collapse_sidebar">
-                  <span> Collapse</span>
-                  <i class='bx bx-log-out'></i>
-                </div>
-              </div>
-            </div>
-            </nav>
-          <div class="upper-container d-flex align-items-center justify-content-start">
-            <div class="institute-logo">
-                <img src="logojiit.jpg" alt="Institute Logo">
-            </div>
-            <div class="institute-details">
-                <h1>Jaypee Institute of Information Technology</h1>
-                <p>Declared Deemed to be University under Sec 3 of UGC Act 1956</p>
-            </div>
         </div>
-        <div class="exam-date">
-            <p>Date & Time: <span id="datePlaceholder"></span> & <span id="timePlaceholder"></span></p>
+    </nav>
+    <div class="upper-container d-flex align-items-center justify-content-start">
+        <div class="institute-logo">
+            <img src="logojiit.jpg" alt="Institute Logo">
         </div>
-    </div>  <div class="container mt-5"></div>
+        <div class="institute-details">
+            <h1>Jaypee Institute of Information Technology</h1>
+            <p>Declared Deemed to be University under Sec 3 of UGC Act 1956</p>
+        </div>
+    </div>
+    <div class="exam-date">
+        <p>Date & Time: <span id="datePlaceholder"></span> & <span id="timePlaceholder"></span></p>
+    </div>
+    </div>
+    <div class="container mt-5"></div>
     <div class="box-heading1">
         <h5>Closing Report</h5>
     </div>
-    
+
     <table class="table" id="course_table">
         <thead>
             <tr>
@@ -189,9 +197,9 @@
                 </td>
             </tr>
             <tr>
-                <th   class="top">Names of Course Coordinator</th> 
+                <th class="top">Names of Course Coordinator</th>
                 <td colspan="4">
-                    <div class="form-group"  >
+                    <div class="form-group">
                         <input type="text" id="coordinators" name="coordinators" class="form-control">
                     </div>
                 </td>
@@ -203,32 +211,33 @@
     </table>
 
     <div class="box-heading3">
-        <h5>1.Course Outcome</h5>
+        <h5>1.Course Outcomes:</h5>
     </div>
-    
-    <br>   <p><strong>At the completion of course students will be able to:</strong></p>
-    
+
+    <br>
+    <p><strong>At the completion of course students will be able to:</strong></p>
+
     <table class="table" id="co_table">
         <thead>
             <tr>
-                <th colspan="2" class="top">Course Outcomes</th> 
+                <th colspan="2" class="top">Course Outcomes</th>
                 <th>Cognitive Levels</th>
             </tr>
         </thead>
         <tbody>
-            <tbody id="co_data"></tbody>
-            <!-- Data will be added here dynamically -->
+        <tbody id="co_data"></tbody>
+        <!-- Data will be added here dynamically -->
         </tbody>
     </table>
 
     <div class="box-heading3">
-        <h5>2.CO PO PSO Mapping</h5>
+        <h5>2.CO PO PSO Mapping: </h5>
     </div>
 
     <table class="table" id="co_table">
         <thead>
             <tr>
-                <th>COs</th> 
+                <th>COs</th>
                 <th>PO1</th>
                 <th>PO2</th>
                 <th>PO3</th>
@@ -246,19 +255,19 @@
             </tr>
         </thead>
         <tbody>
-            <tbody id="co_data2"></tbody>
-            <!-- Data will be added here dynamically -->
+        <tbody id="co_data2"></tbody>
+        <!-- Data will be added here dynamically -->
         </tbody>
     </table>
 
     <div class="box-heading3">
-        <h5>3.CO Attainment in 2023-24</h5>
+        <h5>3.CO Attainment in 2023-24: </h5>
     </div>
 
     <table class="table" id="co-attainment-table">
         <thead>
             <tr>
-                <th>CO</th> 
+                <th>CO</th>
                 <th>C333.2.1</th>
                 <th>C333.2.2</th>
                 <th>C333.2.3</th>
@@ -266,19 +275,19 @@
                 <th>C333.2.5</th>
             </tr>
         </thead>
-            <tr>
-                <th>Attainment</th> 
-                <th>3.0</th>
-                <th>0.6</th>
-                <th>1.4</th>
-                <th>1.4</th>
-                <th>1.2</th>
+        <tr>
+            <th>Attainment</th>
+            <th>3.0</th>
+            <th>0.6</th>
+            <th>1.4</th>
+            <th>1.4</th>
+            <th>1.2</th>
 
-            </tr>
-       
+        </tr>
+
         <tbody>
-            <tbody id="co_attainment_data"></tbody>
-            <!-- Data will be added here dynamically -->
+        <tbody id="co_attainment_data"></tbody>
+        <!-- Data will be added here dynamically -->
         </tbody>
     </table>
 
@@ -289,7 +298,7 @@
     <table class="table" id="po-pso_table">
         <thead>
             <tr>
-                <th>CO</th> 
+                <th>CO</th>
                 <th>PO1</th>
                 <th>PO2</th>
                 <th>PO3</th>
@@ -307,7 +316,7 @@
             </tr>
         </thead>
         <tr>
-            <th>Attainment</th> 
+            <th>Attainment</th>
             <th>1.5</th>
             <th>1.4</th>
             <th>1.4</th>
@@ -324,8 +333,8 @@
             <th>1.2</th>
         </tr>
         <tbody>
-            <tbody id="po-pso_data"></tbody>
-            <!-- Data will be added here dynamically -->
+        <tbody id="po-pso_data"></tbody>
+        <!-- Data will be added here dynamically -->
         </tbody>
     </table>
 
@@ -336,7 +345,7 @@
     <table class="table" id="result_table">
         <thead>
             <tr>
-                <th>Number of Students</th> 
+                <th>%age of Students</th>
                 <th>Grade A+</th>
                 <th>Grade A</th>
                 <th>Grade B+</th>
@@ -350,8 +359,8 @@
         </thead>
 
         <tbody>
-            <tbody id="result_data"></tbody>
-            <!-- Data will be added here dynamically -->
+        <tbody id="result_data"></tbody>
+        <!-- Data will be added here dynamically -->
         </tbody>
     </table>
 
@@ -364,28 +373,50 @@
 
     <br>
     <div>
-    <textarea id="innovativemethod" placeholder="Write your suggestions here" ></textarea>
+        <textarea id="innovativemethod" placeholder="Write your suggestions here"></textarea>
     </div>
     <div class="box-heading3">
         <h5>7.Innovative Evaluation Strategy used(if any)</h5>
     </div>
     <br>
     <div>
-    <textarea id="innovativemethod" placeholder="Write your suggestions here" ></textarea>
+        <textarea id="innovativemethod" placeholder="Write your suggestions here"></textarea>
     </div>
 
     <div class="box-heading3">
-        <h5>8.Action-Taken for Improvement in CO Attainment</h5>
+        <h5>8.Actions Taken for Improvement in CO Attainment</h5>
     </div>
-    <table class="custom-table" id="action-table">
+    <table class="custom-table" id="action-tableclosing">
         <thead>
             <tr>
-                <th>COs</th>
-                <th>Attainment in 2022-23 </th>
-                <th>Identified Gap</th>
-                <th>Actions to be taken in 2023-24 to improve Co Attainment</th>
-                <th>Action</th>
-                </tr>
+                <th rowspan="2">COs</th>
+                <th rowspan="2">Attainment in 2020-21 </th>
+                <th rowspan="2">Attainment in 2021-22 </th>
+                <th rowspan="2">Attainment in 2022-23 </th>
+                <th rowspan="2">Target Attainment of CO in 2023-24 </th>
+                <th rowspan="2">Attainment in 2023-24 </th>
+                <th rowspan="2">Identified Gap</th>
+                <th rowspan="2">Actions taken in 2023-24 to improve CO Attainment</th>
+                <th rowspan="2">Proof Document(s) attached in Course File</th>
+                <th colspan="14">Strengthens POs/PSOs</th>
+                <th rowspan="2">Action</th>
+            </tr>
+            <tr>
+                <th>PO1</th>
+                <th>PO2</th>
+                <th>PO3</th>
+                <th>PO4</th>
+                <th>PO5</th>
+                <th>PO6</th>
+                <th>PO7</th>
+                <th>PO8</th>
+                <th>PO9</th>
+                <th>PO10</th>
+                <th>PO11</th>
+                <th>PO12</th>
+                <th>PSO1</th>
+                <th>PSO2</th>
+            </tr>
 
         </thead>
         <tbody id="action-data">
@@ -397,19 +428,121 @@
         <h5>9.Action-Taken for Improvement in PO-PSO Attainment</h5>
     </div>
 
+    <table class="custom-table" id="action-table">
+        <thead>
+            <tr>
+                <th>PO-PSOs</th>
+                <th>Target Attainments</th>
+                <th>Attainments in 2022-23</th>
+                <th>Actions Taken in 2023-24 to improve the attainment</th>
+                <th>Proof Document(s) attached in Course File</th>
+            </tr>
+            <tr>
+                <th>PO1</td>
+            </tr>
+            <tr>
+                <td>PO2</td>
+            </tr>
+            <tr>
+                <td>PO3</td>
+            </tr>
+            <tr>
+                <td>PO4</td>
+            </tr>
+            <tr>
+                <td>PO5</td>
+            </tr>
+            <tr>
+                <td>PO6</td>
+            </tr>
+            <tr>
+                <td>PO7</td>
+            </tr>
+            <tr>
+                <td>PO8</td>
+            </tr>
+            <tr>
+                <td>PO9</td>
+            </tr>
+            <tr>
+                <td>PO10</td>
+            </tr>
+            <tr>
+                <td>PO11</td>
+            </tr>
+            <tr>
+                <td>PO12</td>
+            </tr>
+            <tr>
+                <td>PSO1</td>
+            </tr>
+            <tr>
+                <td>PSO2</td>
+            </tr>
+
+        </thead>
+        <tbody id="action-data">
+            <!-- Data will be added here dynamically -->
+        </tbody>
+    </table>
+
     <div class="box-heading3">
         <h5>10.Suggestions for Improvement</h5>
     </div>
 
-    
+    <table class="table" id="result_table">
+        <thead>
+            <tr>
+                <th>S.No.</th>
+                <th>Suggestion</th>
+                <th>Relevance to CO</th>
+                <th>Relevance to PO/PSO</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        <tbody id="result_data"></tbody>
+        <!-- Data will be added here dynamically -->
+        </tbody>
+    </table>
+
+
+
     <div class="box-heading3">
         <h5>11.Action taken for weak students:</h5>
     </div>
+    <table class="table" id="result_table">
+        <thead>
+            <tr>
+                <th>Action taken for weak students</th>
+                <th>Proof Document(s) attached in Course File</th>
+            </tr>
+        </thead>
 
-        
+        <tbody>
+        <tbody id="result_data"></tbody>
+        <!-- Data will be added here dynamically -->
+        </tbody>
+    </table>
+
+
     <div class="box-heading3">
         <h5>12.Action taken for bright students:</h5>
     </div>
+    <table class="table" id="result_table">
+        <thead>
+            <tr>
+                <th>Action taken for weak students</th>
+                <th>Proof Document(s) attached in Course File</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        <tbody id="result_data"></tbody>
+        <!-- Data will be added here dynamically -->
+        </tbody>
+    </table>
 
     <div class="upper-container d-flex align-items-center justify-content-start">
         <div class="signature-details">
@@ -418,14 +551,15 @@
             <br>
             <h6>Signature</h6>
             <h6>Course Coordinator:</h6>
-            
+
 
         </div>
     </div>
 
-<div class="table-buttons text-end mt-3">
+    <div class="table-buttons text-end mt-3">
 
-    <button class="print-button" onclick="printPage()">Print</button></div>
+        <button class="print-button" onclick="printPage()">Print</button>
+    </div>
 
     <div id="footer"></div>
     <script>
@@ -437,59 +571,60 @@
             });
     </script>
 
-    
+
     <!-- Add more buttons for additional pages as needed -->
-</div>
-<!-- ... (your existing HTML code) ... -->
-<script>
-    const selectedSubject = '<%= selectedSubject %>';
-    window.selectedSubject = selectedSubject;
-</script>
-<script src="dataval.js"></script>
+    </div>
+    <!-- ... (your existing HTML code) ... -->
+    <script>
+        const selectedSubject = '<%= selectedSubject %>';
+        window.selectedSubject = selectedSubject;
+    </script>
+    <script src="dataval.js"></script>
     <script src="../../../script/coordinator/reports/closing.js"></script>
     <script>
-                const currentDate = new Date();
+        const currentDate = new Date();
 
-// Define the fixed date you want to display
-const fixedDate = new Date('2023-09-28'); // Set the fixed date here (Year, Month - 1, Day)
+        // Define the fixed date you want to display
+        const fixedDate = new Date('2023-09-28'); // Set the fixed date here (Year, Month - 1, Day)
 
-// Function to format time with leading zeros
-const formatTime = (value) => (value < 10 ? `0${value}` : value);
+        // Function to format time with leading zeros
+        const formatTime = (value) => (value < 10 ? `0${value}` : value);
 
-// Function to format date as dd/mm/yyyy
-const formatDate = (date) => {
-    const day = formatTime(date.getDate());
-    const month = formatTime(date.getMonth() + 1);
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-};
+        // Function to format date as dd/mm/yyyy
+        const formatDate = (date) => {
+            const day = formatTime(date.getDate());
+            const month = formatTime(date.getMonth() + 1);
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+        };
 
-// Check if the current date is the fixed date
-if (
-    currentDate.getFullYear() === fixedDate.getFullYear() &&
-    currentDate.getMonth() === fixedDate.getMonth() &&
-    currentDate.getDate() === fixedDate.getDate()
-) {
-    // Display the fixed date
-    document.getElementById('datePlaceholder').textContent = formatDate(fixedDate);
-} else {
-    // Display the current date
-    document.getElementById('datePlaceholder').textContent = formatDate(currentDate);
-}
+        // Check if the current date is the fixed date
+        if (
+            currentDate.getFullYear() === fixedDate.getFullYear() &&
+            currentDate.getMonth() === fixedDate.getMonth() &&
+            currentDate.getDate() === fixedDate.getDate()
+        ) {
+            // Display the fixed date
+            document.getElementById('datePlaceholder').textContent = formatDate(fixedDate);
+        } else {
+            // Display the current date
+            document.getElementById('datePlaceholder').textContent = formatDate(currentDate);
+        }
 
-// Display the current time
-const hours = formatTime(currentDate.getHours());
-const minutes = formatTime(currentDate.getMinutes());
-const seconds = formatTime(currentDate.getSeconds());
+        // Display the current time
+        const hours = formatTime(currentDate.getHours());
+        const minutes = formatTime(currentDate.getMinutes());
+        const seconds = formatTime(currentDate.getSeconds());
 
-document.getElementById('timePlaceholder').textContent = `${hours}:${minutes}:${seconds}`;
-    function printPage() {
-        // Call the window.print() method to initiate printing
-        window.print();
-    }</script>
+        document.getElementById('timePlaceholder').textContent = `${hours}:${minutes}:${seconds}`;
+        function printPage() {
+            // Call the window.print() method to initiate printing
+            window.print();
+        }</script>
 
-    
-    
-   
+
+
+
 </body>
+
 </html>
