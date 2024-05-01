@@ -1,38 +1,40 @@
 /* Reset some default styles for consistency */
-html, body {
+html,
+body {
   margin-top: 10px;
   margin-bottom: 10px;
   margin-left: 50px;
   margin-right: 10px;
   padding: 0;
-  font-family: 'Segoe UI', Tahoma, sans-serif;}
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
 
 .contact-us-container {
   text-decoration: overline;
   text-decoration: #1593e7;
   animation: moveContactUs 5s linear infinite; /* Adjust the duration as needed */
   text-align: center; /* Center the "Contact Us" text horizontally */
-/* Add some margin between the form and the text */
+  /* Add some margin between the form and the text */
 }
 
 @keyframes moveContactUs {
   0% {
-      transform: translateX(0px);
+    transform: translateX(0px);
   }
   0% {
-      transform: translateX(800px); /* Adjust the distance and direction of movement */
+    transform: translateX(
+      800px
+    ); /* Adjust the distance and direction of movement */
   }
   100% {
-      transform: translateX(-300px);
+    transform: translateX(-300px);
   }
 }
 
-
-
 #cd_table input[type="text"],
 #cd_table input[type="number"] {
-    width: 100%; /* Set the width to 100% to make them fill the cell */
-    padding: 1000px; /* Add some padding for better spacing */
+  width: 100%; /* Set the width to 100% to make them fill the cell */
+  padding: 1000px; /* Add some padding for better spacing */
 }
 /* Import Google font - Poppins */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
@@ -43,7 +45,7 @@ html, body {
   font-family: "Poppins", sans-serif;
 }
 :root {
-  --white-color: #181E4E;
+  --white-color: #181e4e;
   --blue-color: #4070f4;
   --grey-color: white;
   --grey-color-light: white;
@@ -119,6 +121,21 @@ body.dark {
 /* sidebar */
 .sidebar {
   background-color: var(--white-color);
+  background: linear-gradient(
+    112.1deg,
+    rgb(32, 38, 57) 11.4%,
+    rgb(63, 76, 119) 70.2%
+  );
+  background: radial-gradient(
+    circle at 10% 20%,
+    rgb(0, 102, 161) 0%,
+    rgb(0, 68, 108) 90.1%
+  );
+  background: linear-gradient(
+    to top,
+    rgb(32, 38, 57) 11.4%,
+    rgb(63, 76, 119) 70.2%
+  );
   width: 260px;
   position: fixed;
   top: 0;
@@ -141,12 +158,10 @@ body.dark {
   text-align: center; /* Center the button text horizontally */
 }
 
-.col-md-12{
-  margin-top:50px;
+.col-md-12 {
+  margin-top: 50px;
   text-align: center;
-
 }
-
 
 .menu_content {
   position: relative;
@@ -307,413 +322,411 @@ body.dark {
 }
 
 @media print {
-    @page {
-        margin-left: 0.05cm; /* Adjust the left margin as needed */
-        margin-right: 0.05cm; /* Adjust the right margin as needed */
-        margin-top: -75px;
-        margin-bottom: 0;
-    }
-    /* Set the border color for all table elements to black */
-    table,
-    .table,
-    .custom-table {
-        border-color: #000;
-    }
-    /* Reduce the padding for input fields in the cd_table */
-    
-    /* Style table cells for printing */
-    .table,
-    .custom-table {
-        border-collapse: collapse;
-        width: 100%;
-        margin: 5px auto; /* Center the table horizontally and add margin from the sides */
-        margin-top: 20px; /* Add top margin */
-    }
-    .table tr th{
-        border: 2px solid #000; /* Darken the border color for table cells */
-        padding: 1px;
-        text-align: left;
-        font-weight: normal; /* Remove bold text for table cells */
+  @page {
+    margin-left: 0.05cm; /* Adjust the left margin as needed */
+    margin-right: 0.05cm; /* Adjust the right margin as needed */
+    margin-top: -75px;
+    margin-bottom: 0;
+  }
+  /* Set the border color for all table elements to black */
+  table,
+  .table,
+  .custom-table {
+    border-color: #000;
+  }
+  /* Reduce the padding for input fields in the cd_table */
 
-    }
-    .table tr td div {
-        padding: 0px;
-        font-family: 'Times New Roman', Times, serif;
-        text-align: left; 
-        font-weight: normal;
-    }
-    .table th,
-    table td,
-    .table td,
-    .custom-table tr td,
-    .custom-table tr th,
-    tr th,
-    tr td,
-    tr,
-    .custom-table td,
-    td {
-        border: 2px solid #000; /* Darken the border color for table cells */
-        padding: 8px;
-        text-align: left;
-        font-weight: normal; /* Remove bold text for table cells */
-    }
+  /* Style table cells for printing */
+  .table,
+  .custom-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 5px auto; /* Center the table horizontally and add margin from the sides */
+    margin-top: 20px; /* Add top margin */
+  }
+  .table tr th {
+    border: 2px solid #000; /* Darken the border color for table cells */
+    padding: 1px;
+    text-align: left;
+    font-weight: normal; /* Remove bold text for table cells */
+  }
+  .table tr td div {
+    padding: 0px;
+    font-family: "Times New Roman", Times, serif;
+    text-align: left;
+    font-weight: normal;
+  }
+  .table th,
+  table td,
+  .table td,
+  .custom-table tr td,
+  .custom-table tr th,
+  tr th,
+  tr td,
+  tr,
+  .custom-table td,
+  td {
+    border: 2px solid #000; /* Darken the border color for table cells */
+    padding: 8px;
+    text-align: left;
+    font-weight: normal; /* Remove bold text for table cells */
+  }
 
-    /* Style table header for printing */
-    table thead th,
-    .table thead th,
-    .custom-table thead th {
-        background-color: #f2f2f2;
-        font-weight: bold;
-        border-color: #000; /* Darken the border color for table header cells */
-    }
+  /* Style table header for printing */
+  table thead th,
+  .table thead th,
+  .custom-table thead th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    border-color: #000; /* Darken the border color for table header cells */
+  }
 
-    /* Style alternating rows for printing */
-    table tbody tr:nth-child(even),
-    .table tbody tr:nth-child(even),
-    .custom-table tbody tr:nth-child(even) {
-        background-color: #f7f7f7;
-        border-color: #000;
-    }
-    h5 {
-        font-size: 13pt;
-        text-align: center;
-        margin: -10px 0;
-        font-family: 'Times New Roman', Times, serif;
-        font-weight: bold;
-        color: black; /* Set the text color to inherit from the parent element */
-    }
-    body {
-        margin: 50px; /* Adjust the margin to your preference */
-    }
-    /* Hide the buttons with the class 'print-button' */
-    .navigation-strip, .menu-options , .menu-icon{
-        display: none;
-    }
+  /* Style alternating rows for printing */
+  table tbody tr:nth-child(even),
+  .table tbody tr:nth-child(even),
+  .custom-table tbody tr:nth-child(even) {
+    background-color: #f7f7f7;
+    border-color: #000;
+  }
+  h5 {
+    font-size: 13pt;
+    text-align: center;
+    margin: -10px 0;
+    font-family: "Times New Roman", Times, serif;
+    font-weight: bold;
+    color: black; /* Set the text color to inherit from the parent element */
+  }
+  body {
+    margin: 50px; /* Adjust the margin to your preference */
+  }
+  /* Hide the buttons with the class 'print-button' */
+  .navigation-strip,
+  .menu-options,
+  .menu-icon {
+    display: none;
+  }
 
-    /* Style the box headings as headings during printing */
-    .box-heading1 {
-        text-align: center;
-        margin: 0px 0;
-        font-size: 5pt;
-        font-family: 'Times New Roman', Times, serif;
-        font-weight: bold;
-    }
-    .box-heading {
-        text-align: center;
-        margin: -10px 0;
-        font-size: 5pt;
-        font-family: 'Times New Roman', Times, serif;
-        font-weight: bold;
-    }
+  /* Style the box headings as headings during printing */
+  .box-heading1 {
+    text-align: center;
+    margin: 0px 0;
+    font-size: 5pt;
+    font-family: "Times New Roman", Times, serif;
+    font-weight: bold;
+  }
+  .box-heading {
+    text-align: center;
+    margin: -10px 0;
+    font-size: 5pt;
+    font-family: "Times New Roman", Times, serif;
+    font-weight: bold;
+  }
 
-    /* Style the box headings as headings during printing */
-    .print-button {
-        display: none;
-    }
-        #course_table input[type="text"],
-    #course_table input[type="number"] {
-        text-align: left;
-        font-size: 9pt;
-        font-family: 'Times New Roman', Times, serif;
-        color: black;
-        width: 100%; /* Set the width to 100% to make them fill the cell */
-        padding: 0px; /* Adjust padding for better spacing in print */
-        border: black; /* Add a border to separate input fields */
-    }
-    #course_table form input[type="text"],
-    #course_table form input[type="number"] {
-        font-size: 10pt;
-        font-family: 'Times New Roman', Times, serif;
-        color: black;
-        width: 50%; /* Set the width to 100% to make them fill the cell */
-        padding: 2px; /* Adjust padding for better spacing in print */
-        border: black; /* Add a border to separate input fields */
-    }
-    .custom-table td:last-child,
-    .custom-table th:last-child {
-        display: none;
-    }
-    .table {
-        width: 10%; /* Adjust the width as needed */
-    }
-    .add-row-button {
-        display: none;
-    }
-    .add-row-buttonco {
-        display: none;
-    }
-    .delete-button{
-        display: none;
-    }
-    .delete-buttonco{
-        display: none;
-    }
-    .update-button {
-        display: none;
-    }
-    .update-buttonco {
-        display: none;
-    }
-    .save-buttonco {
-        display: none;
-    }
-    .save-buttoncd {
-        display: none;
-    }
-    .save-button {
-        display: none;
-    }
-  
-    /* Change print size */
-    body {
-        font-size: 9pt;
-        font-family: 'Times New Roman', Times, serif; 
-        color: black/* Adjust the font size for printing */
-    }
+  /* Style the box headings as headings during printing */
+  .print-button {
+    display: none;
+  }
+  #course_table input[type="text"],
+  #course_table input[type="number"] {
+    text-align: left;
+    font-size: 9pt;
+    font-family: "Times New Roman", Times, serif;
+    color: black;
+    width: 100%; /* Set the width to 100% to make them fill the cell */
+    padding: 0px; /* Adjust padding for better spacing in print */
+    border: black; /* Add a border to separate input fields */
+  }
+  #course_table form input[type="text"],
+  #course_table form input[type="number"] {
+    font-size: 10pt;
+    font-family: "Times New Roman", Times, serif;
+    color: black;
+    width: 50%; /* Set the width to 100% to make them fill the cell */
+    padding: 2px; /* Adjust padding for better spacing in print */
+    border: black; /* Add a border to separate input fields */
+  }
+  .custom-table td:last-child,
+  .custom-table th:last-child {
+    display: none;
+  }
+  .table {
+    width: 10%; /* Adjust the width as needed */
+  }
+  .add-row-button {
+    display: none;
+  }
+  .add-row-buttonco {
+    display: none;
+  }
+  .delete-button {
+    display: none;
+  }
+  .delete-buttonco {
+    display: none;
+  }
+  .update-button {
+    display: none;
+  }
+  .update-buttonco {
+    display: none;
+  }
+  .save-buttonco {
+    display: none;
+  }
+  .save-buttoncd {
+    display: none;
+  }
+  .save-button {
+    display: none;
+  }
 
-    /* You can further customize the print styles here */
+  /* Change print size */
+  body {
+    font-size: 9pt;
+    font-family: "Times New Roman", Times, serif;
+    color: black; /* Adjust the font size for printing */
+  }
+
+  /* You can further customize the print styles here */
 }
-
 
 /* Style the Faculty (Names) cell */
 
 body {
-    background-color: #f5f5f5; /* Light gray or any color of your choice */
+  background-color: #f5f5f5; /* Light gray or any color of your choice */
 }
 
 /* If you want to apply a background color to a specific container, use its class or ID */
 .container {
-    background-color: #f5f5f5; /* Light gray or any color of your choice */
+  background-color: #f5f5f5; /* Light gray or any color of your choice */
 }
 
 /* Style the box heading */
 .box-heading1 {
-    background-color:#181E4E; /* Background color */
-    color: #fff; /* Text color */
-    padding: 10px; /* Add padding for spacing */
-    text-align: center; /* Center the text */
-    margin: 100px 0 0; 
-    margin-left: -20px;
-    margin-right: -20px;/* Add margin for spacing at the top, no margin at the bottom */
+  background-color: #181e4e; /* Background color */
+  color: #fff; /* Text color */
+  padding: 10px; /* Add padding for spacing */
+  text-align: center; /* Center the text */
+  margin: 100px 0 0;
+  margin-left: -20px;
+  margin-right: -20px; /* Add margin for spacing at the top, no margin at the bottom */
 }
 .box-heading {
-    background-color: #181E4E; /* Background color */
-    color: #fff; /* Text color */
-    padding: 10px; /* Add padding for spacing */
-    text-align: center; /* Center the text */
-    margin: 20px 0 0;
-    margin-left: -20px;
-    margin-right: -20px; /* Add margin for spacing between headings */
+  background-color: #181e4e; /* Background color */
+  color: #fff; /* Text color */
+  padding: 10px; /* Add padding for spacing */
+  text-align: center; /* Center the text */
+  margin: 20px 0 0;
+  margin-left: -20px;
+  margin-right: -20px; /* Add margin for spacing between headings */
 }
-
 
 /* Style the navigation strip */
-.logo{
+.logo {
+  width: 200px;
+  height: 70px;
 
-    width: 200px;
-    height: 70px;
-
-    right:5000px;
-    margin-left: -1400px;
+  right: 5000px;
+  margin-left: -1400px;
 }
 
-.form-select{
-    width: 300px;
+.form-select {
+  width: 300px;
 }
-.form-check-input[type=checkbox] {
+.form-check-input[type="checkbox"] {
   border-color: #000;
 }
 .navigation-strip {
-    background-color: #181E4E; /* Professional dark blue color */
-    color: #fff;
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 999;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+  background-color: #181e4e;
+  background: linear-gradient(
+    112.1deg,
+    rgb(32, 38, 57) 11.4%,
+    rgb(63, 76, 119) 70.2%
+  ); /* Professional dark blue color */
+  color: #fff;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
 }
 
 /* Style for the footer */
 
-
-
 /* Style the menu icon */
 .menu-icon {
-    cursor: pointer;
-    font-size: 24px;
-    color: #fff;
-    display: block;
-    margin-right: 20px; /* Add space to the right */
+  cursor: pointer;
+  font-size: 24px;
+  color: #fff;
+  display: block;
+  margin-right: 20px; /* Add space to the right */
 }
 
 /* Style the menu options container */
 .menu-options {
-    cursor: pointer;
-    flex-direction: column;
-    background-color: #181E4E; /* Match the navigation strip background color */
-    position: absolute;
-    padding: 8px;
-    size: 20px;
-    top: 50px; /* Adjusted position */
-    left: 20px; /* Adjusted position */
-    z-index: 1000;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    display: none;
-    border-radius: 8px;
+  cursor: pointer;
+  flex-direction: column;
+  background-color: #181e4e; /* Match the navigation strip background color */
+  position: absolute;
+  padding: 8px;
+  size: 20px;
+  top: 50px; /* Adjusted position */
+  left: 20px; /* Adjusted position */
+  z-index: 1000;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: none;
+  border-radius: 8px;
 }
 
 .menu-options1 {
-    cursor: pointer;
-    flex-direction: column;
-    background-color:#181E4E; /* Match the navigation strip background color */
-    position: absolute;
-    padding: 8px;
-    width: 100px;
-    size: 20px;
-    top: 40px; /* Adjusted position */
-    left: 95px; /* Adjusted position */
-    z-index: 1000;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    display: none;
-    border-radius: 8px;
+  cursor: pointer;
+  flex-direction: column;
+  background-color: #181e4e; /* Match the navigation strip background color */
+  position: absolute;
+  padding: 8px;
+  width: 100px;
+  size: 20px;
+  top: 40px; /* Adjusted position */
+  left: 95px; /* Adjusted position */
+  z-index: 1000;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: none;
+  border-radius: 8px;
 }
 /* Style individual menu options */
 .menu-option {
-    padding: 10px;
-    color: #fff;
-    text-decoration: none;
+  padding: 10px;
+  color: #fff;
+  text-decoration: none;
 }
 .menu-option1 {
-    padding: 10px;
-    color: #fff;
-    text-decoration: none;
+  padding: 10px;
+  color: #fff;
+  text-decoration: none;
 }
 
 /* Style the user info popup */
 .user-info-popup {
-    position: absolute;
-    top: 75px;
-    right: 20px;
-    background-color: #fff;
-    color: #333;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    display: none;
+  position: absolute;
+  top: 75px;
+  right: 20px;
+  background-color: #fff;
+  color: #333;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  display: none;
 }
 
 /* Style the user info button */
 .user-info-button {
-    cursor: pointer;
-    text-decoration: underline;
-    color: #fff;
+  cursor: pointer;
+  text-decoration: underline;
+  color: #fff;
 }
 
 /* Show the user info popup on button hover */
 .user-info-button:hover + .user-info-popup {
-    display: block;
+  display: block;
 }
 
 /* Show the menu icon on smaller screens */
 @media (max-width: 768px) {
-    .menu-icon {
-        display: block;
-    }
+  .menu-icon {
+    display: block;
+  }
 
-    .menu-options {
-        position: static;
-        display: none;
-    }
+  .menu-options {
+    position: static;
+    display: none;
+  }
 }
 
 /* Style headings */
 h2 {
-    text-align: center;
-    text-decoration: underline;
-    margin: 20px 0;
+  text-align: center;
+  text-decoration: underline;
+  margin: 20px 0;
 }
 
 /* Center the content */
 .text-center {
-    text-align: center;
+  text-align: center;
 }
 
 /* Add some margin to the bottom of the buttons */
 .table-buttons {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 .custom-table-buttons {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 /* Adjust margin for table rows */
 #syllabus-data tr:not(:last-child) {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
-
-
 
 /* Add margins to tables */
 
-
 /* Adjust margin for table rows */
 #syllabus-data tr:not(:last-child) {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 /* Style tables */
 .table {
-    border-collapse: collapse;
-    width: 100%;
-    margin: 5 auto; /* Center the table horizontally and add margin from the sides */
-    margin-top: 20px; /* Add top margin */
+  border-collapse: collapse;
+  width: 100%;
+  margin: 5 auto; /* Center the table horizontally and add margin from the sides */
+  margin-top: 20px; /* Add top margin */
 }
 
 .table th,
 .table td {
-    border: 2px solid black;
-    padding: 8px;
-    text-align: left;
+  border: 2px solid black;
+  padding: 8px;
+  text-align: left;
 }
 
 /* Style table header */
 .table thead th {
-    background-color: #f2f2f2;
-    font-weight: bold;
+  background-color: #f2f2f2;
+  font-weight: bold;
 }
 
 /* Style alternating rows */
 .table tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
+  background-color: #f2f2f2;
 }
 
 .custom-table {
-    border-collapse: collapse;
-    width: 100%;
-    margin: 5 auto; /* Center the table horizontally and add margin from the sides */
-    margin-top: 20px; /* Add top margin */
+  border-collapse: collapse;
+  width: 100%;
+  margin: 5 auto; /* Center the table horizontally and add margin from the sides */
+  margin-top: 20px; /* Add top margin */
 }
 
 .custom-table th,
 .custom-table td {
-    border: 2px solid black;
-    padding: 8px;
-    text-align: left;
+  border: 2px solid black;
+  padding: 8px;
+  text-align: left;
 }
 
 /* Style table header */
 .custom-table thead th {
-    background-color: #f2f2f2;
-    font-weight: bold;
+  background-color: #f2f2f2;
+  font-weight: bold;
 }
 
 /* Style alternating rows */
 .custom-table tbody tr:nth-child(even) {
-    background-color: #f7f7f7;
+  background-color: #f7f7f7;
 }

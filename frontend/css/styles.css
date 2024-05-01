@@ -452,6 +452,13 @@ body.dark {
   text-align: left;
 }
 
+.custom-table th,
+.custom-table td {
+  border: 2px solid #9ba6a5;
+  padding: 8px;
+  text-align: left;
+}
+
 @media print {
   .hidden-on-print {
     display: none; /* Make sure no important content has this class */
@@ -852,7 +859,7 @@ body {
 
 textarea {
   width: 1400px; /* Adjust as needed */
-  height: 100px; /* Adjust as needed */
+  height: 220px; /* Adjust as needed */
   padding: 1%;
 }
 
@@ -1071,17 +1078,26 @@ h2 {
   /* Add top margin */
 }
 
-.custom-table th,
-.custom-table td {
-  border: 2px solid black;
-  padding: 8px;
-  text-align: left;
-}
-
 /* Style table header */
 
 .custom-table thead th {
   background-color: #f2f2f2;
+  background: linear-gradient(
+    180.3deg,
+    rgb(221, 221, 221) 5.5%,
+    rgb(110, 136, 161) 90.2%
+  );
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: #ececec;
+  background: #eeeeee;
+  background: #afc5ff;
+  background: #e0ebeb;
+  background: #dfebed;
+  background: #a7bcb9;
+  background: linear-gradient(to bottom, #dfe9f3 0%, white 100%);
+  background: linear-gradient(to top, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(to top, #c4c5c7 0%, #dcdddf 52%, #ebebeb 100%);
+
   font-weight: bold;
 }
 

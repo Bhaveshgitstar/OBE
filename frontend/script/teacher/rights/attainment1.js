@@ -1,5 +1,5 @@
 $(document).ready(() => {
-  console.log("Selected Subject:", window.selectedSubject);
+  // console.log("Selected Subject:", window.selectedSubject);
   fetchT1attainmentData()
     .then(fetchT1CO)
     .then(fetchT1CO2)
@@ -191,12 +191,12 @@ function updateRow(recordId, row) {
   let coIndices = [];
   let atIndices = [];
   coIndices = fetchcoIndices(coIndices);
-  console.log(coIndices);
+  //console.log(coIndices);
   atIndices = fetchatindices(atIndices);
-  console.log(atIndices);
+  //console.log(atIndices);
   let qmarks = [];
   qmarks = fetchmarks(qmarks);
-  console.log(qmarks);
+  //console.log(qmarks);
   const qValues = [];
 
   const headerCells = $("#attainment-data thead th");
@@ -207,7 +207,7 @@ function updateRow(recordId, row) {
       return false; // Break out of the loop
     }
   });
-  console.log(totalIndex);
+  //console.log(totalIndex);
 
   for (let i = 4; i < totalIndex; i++) {
     const cellText = cells.eq(i).text().trim();
@@ -230,13 +230,13 @@ function updateRow(recordId, row) {
     // Check if coIndices has a corresponding entry and it matches
     for (let j = 4; j < cells.length - 4; j++) {
       if (coIndices[j - 4] === atIndex) {
-        console.log(coIndices[j - 4]);
-        console.log(atIndex);
+        //console.log(coIndices[j - 4]);
+        //console.log(atIndex);
         atValue += parseFloat(qValues[j - 4] || 0);
         atmarks += parseFloat(qmarks[j - 4] || 0);
       }
-      console.log(atValue);
-      console.log(atmarks);
+      //console.log(atValue);
+      //console.log(atmarks);
       at[i] = atValue;
       marks[i] = atmarks;
     }
@@ -284,7 +284,7 @@ function updateRow(recordId, row) {
     contentType: "application/json",
     data: JSON.stringify(updatedData),
     success: function (response) {
-      console.log("Data updated successfully:", response);
+      // console.log("Data updated successfully:", response);
       row.find(".q-input").trigger("input");
     },
     error: function (error) {
@@ -311,12 +311,12 @@ function updateRowat(recordId, row) {
   let coIndices = [];
   let atIndices = [];
   coIndices = fetchcoIndices(coIndices);
-  console.log(coIndices);
+  //console.log(coIndices);
   atIndices = fetchatindices(atIndices);
-  console.log(atIndices);
+  //console.log(atIndices);
   let qmarks = [];
   qmarks = fetchmarks(qmarks);
-  console.log(qmarks);
+  //console.log(qmarks);
   const qValues = [];
 
   const headerCells = $("#attainment-data thead th");
@@ -327,7 +327,7 @@ function updateRowat(recordId, row) {
       return false; // Break out of the loop
     }
   });
-  console.log(totalIndex);
+  //console.log(totalIndex);
 
   for (let i = 4; i < totalIndex; i++) {
     const cellText = cells.eq(i).text().trim();
@@ -350,13 +350,13 @@ function updateRowat(recordId, row) {
     // Check if coIndices has a corresponding entry and it matches
     for (let j = 4; j < cells.length - 4; j++) {
       if (coIndices[j - 4] === atIndex) {
-        console.log(coIndices[j - 4]);
-        console.log(atIndex);
+        //console.log(coIndices[j - 4]);
+        //console.log(atIndex);
         atValue += parseFloat(qValues[j - 4] || 0);
         atmarks += parseFloat(qmarks[j - 4] || 0);
       }
-      console.log(atValue);
-      console.log(atmarks);
+      //console.log(atValue);
+      //console.log(atmarks);
       at[i] = atValue;
       marks[i] = atmarks;
     }
@@ -453,7 +453,7 @@ function fetchuserrole() {
     dataType: "json",
     success: function (data) {
       const userrole = data.userrole;
-      console.log("Userrole:", userrole);
+      // console.log("Userrole:", userrole);
       $("#userrole").text(userrole);
     },
     error: function (error) {
@@ -469,7 +469,7 @@ function fetchusername() {
     dataType: "json",
     success: function (data) {
       const username = data.username;
-      console.log("Username:", username);
+      //console.log("Username:", username);
       $("#username").text(username);
       $("#username1").text(username);
     },
@@ -486,7 +486,7 @@ function fetchcourse() {
     dataType: "json",
     success: function (data) {
       const usercourse = data.usercourse;
-      console.log("Userrole:", usercourse);
+      // console.log("Userrole:", usercourse);
       $("#course_code").text(usercourse);
     },
     error: function (error) {
@@ -610,7 +610,7 @@ function fetchT1CO() {
               } else if (/^Attainment\d+$/.test(header)) {
                 tableHtml += `<td><strong>${record[header]}</strong></td>`;
                 atGlobalColumn.push(record[header]);
-                console.log("Hi", record[header]);
+                // console.log("Hi", record[header]);
               } else {
                 tableHtml += `<td></td>`;
               }
@@ -919,7 +919,7 @@ function updatenewco(columnName, co) {
     contentType: "application/json",
     data: JSON.stringify({ columnName, co }), // Send columnNames as JSON data
     success: function (response) {
-      console.log("Data saved successfully:", response);
+      // console.log("Data saved successfully:", response);
       // You can add code here to handle the success response
       // and update your table as needed.
     },
@@ -939,7 +939,7 @@ function updatenewmarks(columnName, marks) {
     contentType: "application/json",
     data: JSON.stringify({ columnName, marks }), // Send columnNames as JSON data
     success: function (response) {
-      console.log("Data saved successfully:", response);
+      //  console.log("Data saved successfully:", response);
       // You can add code here to handle the success response
       // and update your table as needed.
     },
@@ -1008,7 +1008,7 @@ function addColumnsq(noc) {
     contentType: "application/json",
     data: JSON.stringify({ columnName }), // Send columnNames as JSON data
     success: function (response) {
-      console.log("Data saved successfully:", response);
+      // console.log("Data saved successfully:", response);
       // You can add code here to handle the success response
       // and update your table as needed.
       fetchT1attainmentData()
@@ -1083,7 +1083,7 @@ function addColumnsa(noa) {
     contentType: "application/json",
     data: JSON.stringify({ columnName }), // Send columnNames as JSON data
     success: function (response) {
-      console.log("Data saved successfully:", response);
+      //console.log("Data saved successfully:", response);
       // You can add code here to handle the success response
       // and update your table as needed.
     },
@@ -1134,7 +1134,7 @@ function addColumnsar(noa) {
     contentType: "application/json",
     data: JSON.stringify({ columnName }), // Send columnNames as JSON data
     success: function (response) {
-      console.log("Data saved successfully:", response);
+      // console.log("Data saved successfully:", response);
       // You can add code here to handle the success response
       // and update your table as needed.
     },
@@ -1193,8 +1193,8 @@ function addEmptyRow3() {
   newModuleNo1 = lastModuleNo;
   const newModuleNo = lastModuleNo + 1;
 
-  console.log("Last Module No:", lastModuleNo);
-  console.log("New Module No:", newModuleNo);
+  //console.log("Last Module No:", lastModuleNo);
+  //console.log("New Module No:", newModuleNo);
 
   cells.eq(0).text(newModuleNo);
 
@@ -1233,7 +1233,7 @@ function fetchatindices(atIndices) {
   }
 
   // Log the entire array
-  console.log(atIndices);
+  //console.log(atIndices);
 
   return atIndices;
 }
@@ -1253,7 +1253,7 @@ function fetchcoIndices(coIndices) {
       return false; // Break out of the loop
     }
   });
-  console.log(totalIndex);
+  //console.log(totalIndex);
 
   // Now modify your loop to use totalIndex
   for (let i = 4; i < totalIndex; i++) {
@@ -1274,7 +1274,7 @@ function fetchmarks(qmarks) {
       return false; // Break out of the loop
     }
   });
-  console.log(totalIndex);
+  //console.log(totalIndex);
   for (let i = 4; i < totalIndex; i++) {
     const cellText = cells.eq(i).text().trim();
     qmarks.push(cellText);
@@ -1298,10 +1298,10 @@ function saveDataToServer3() {
   coIndices = fetchcoIndices(coIndices);
   console.log(coIndices);
   atIndices = fetchatindices(atIndices);
-  console.log(atIndices);
+  //console.log(atIndices);
   let qmarks = [];
   qmarks = fetchmarks(qmarks);
-  console.log(qmarks);
+  //console.log(qmarks);
   const qValues = [];
 
   const headerCells = $("#attainment-data thead th");
@@ -1333,8 +1333,8 @@ function saveDataToServer3() {
     // Check if coIndices has a corresponding entry and it matches
     for (let j = 4; j < cells.length - 4; j++) {
       if (coIndices[j - 4] === atIndex) {
-        console.log(coIndices[j - 4]);
-        console.log(atIndex);
+        //console.log(coIndices[j - 4]);
+        //console.log(atIndex);
         atValue += parseFloat(qValues[j - 4] || 0);
         atmarks += parseFloat(qmarks[j - 4] || 0);
       }
@@ -1412,7 +1412,7 @@ function saveDataToServer3() {
     contentType: "application/json",
     data: JSON.stringify(newData),
     success: function (response) {
-      console.log("Data saved successfully:", response);
+      // console.log("Data saved successfully:", response);
       fetchT1attainmentData()
         .then(fetchT1CO)
         .then(fetchT1CO2)
