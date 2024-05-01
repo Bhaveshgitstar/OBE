@@ -173,10 +173,17 @@ const attainmentT1Schema = new mongoose.Schema(
     Q11: String,
     Q12: String,
     Q13: String,
+    Q14: String,
+    Q15: String,
     Total: Number,
     Attainment1: Number,
     Attainment2: Number,
     Attainment3: Number,
+    Attainment4: Number,
+    Attainment5: Number,
+    Attainment6: Number,
+    Attainment7: Number,
+    Attainment8: Number,
   },
   { versionKey: false }
 );
@@ -187,9 +194,11 @@ const copoSchema = new mongoose.Schema(
     T1: Number,
     T2: Number,
     T3: Number,
+    Assignment: Number,
     Project: Number,
     Quiz: Number,
-    "Student Feedback": String, // Assuming this is a string, update it according to your needs
+    Feedback: String,
+    Final: Number, // Assuming this is a string, update it according to your needs
   },
   { versionKey: false }
 );
@@ -258,6 +267,11 @@ const attainmentT1Schemaco = new mongoose.Schema(
     Attainment1: String,
     Attainment2: String,
     Attainment3: String,
+    Attainment4: String,
+    Attainment5: String,
+    Attainment6: String,
+    Attainment7: String,
+    Attainment8: String,
   },
   { versionKey: false }
 );
@@ -294,6 +308,8 @@ const createSchema = (headers) => {
     Attainment2: Number,
     Attainment3: Number,
     Attainment4: Number,
+    Attainment5: Number,
+    Attainment6: Number,
   };
 
   headers.forEach((header, index) => {
@@ -1068,8 +1084,8 @@ app.post("/uploadta", upload.single("file"), (req, res) => {
           }
 
           if (
-            row.includes("Sr.No.") &&
-            row.includes("Roll No.") &&
+            row.includes("ModuleNo") &&
+            row.includes("RollNo") &&
             row.includes("Name")
           ) {
             // Save the index of the header row
@@ -1602,7 +1618,7 @@ app.get("/courseexamta", checkSessionTimeout, async (req, res) => {
   try {
     const selectedSubject = req.query.subject;
     console.log(selectedSubject);
-    res.render("/coordinatorHtml/rights/exam/courseexamta", {
+    res.render("coordinatorHtml/rights/exam/courseexamta", {
       selectedSubject,
     });
   } catch (error) {
@@ -2172,6 +2188,26 @@ app.post("/api/updatedbt2", async (req, res) => {
       res.status(500).json({ error: "Update failed" });
     });
 });
+
+app.post("/api/coposoat", async (req, res) => {
+  const c = req.query.code + "_coposoat";
+  const coposoatModule = courseOutcomeDb.model(
+    "CourseOutcomeModule",
+    coposoatSchema,
+    c
+  );
+
+  await coposoatModule.deleteMany({});
+  const newModule = new coposoatModule(req.body);
+  try {
+    await newModule.save();
+    res.json(newModule);
+  } catch (error) {
+    console.error("Error saving data:", error);
+    res.status(500).json({ error: "Error saving data" });
+  }
+});
+
 app.post("/api/updatedbt3", async (req, res) => {
   const { columnName } = req.body;
   const c = req.query.code + "_at3";
@@ -3060,8 +3096,11 @@ app.post("/api/courses", async (req, res) => {
     T1: -1,
     T2: -1,
     T3: -1,
+    Assignment: -1,
     Project: -1,
     Quiz: -1,
+    Feedback: -1,
+    Final: -1,
   });
   try {
     await newcopo.save();
