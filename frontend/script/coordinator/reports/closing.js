@@ -855,3 +855,54 @@ function saveDataToServer() {
     updateTotalLectures();
   } else console.log("Error");
 }
+// Creating the bar graph
+
+// Sample data (you can replace this with your actual data)
+const grades = ["A+", "A", "B+", "B", "C+", "C", "D", "F", "I"];
+const numberOfStudents = [45, 37, 53, 108, 179, 159, 79, 14, 0]; // Sample data for the number of students
+
+// Define an array of different colors
+const colors = [
+  "rgba(255, 99, 132, 0.2)",
+  "rgba(54, 162, 235, 0.2)",
+  "rgba(255, 206, 86, 0.2)",
+  "rgba(75, 192, 192, 0.2)",
+  "rgba(153, 102, 255, 0.2)",
+  "rgba(255, 159, 64, 0.2)",
+  "rgba(255, 99, 132, 0.2)",
+  "rgba(54, 162, 235, 0.2)",
+  "rgba(255, 206, 86, 0.2)",
+];
+
+// Get the canvas element
+const ctx = document.getElementById("myChart").getContext("2d");
+
+// Creating the bar graph
+const myChart = new Chart(ctx, {
+  type: "bar",
+  data: {
+    labels: grades,
+    datasets: [
+      {
+        label: "Number of Students",
+        data: numberOfStudents,
+        backgroundColor: colors,
+        borderColor: colors.map((color) => color.replace("0.2", "1")), // Adjust the alpha value for borders
+        borderWidth: 1,
+      },
+    ],
+  },
+  options: {
+    responsive: true, // Set to true to enable responsiveness
+    maintainAspectRatio: true, // Set to true to maintain aspect ratio
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true,
+          },
+        },
+      ],
+    },
+  },
+});

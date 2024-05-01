@@ -35,6 +35,16 @@ $(document).ready(() => {
   $(".add-row-button-curriculum-gap").click(() => {
     addEmptyRowCurriculumGap();
   });
+  $(".add-row-button-action").click(() => {
+    addEmptyRowAction();
+  });
+
+  $(".add-row-button-bright").click(() => {
+    addEmptyRowBright();
+  });
+  $(".add-row-button-weak").click(() => {
+    addEmptyRowWeak();
+  });
 
   $(".add-row-button-curriculum-mod").click(() => {
     addEmptyRowCurriculumMod();
@@ -53,6 +63,14 @@ $(document).ready(() => {
 
   $(".save-button").click(() => {
     saveDataToServer();
+  });
+
+  $(".save-button-innovativemethod").click(() => {
+    save1ToServer();
+  });
+
+  $(".save-button-innovative-evaluation").click(() => {
+    save2ToServer();
   });
 
   $(".save-button-book").click(() => {
@@ -577,6 +595,44 @@ function addEmptyRowCurriculumGap() {
         </tr>
     `;
   $("#curriculum-gap-data").append(emptyRow);
+}
+function addEmptyRowAction() {
+  const emptyRow = `
+        <tr>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+
+        </tr>
+    `;
+  $("#action-data").append(emptyRow);
+}
+
+function addEmptyRowBright() {
+  const emptyRow = `
+        <tr>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+
+        </tr>
+    `;
+  $("#bright-strategy-data").append(emptyRow);
+}
+
+function addEmptyRowWeak() {
+  const emptyRow = `
+        <tr>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+
+        </tr>
+    `;
+  $("#weak-strategy-data").append(emptyRow);
 }
 
 function addEmptyRowCurriculumMod() {

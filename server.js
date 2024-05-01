@@ -100,6 +100,14 @@ const courseOutcomeModuleSchema = new mongoose.Schema(
   { versionKey: false }
 );
 
+const openingReportSchema = new mongoose.Schema(
+  {
+    InnovativeLearningMethod: String,
+    InnovaticeEvaluationStrategy: String,
+  },
+  { versionKey: false }
+);
+
 const courseSchema = new mongoose.Schema(
   {
     coid: String,
@@ -689,7 +697,7 @@ app.get("/generate-sample-excelta", async (req, res) => {
     const c = req.query.code + "_taco";
     const AttainmentModel = courseOutcomeDb.model(
       "CourseOutcomeModule",
-      attainmentT1Schema,
+      attainmentT1Schemaco,
       c
     );
     const firstDocument = await AttainmentModel.findOne();

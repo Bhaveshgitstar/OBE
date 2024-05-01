@@ -209,27 +209,28 @@ function fetchcopoData2() {
                 currArray[i] =
                   (currArray[1] + currArray[2] + currArray[3]) /
                   (present[1] + present[2] + present[3]);
-                tableHtml += `<td>${currArray[i].toFixed(1)}</td>`;
+                tableHtml += `<td>${currArray[i].toFixed(2)}</td>`;
               } else if (header === "AVG(Quiz+Assignment)") {
                 currArray[i] =
-                  (currArray[6] + currArray[7]) / (present[6] + present[7]) ||
+                  (currArray[5] + currArray[6]) / (present[5] + present[6]) ||
                   0;
-                tableHtml += `<td>${currArray[i].toFixed(1)}</td>`;
+                console.log("YE wali", currArray[i]);
+                tableHtml += `<td>${currArray[i].toFixed(2)}</td>`;
               } else if (header === "Direct Attainment") {
                 currArray[i] = 0.8 * currArray[4] + 0.2 * currArray[7] || 0;
-                tableHtml += `<td>${currArray[i].toFixed(1)}</td>`;
+                tableHtml += `<td>${currArray[i].toFixed(2)}</td>`;
               } else if (header === "Final") {
                 currArray[i] = currArray[8] + 0.2 * currArray[9] || 0;
-                tableHtml += `<td>${currArray[i].toFixed(1)}</td>`;
-                coAttainment.push(currArray[i].toFixed(1));
+                tableHtml += `<td>${currArray[i].toFixed(2)}</td>`;
+                coAttainment.push(currArray[i].toFixed(2));
               } else if (header === "CIE") {
                 currArray[i] =
                   (currArray[1] + currArray[2] + currArray[5] + currArray[6]) /
                     (present[1] + present[2] + present[5] + present[6]) || 0;
-                tableHtml += `<td>${currArray[i].toFixed(1)}</td>`;
+                tableHtml += `<td>${currArray[i].toFixed(2)}</td>`;
               } else if (header === "SEE") {
                 currArray[i] = currArray[3];
-                tableHtml += `<td>${currArray[i].toFixed(1)}</td>`;
+                tableHtml += `<td>${currArray[i].toFixed(2)}</td>`;
               } else {
                 tableHtml += `<td>-</td>`;
               }
@@ -421,7 +422,7 @@ function fetchcoposoatData2(lastTable, co) {
               if (header === "Course") {
                 tableHtml += `<td>NBA Code:${result}</td>`;
               } else {
-                tableHtml += `<td>${lastTable[i].toFixed(1)}</td>`;
+                tableHtml += `<td>${lastTable[i].toFixed(2)}</td>`;
                 i++;
               }
             });
@@ -750,8 +751,8 @@ function saveDataToServer3() {
     attainment1 = 0;
     attainment2 = 0;
   } else {
-    attainment1 = ((at[0] / marks[0]) * 100).toFixed(1);
-    attainment2 = ((at[1] / marks[1]) * 100).toFixed(1);
+    attainment1 = ((at[0] / marks[0]) * 100).toFixed(2);
+    attainment2 = ((at[1] / marks[1]) * 100).toFixed(2);
   }
 
   const newData = {

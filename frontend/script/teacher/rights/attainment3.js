@@ -699,11 +699,11 @@ function fetchT1attainmentData2() {
               }
             });
             tableHtml += `
-                        <td class="action-buttons">
-                            <button class="btn btn-info update-buttonat">Edit</button>
-                            <button class="btn btn-danger delete-buttonat">Delete</button>
-                            <button class="btn btn-primary save-buttonatu" style="display: none;">Save</button>
-                        </td>`;
+                      <td class="action-buttons">
+                          <button class="btn btn-info update-buttonat">Edit</button>
+                          <button class="btn btn-danger delete-buttonat">Delete</button>
+                          <button class="btn btn-primary save-buttonatu" style="display: none;">Save</button>
+                      </td>`;
 
             tableHtml += "</tr>";
           });
@@ -711,53 +711,6 @@ function fetchT1attainmentData2() {
           tableHtml += "</tbody>";
           attainmentData.append(tableHtml);
           const studentsAppeared = calculateStudentsAppeared(data);
-
-          // Calculate and add summary rows
-          /*  const totalStudents = data.length ;
-                const averageMarks = calculateAverageMarks(data);
-                const studentsAboveTarget1 = calculateStudentsAboveTarget1(data);
-                const studentsAboveTarget2 = calculateStudentsAboveTarget2(data);
-                const percentageAboveTarget1 = calculatePercentageAboveTarget1(data);
-                const percentageAboveTarget2 = calculatePercentageAboveTarget2(data);
-                const coAttainment = calculateCOAttainment(data);
-                const studentsAppeared = calculateStudentsAppeared(data);
-  
-                const summaryRow = `
-                    <tbody>
-                        <tr>
-                            <th colspan="4">Total Students:</th>
-                            <td colspan="${qColumns.length + 4}">${totalStudents}</td>
-                    
-                        </tr>
-                        <tr>
-                            <th colspan="4">Average Marks:</th>
-                            <td colspan="${qColumns.length + 4}">${averageMarks}</td>
-                        
-                        </tr>
-                        <tr>
-                            <th colspan="4">No. of Students Scored >= Target % (50%):</th>
-                            <td colspan="${(qColumns.length + 4) -4}">${studentsAboveTarget1}</td>
-                            <td colspan="4">${studentsAboveTarget2}</td>
-                    
-                        </tr>
-                        <tr>
-                            <th colspan="4">% of Students Scored >= Target % (50%):</th>
-                            <td colspan="${(qColumns.length + 4)-4}">${percentageAboveTarget1}</td>
-                            <td colspan="4">${percentageAboveTarget2}</td>
-        
-                        </tr>
-                        <tr>
-                            <th colspan="4">CO Attainment Levels:</th>
-                            <td colspan="${qColumns.length + 4}">${coAttainment}</td>
-                        
-                        </tr>
-                        <tr>
-                            <th colspan="4">No. of Students Appeared in T1:</th>
-                            <td colspan="${qColumns.length + 4}">${studentsAppeared}</td>
-                    
-                        </tr>
-                    </tbody>
-                `;*/
           let summaryRow = "<tbody>";
           summaryRow += `<tr><th colspan="4">Total Students:</th><th colspan="${
             qColumns.length + 5
@@ -766,7 +719,7 @@ function fetchT1attainmentData2() {
             qColumns.length + 5
           }">${calculateAverageMarks(data)}</th></tr>`;
           summaryRow += `<tr>
-                <th colspan="4">No. of Students Scored >= 50% </th>`;
+              <th colspan="4">No. of Students Scored >= 50% </th>`;
 
           aColumns.forEach((aCol) => {
             const studentsAboveTarget = calculateStudentsAboveTarget(
@@ -774,45 +727,42 @@ function fetchT1attainmentData2() {
               aCol
             );
             summaryRow += `
-                            <th colspan="4">${studentsAboveTarget}</th>`;
+                          <th colspan="4">${studentsAboveTarget}</th>`;
           });
           summaryRow += `</tr>`;
           summaryRow += `<tr>
-                <th colspan="4">% of Students Scored >= 50% </th>`;
+              <th colspan="4">% of Students Scored >= 50% </th>`;
 
           aColumns.forEach((aCol) => {
             const percentageAboveTarget = calculatePercentageAboveTarget(
               data,
-              aCol,
-              studentsAppeared
+              aCol
             );
             summaryRow += `
-                            <th colspan="4">${percentageAboveTarget}</th>
-                    `;
+                          <th colspan="4">${percentageAboveTarget}</th>
+                  `;
           });
           summaryRow += `</tr>`;
           summaryRow += `<tr>
-                <th colspan="4">CO Attainment Level </th>`;
+              <th colspan="4">CO Attainment Level </th>`;
           var i = 0;
           aColumns.forEach((aCol) => {
-            const percentageAboveTarget = calculateCOAttainment(
-              data,
-              aCol,
-              studentsAppeared
-            );
+            const percentageAboveTarget = calculateCOAttainment(data, aCol);
             coPsoMaker(percentageAboveTarget, atGlobalColumn[i]);
             console.log("Hello2", atGlobalColumn[i]);
             i += 1;
+
             summaryRow += `
-                            <th colspan="4">${percentageAboveTarget}</th>
-                    `;
+                          <th colspan="4">${percentageAboveTarget}</th>
+                  `;
           });
+
           summaryRow += `</tr>
-                <tr>
-                <th colspan="4">No. of Students Appeared in T1:</th>
-                <th colspan="${qColumns.length + 4}">${studentsAppeared}</th>
-        
-            </tr>`;
+              <tr>
+              <th colspan="4">No. of Students Appeared in T1:</th>
+              <th colspan="${qColumns.length + 4}">${studentsAppeared}</th>
+      
+          </tr>`;
 
           summaryRow += "</tbody>";
           attainmentData.append(summaryRow);
@@ -829,17 +779,18 @@ function fetchT1attainmentData2() {
     });
   });
 }
-function calculateCOAttainment(data, attainmentField, studentsAppeared) {
+
+function calculateCOAttainment(data, attainmentField) {
   const attainmentCount = data.filter(
     (record) => record[attainmentField] >= 50
   ).length;
   let attainmentLevel;
 
-  if (attainmentCount / studentsAppeared >= 0.8) {
+  if (attainmentCount / data.length >= 0.8) {
     attainmentLevel = 3;
-  } else if (attainmentCount / studentsAppeared >= 0.7) {
+  } else if (attainmentCount / data.length >= 0.7) {
     attainmentLevel = 2;
-  } else if (attainmentCount / studentsAppeared >= 0.6) {
+  } else if (attainmentCount / data.length >= 0.6) {
     attainmentLevel = 1;
   } else {
     attainmentLevel = 0;
@@ -855,15 +806,10 @@ function calculateStudentsAboveTarget(data, attainmentField) {
   return data.filter((record) => parseFloat(record[attainmentField]) >= 50)
     .length;
 }
-function calculatePercentageAboveTarget(
-  data,
-  attainmentField,
-  studentsAppeared
-) {
+function calculatePercentageAboveTarget(data, attainmentField) {
   const aboveTargetCount = calculateStudentsAboveTarget(data, attainmentField);
-  return ((aboveTargetCount / studentsAppeared) * 100).toFixed(2) + "%";
+  return ((aboveTargetCount / data.length) * 100).toFixed(2) + "%";
 }
-
 function fetchT1attainmentData() {
   return new Promise((resolve, reject) => {
     $.ajax({

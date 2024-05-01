@@ -1155,3 +1155,8 @@ form button[type="submit"] {
   font-size: 16px;
   cursor: pointer;
 }
+
+#chart-container {
+  width: 50%;
+  margin: auto;
+}
