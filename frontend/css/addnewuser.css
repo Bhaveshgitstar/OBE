@@ -317,9 +317,7 @@ body {
   color: #fff; /* Text color */
   padding: 10px; /* Add padding for spacing */
   text-align: center; /* Center the text */
-  margin: 100px 0 0;
-  margin-left: -20px;
-  margin-right: -20px; /* Add margin for spacing at the top, no margin at the bottom */
+  margin-bottom: 5%; /* Add margin for spacing at the top, no margin at the bottom */
 }
 .box-heading {
   background-color: #181e4e; /* Background color */
@@ -405,7 +403,6 @@ body {
 /* Style headings */
 h2 {
   text-align: center;
-  text-decoration: underline;
   margin: 20px 0;
 }
 
@@ -421,13 +418,13 @@ form {
   border: 1px solid #ccc;
   border-radius: 0px;
   margin-left: 35%;
+  margin-top: 7.5%;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .form-container {
   max-width: 450px;
-  width: 100%;
-  margin: 100px auto; /* Adjust margin from the top and center horizontally */
+  width: 100%; /* Adjust margin from the top and center horizontally */
   padding: 20px; /* Adjust padding to control the space inside the form */
   background-color: #f5f5f5;
   border: 1px solid #ccc;
@@ -497,7 +494,7 @@ form .form-group {
 }
 
 #departmentDropdown {
-  width: 50%;
+  width: ;
 }
 
 .input-group-icon {
