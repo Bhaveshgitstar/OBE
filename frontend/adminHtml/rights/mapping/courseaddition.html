@@ -1,56 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link rel="stylesheet" href="../../../css/admincontorl.css">
-    <link rel="stylesheet" href="../../css/footer.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>RegisterCourse</title>
-    <style>
-        form{
-        margin-top: 1%;
-        margin-left: 25%;
-        max-width: 50vw;
-        padding: 3.5%;
-        }
-        .input-group {
-          position: relative;
-      }
-      
-      .input-group-icon {
-          position: absolute;
-          top: 22%;
-          /*transform: translateY(-40%);*/
-          left: 10px;
-      
-      }
-      .input-group input[type="number"]{
-        border:0px;
-        padding: 10px;
-        max-width: 45vw;
-        width: 43.4vw;
-        padding-left: 40px;
+  <link rel="stylesheet" href="../../../css/admincontorl.css">
+  <link rel="stylesheet" href="../../css/footer.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
 
-      }
-      
-      .input-group input[type="text"],
-      .input-group input[type="password"]{
-        padding-left: 40px;
 
-      }
-    </style>
+  <title>RegisterCourse</title>
+  <style>
+    form {
+      margin-top: 1%;
+      margin-left: 25%;
+      max-width: 50vw;
+      padding: 3.5%;
+    }
+
+    .input-group {
+      position: relative;
+    }
+
+    .input-group-icon {
+      position: absolute;
+      top: 22%;
+      /*transform: translateY(-40%);*/
+      left: 10px;
+
+    }
+
+    .input-group input[type="number"] {
+      border: 0px;
+      padding: 10px;
+      max-width: 45vw;
+      width: 43.4vw;
+      padding-left: 40px;
+
+    }
+
+    .input-group input[type="text"],
+    .input-group input[type="password"] {
+      padding-left: 40px;
+
+    }
+  </style>
 </head>
+
 <body>
   <div class="navigation-strip">
     <!-- Hamburger Icon to Open Sidebar -->
@@ -59,168 +63,179 @@
 
     <!-- Menu Options -->
     <div class="navbar_content">
-        <i class="bi bi-grid"></i>
-        <i class='bx bx-sun' id="darkLight"></i>
-        <i class='bx bx-bell' ></i>
-        <i class='bx bx-sun' id="darkLight"></i>
-      </div>
-      <div class="contact-us-container">
-          Welcome<h4 id="username">User Name</h4></h4>
-      </div>
-      <span class="user-info-button">User Info</span>
+      <i class="bi bi-grid"></i>
+      <i class='bx bx-sun' id="darkLight"></i>
+      <i class='bx bx-bell'></i>
+      <i class='bx bx-sun' id="darkLight"></i>
+    </div>
+    <div class="contact-us-container">
+      Welcome<h4 id="username">User Name</h4>
+      </h4>
+    </div>
+    <span class="user-info-button">User Info</span>
 
     <!-- User Info Popup -->
     <div class="user-info-popup">
-        <!-- Add user information here -->
-        <h4 id="username1">User Name</h4>
-        <div><h7 id="userrole">User Role</h7></div>
-        <div><h8 id="course_code">Course Name</h8></div>
+      <!-- Add user information here -->
+      <h4 id="username1">User Name</h4>
+      <div>
+        <h7 id="userrole">User Role</h7>
+      </div>
+      <div>
+        <h8 id="course_code">Course Name</h8>
+      </div>
     </div>
-</div>
+  </div>
 
-    <!-- sidebar -->
-    <nav class="sidebar">
-        <div class="menu_content">
-          <ul class="menu_items">
-            <div class="menu_title menu_dahsboard"></div>
-            <!-- duplicate or remove this li tag if you want to add or remove navlink with submenu -->
-            <!-- start -->
-            <li class="item">
-              <a href="/adminhome" class="nav_link">
-                <span class="navlink_icon">
-                  <i class="bx bx-home-alt"></i>
-                </span>
-                <span class="navlink">Home</span></a>
-            </li>
-            <!-- end -->
-  
-            <!-- duplicate this li tag if you want to add or remove  navlink with submenu -->
-            <!-- start -->
-            <li class="item">
-              <div href="#" class="nav_link submenu_item">
-                <span class="navlink_icon">
-                  <i class="bx bx-user"></i>
-                </span>
-                <span class="navlink">Mapping</span>
-                <i class="bx bx-chevron-right arrow-left"></i>
-              </div>
-  
-              <ul class="menu_items submenu">
-                 <a href="/coursemapping" class="nav_link sublink">Course Mapping</a>
-                <a href="/adminmapping" class="nav_link sublink">Coordinator Mapping</a>
-                <a href="/adminmapping2" class="nav_link sublink">Teacher Mapping</a>
-              </ul>
-            </li>
-          </ul> 
-  
-          <ul class="menu_items">
-            <div class="menu_title menu_setting"></div>
-            <li class="item">
-              <a href="/logout" class="nav_link">
-                <span class="navlink_icon">
-                  <i class="bx bx-log-out"></i>
-                </span>
-                <span class="navlink">Logout</span>
-              </a>
-            </li>
-            
-  
-          <!-- Sidebar Open / Close -->
-          <div class="bottom_content">
-            <div class="bottom expand_sidebar">
-              <span> Expand</span>
-              <i class='bx bx-log-in' ></i>
-            </div>
-            <div class="bottom collapse_sidebar">
-              <span> Collapse</span>
-              <i class='bx bx-log-out'></i>
-            </div>
+  <!-- sidebar -->
+  <nav class="sidebar">
+    <div class="menu_content">
+      <ul class="menu_items">
+        <div class="menu_title menu_dahsboard"></div>
+        <!-- duplicate or remove this li tag if you want to add or remove navlink with submenu -->
+        <!-- start -->
+        <li class="item">
+          <a href="/adminhome" class="nav_link">
+            <span class="navlink_icon">
+              <i class="bx bx-home-alt"></i>
+            </span>
+            <span class="navlink">Home</span></a>
+        </li>
+        <!-- end-->
+        <!-- duplicate this li tag if you want to add or remove  navlink with submenu -->
+        <!-- start -->
+        <li class="item">
+          <div href="#" class="nav_link submenu_item">
+            <span class="navlink_icon">
+              <i class="bx bx-user"></i>
+            </span>
+            <span class="navlink">Mapping</span>
+            <i class="bx bx-chevron-right arrow-left"></i>
+          </div>
+
+          <ul class="menu_items submenu">
+            <a href="/coursemapping" class="nav_link sublink">Course Mapping</a>
+            <a href="/adminmapping" class="nav_link sublink">Coordinator Mapping</a>
+            <a href="/adminmapping2" class="nav_link sublink">Teacher Mapping</a>
+            <a href="/addnewfaculty" class="nav_link sublink">Add New Faculty</a>
+          </ul>
+        </li>
+      </ul>
+
+      <ul class="menu_items">
+        <div class="menu_title menu_setting"></div>
+        <li class="item">
+          <a href="/logout" class="nav_link">
+            <span class="navlink_icon">
+              <i class="bx bx-log-out"></i>
+            </span>
+            <span class="navlink">Logout</span>
+          </a>
+        </li>
+
+
+        <!-- Sidebar Open / Close -->
+        <div class="bottom_content">
+          <div class="bottom expand_sidebar">
+            <span> Expand</span>
+            <i class='bx bx-log-in'></i>
+          </div>
+          <div class="bottom collapse_sidebar">
+            <span> Collapse</span>
+            <i class='bx bx-log-out'></i>
           </div>
         </div>
-      </nav>
-    
-      <div class="container mt-5"></div>
-      <div class="box-heading1">
-          <h5>REGISTER NEW COURSE</h5>
-      </div>
-    <form action="/registercourse" method="POST">
-      <div class="form-group">
-        <div class="input-group">
-            <span class="input-group-icon">
-                <i class="fa fa-book"></i>
-            </span>
-    <input type="text" name="coursecode" placeholder="Course Code" required minlength="10" maxlength="10"><br>
-    </div></div>
+    </div>
+  </nav>
+
+  <div class="container mt-5"></div>
+  <div class="box-heading1">
+    <h5>REGISTER NEW COURSE</h5>
+  </div>
+  <form action="/registercourse" method="POST">
     <div class="form-group">
       <div class="input-group">
-          <span class="input-group-icon">
-              <i class="fa fa-book"></i>
-          </span>
+        <span class="input-group-icon">
+          <i class="fa fa-book"></i>
+        </span>
+        <input type="text" name="coursecode" placeholder="Course Code" required minlength="10" maxlength="10"><br>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="input-group">
+        <span class="input-group-icon">
+          <i class="fa fa-book"></i>
+        </span>
         <input type="text" name="coursename" placeholder="Course Name" required minlength="10"><br>
-      </div></div>
-      <div class="form-group">
-        <div class="input-group">
-            <span class="input-group-icon">
-                <i class="fa fa-book"></i>
-            </span>
-          <input type="number" name="coursecredits" placeholder="Course Credits"><br></div></div>
-            <div class="form-group">
-                <div class="input-group">
-                    <span class="input-group-icon">
-                        <i class="fa fa-user-shield"></i>
-                    </span>
-                    <input type="text" id="contacthours" name="contacthours" placeholder="Contact Hours" required minlength="5" maxlength="5">
-                </div>
-            </div>
-            <div class="form-group">
-              <div class="input-group">
-                  <span class="input-group-icon">
-                      <i class="fa fa-user-shield"></i>
-                  </span>
-                  <input type="text" id="nbacode" name="nbacode" placeholder="NBA Code" required minlength="1">
-              </div>
-          </div>
-            <div class="col-md-6 d-flex mb-3">
-                <div class="col-md-6">
-                    <!-- Academic Year Select -->
-                    <select class="form-select" name="department" style="width: 43vw;">
-                        <option value="" disabled selected>Select Course Department</option> 
-                        <option id="CSE" value="CSE">CSE</option>
-                        <option id="IT" value="IT">IT</option>
-                        <option id="ECE" value="ECE">ECE</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-6 d-flex mb-3">
-              <div class="col-md-6">
-                  <!-- Academic Year Select -->
-                  <select class="form-select" name="semester" style="width: 43vw;">
-                      <option value="" disabled selected>Select Course Semester</option> 
-                      <option id="2024EVENSEM" value="2024EVENSEM">2024EVENSEM</option>
-                      <option id="2023ODDSEM" value="2023ODDSEM">2023ODDSEM</option>
-                      <option id="2023EVENSEM" value="2023EVENSEM">2023EVENSEM</option>
-                  </select>
-              </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="input-group">
+        <span class="input-group-icon">
+          <i class="fa fa-book"></i>
+        </span>
+        <input type="number" name="coursecredits" placeholder="Course Credits"><br>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="input-group">
+        <span class="input-group-icon">
+          <i class="fa fa-user-shield"></i>
+        </span>
+        <input type="text" id="contacthours" name="contacthours" placeholder="Contact Hours" required minlength="5"
+          maxlength="5">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="input-group">
+        <span class="input-group-icon">
+          <i class="fa fa-user-shield"></i>
+        </span>
+        <input type="text" id="nbacode" name="nbacode" placeholder="NBA Code" required minlength="1">
+      </div>
+    </div>
+    <div class="col-md-6 d-flex mb-3">
+      <div class="col-md-6">
+        <!-- Academic Year Select -->
+        <select class="form-select" name="department" style="width: 43vw;">
+          <option value="" disabled selected>Select Course Department</option>
+          <option id="CSE" value="CSE">CSE</option>
+          <option id="IT" value="IT">IT</option>
+          <option id="ECE" value="ECE">ECE</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-6 d-flex mb-3">
+      <div class="col-md-6">
+        <!-- Academic Year Select -->
+        <select class="form-select" name="semester" style="width: 43vw;">
+          <option value="" disabled selected>Select Course Semester</option>
+          <option id="2024EVENSEM" value="2024EVENSEM">2024EVENSEM</option>
+          <option id="2023ODDSEM" value="2023ODDSEM">2023ODDSEM</option>
+          <option id="2023EVENSEM" value="2023EVENSEM">2023EVENSEM</option>
+        </select>
+      </div>
 
-          </div>
-          <div class="col-md-6 d-flex mb-3">
-            <div class="col-md-6">
-                <!-- Academic Year Select -->
-                <select class="form-select" name="year" style="width: 43vw;">
-                    <option value="" disabled selected>Select Year</option> 
-                    <option id="year1" value=1><i class="fas fa-chalkboard-teachers"></i>Year 1</option>
-                    <option id="year2" value=2>Year 2</option>
-                    <option id="year3" value=3>Year 3</option>
-                    <option id="year4" value=4>Year 4</option>
-                </select>
-            </div>
-        </div>
+    </div>
+    <div class="col-md-6 d-flex mb-3">
+      <div class="col-md-6">
+        <!-- Academic Year Select -->
+        <select class="form-select" name="year" style="width: 43vw;">
+          <option value="" disabled selected>Select Year</option>
+          <option id="year1" value=1><i class="fas fa-chalkboard-teachers"></i>Year 1</option>
+          <option id="year2" value=2>Year 2</option>
+          <option id="year3" value=3>Year 3</option>
+          <option id="year4" value=4>Year 4</option>
+        </select>
+      </div>
+    </div>
 
-        <!-- <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY_HERE"></div> -->
-        <div class="form-group text-center">
-            <button type="submit">Register Course</button>
-        </div>
-    </form>
-    <script src="../../../script/admin/rights/coursemapping.js"></script>
+    <!-- <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY_HERE"></div> -->
+    <div class="form-group text-center">
+      <button type="submit">Register Course</button>
+    </div>
+  </form>
+  <script src="../../../script/admin/rights/coursemapping.js"></script>
 </body>
+
 </html>
