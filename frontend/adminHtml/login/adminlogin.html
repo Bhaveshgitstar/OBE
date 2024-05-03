@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,31 +17,29 @@
         }
     </style>
 </head>
-<script>window.onload = function () {
-    alert('Welcome to the page!');
+<script>
+    function validatePassword() {
+        var passwordInput = document.getElementById("password");
+        var password = passwordInput.value;
+        var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}[\]|;:,.<>?])[A-Za-z\d!@#$%^&*()_+{}[\]|;:,.<>?]{8,}$/;
 
-};
-function validatePassword() {
-    var passwordInput = document.getElementById("password");
-    var password = passwordInput.value;
-    var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}[\]|;:,.<>?])[A-Za-z\d!@#$%^&*()_+{}[\]|;:,.<>?]{8,}$/;
-
-    if (!passwordPattern.test(password)) {
-        passwordInput.classList.add("invalid-password");
-        alert("Invalid Password");
-        return false; // Prevent form submission
-    } else {
-        passwordInput.classList.remove("invalid-password");
-        alert(document.getElementById("user")+"Registered successfully");
-        return true; // Allow form submission
+        if (!passwordPattern.test(password)) {
+            passwordInput.classList.add("invalid-password");
+            alert("Invalid Password");
+            return false; // Prevent form submission
+        } else {
+            passwordInput.classList.remove("invalid-password");
+            alert(document.getElementById("user") + "Registered successfully");
+            return true; // Allow form submission
+        }
     }
-}
 </script>
+
 <body>
 
     <!-- Admin Login Form
     <form action="/register" method="POST" onsubmit="return validatePassword()"> -->
-        <form action="/register" method="POST" >
+    <form action="/register" method="POST">
         <h2 class="box-heading">Register</h2>
         <div class="form-group">
             <div class="input-group">
@@ -50,52 +49,54 @@ function validatePassword() {
                 <input type="text" name="user" placeholder="Full Name" required minlength="3">
             </div>
         </div>
-            <div class="form-group">
-                <div class="input-group">
-                    <span class="input-group-icon">
-                        <i class="fa fa-user-shield"></i>
-                    </span>
-                    <input type="text" id="username" name="username" placeholder="Username" required minlength="3">
-                </div>
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-icon">
+                    <i class="fa fa-user-shield"></i>
+                </span>
+                <input type="text" id="username" name="username" placeholder="Username" required minlength="3">
             </div>
-            <div class="form-group">
-                <div class="input-group">
-                    <span class="input-group-icon">
-                        <i class="fa fa-lock"></i>
-                    </span>
-                  <!-- <input type="password" class="" id="password" name="password" placeholder="Password" required onchange="validatePassword()" minlength="8"> -->
-                  <input type="password" class="" id="password" name="password" placeholder="Password" required minlength="8">
-                </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-icon">
+                    <i class="fa fa-lock"></i>
+                </span>
+                <!-- <input type="password" class="" id="password" name="password" placeholder="Password" required onchange="validatePassword()" minlength="8"> -->
+                <input type="password" class="" id="password" name="password" placeholder="Password" required
+                    minlength="8">
             </div>
-            <div class="col-md-12 d-flex mb-3">
-                <div class="col-md-3">
-                    <!-- Academic Year Select -->
-                    <select class="form-select" name="role" id="academicYearDropdown" style="width: 30vw;">
-                        <option value="" disabled selected>Select Your Role</option> 
-                        <option id="Teacher" value="Teacher"><i class="fas fa-chalkboard-teachers"></i>Teacher</option>
-                        <option id="Coordinator" value="Coordinator">Coordinator</option>
-                        <option id="Admin" value="Admin">Admin</option>
-                    </select>
-                </div>
+        </div>
+        <div class="col-md-12 d-flex mb-3">
+            <div class="col-md-3">
+                <!-- Academic Year Select -->
+                <select class="form-select" name="role" id="academicYearDropdown" style="width: 30vw;">
+                    <option value="" disabled selected>Select Your Role</option>
+                    <option id="Teacher" value="Teacher"><i class="fas fa-chalkboard-teachers"></i>Teacher</option>
+                    <option id="Coordinator" value="Coordinator">Coordinator</option>
+                    <option id="Admin" value="Admin">Admin</option>
+                </select>
             </div>
-            <div class="col-md-12 d-flex mb-3">
-                <div class="col-md-3">
-                    <!-- Academic Year Select -->
-                    <select class="form-select" name="Department" id="departmentDropdown" style="width: 30vw;">
-                        <option value="" disabled selected>Select Your Department</option> 
-                        <option id="CSE" value="CSE">CSE</option>
-                        <option id="IT" value="IT">IT</option>
-                        <option id="ECE" value="ECE">ECE</option>
-                    </select>
-                </div>
+        </div>
+        <div class="col-md-12 d-flex mb-3">
+            <div class="col-md-3">
+                <!-- Academic Year Select -->
+                <select class="form-select" name="Department" id="departmentDropdown" style="width: 30vw;">
+                    <option value="" disabled selected>Select Your Department</option>
+                    <option id="CSE" value="CSE">CSE</option>
+                    <option id="IT" value="IT">IT</option>
+                    <option id="ECE" value="ECE">ECE</option>
+                </select>
             </div>
-            <div class="form-group">
-                <div class="input-group">
-                    <span class="input-group-icon">
-                        <i class="fa fa-book"></i>
-                    </span>
-            <input type="text" name="Course" placeholder="Course Code" required minlength="10" maxlength="10"><br>
-            </div></div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-icon">
+                    <i class="fa fa-book"></i>
+                </span>
+                <input type="text" name="Course" placeholder="Course Code" required minlength="10" maxlength="10"><br>
+            </div>
+        </div>
         <!-- <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY_HERE"></div> -->
         <div class="form-group text-center">
             <button onclick="run()" type="submit2">Back</button>
@@ -106,10 +107,11 @@ function validatePassword() {
         <div id="contact-us-line">Contact Us</div>
     </div>
     <script>
-        function run(){
+        function run() {
             window.location.href = '/';
-    
+
         }
     </script>
 </body>
+
 </html>

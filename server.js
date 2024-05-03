@@ -347,6 +347,16 @@ app.get("/register", (req, res) => {
     path.join(__dirname, "frontend", "adminHtml/login/adminlogin.html")
   );
 });
+
+app.get("/addnewfaculty", (req, res) => {
+  res.sendFile(
+    path.join(
+      __dirname,
+      "frontend",
+      "adminHtml/rights/mapping/addnewfaculty.html"
+    )
+  );
+});
 app.get("/registercourse", (req, res) => {
   res.sendFile(
     path.join(

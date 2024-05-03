@@ -8,13 +8,34 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="../../css/adminhome.css">
+
+  <link rel="stylesheet" href="../../../css/addnewuser.css">
   <link rel="stylesheet" href="../../css/footer.css">
 
+</head>
 
+<script>
+  function validatePassword() {
+    var passwordInput = document.getElementById("password");
+    var password = passwordInput.value;
+    var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}[\]|;:,.<>?])[A-Za-z\d!@#$%^&*()_+{}[\]|;:,.<>?]{8,}$/;
 
-  <!-- Navigation Strip -->
+    if (!passwordPattern.test(password)) {
+      passwordInput.classList.add("invalid-password");
+      alert("Invalid Password");
+      return false; // Prevent form submission
+    } else {
+      passwordInput.classList.remove("invalid-password");
+      alert(document.getElementById("user") + "Registered successfully");
+      return true; // Allow form submission
+    }
+  }
+</script>
+
+<body>
+
   <div class="navigation-strip">
     <!-- Hamburger Icon to Open Sidebar -->
 
@@ -47,7 +68,6 @@
     </div>
   </div>
 
-  <!-- sidebar -->
   <nav class="sidebar">
     <div class="menu_content">
       <ul class="menu_items">
@@ -108,6 +128,51 @@
     </div>
   </nav>
 
+  <!-- Admin Login Form
+    <form action="/register" method="POST" onsubmit="return validatePassword()"> -->
+  <form action="/register" method="POST" id="form">
+    <h2 class="box-heading1">Add New Faculty</h2>
+    <div class="form-group">
+      <div class="input-group">
+        <span class="input-group-icon">
+          <i class="fa fa-user"></i>
+        </span>
+        <input type="text" name="user" placeholder="Full Name" required minlength="3">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="input-group">
+        <span class="input-group-icon">
+          <i class="fa fa-user-shield"></i>
+        </span>
+        <input type="text" id="username" name="username" placeholder="Username" required minlength="3">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="input-group">
+        <span class="input-group-icon">
+          <i class="fa fa-lock"></i>
+        </span>
+        <!-- <input type="password" class="" id="password" name="password" placeholder="Password" required onchange="validatePassword()" minlength="8"> -->
+        <input type="password" class="" id="password" name="password" placeholder="Password" required minlength="8">
+      </div>
+    </div>
+    <div class="col-md-12 d-flex mb-3">
+      <div class="col-md-3">
+        <!-- Academic Year Select -->
+        <select class="form-select" name="Department" id="departmentDropdown" style="width: 27vw;">
+          <option value="" disabled selected>Select Your Department</option>
+          <option id="CSE" value="CSE">CSE</option>
+          <option id="IT" value="IT">IT</option>
+          <option id="ECE" value="ECE">ECE</option>
+        </select>
+      </div>
+    </div>
+    <!-- <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY_HERE"></div> -->
+    <div class="form-group text-center">
+      <button type="submit">Confirm Submission</button>
+    </div>
+  </form>
 
   <div id="footer"></div>
   <script>
@@ -119,16 +184,15 @@
       });
   </script>
 
-  <!-- Add more buttons for additional pages as needed -->
-  </div>
-
   <script src="../../../script/admin/home/adminhome.js"></script>
   <script>
-    function printPage() {
-      // Call the window.print() method to initiate printing
-      window.print();
+
+
+    function run() {
+      window.location.href = '/';
+
     }
   </script>
-  </body>
+</body>
 
 </html>
