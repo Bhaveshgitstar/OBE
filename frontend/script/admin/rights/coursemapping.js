@@ -225,7 +225,7 @@ $(document).ready(() => {
       type: "DELETE",
       success: function (response) {
         console.log("Data updated successfully:", response);
-        getDataButton()then.catch(function (error) {
+        getDataButton().catch(function (error) {
           console.error("Error:", error);
         });
       },
