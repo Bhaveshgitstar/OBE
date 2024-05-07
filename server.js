@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const multer = require("multer");
@@ -16,11 +17,12 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "frontend"));
 app.use(bodyParser.json());
 
-// Establish the connection to the educational_platform database
-const educationalPlatformDb = mongoose.createConnection(
-  "mongodb+srv://bhasha12:cLU4rWC63vJIWt3o@obedoc.yjscp0h.mongodb.net/educational_platform",
-  { useNewUrlParser: true, useUnifiedTopology: true }
-);
+const userdb = `${process.env.MONGODB_URL}/${process.env.USER_DB}`;
+
+const educationalPlatformDb = mongoose.createConnection(userdb, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 educationalPlatformDb.once("open", () => {
   console.log("Connected to educational_platform database");
@@ -30,8 +32,10 @@ educationalPlatformDb.on("error", (err) => {
   console.error("Error connecting to educational_platform database:", err);
 });
 
+const sessiondb = `${process.env.MONGODB_URL}/${process.env.SESSION_DB}`;
+
 const store = new MongoDBSession({
-  uri: "mongodb+srv://bhasha12:cLU4rWC63vJIWt3o@obedoc.yjscp0h.mongodb.net/educational_platform_sessions",
+  uri: sessiondb,
   collection: "sessions",
 });
 
@@ -75,11 +79,13 @@ const eduUserSchema = new mongoose.Schema({
 });
 const EduUser = educationalPlatformDb.model("User", eduUserSchema);
 
+const coursedb = `${process.env.MONGODB_URL}/${process.env.COURSE_DB}`;
+
 // Establish the connection to the course_outcome database
-const courseOutcomeDb = mongoose.createConnection(
-  "mongodb+srv://bhasha12:cLU4rWC63vJIWt3o@obedoc.yjscp0h.mongodb.net/course_outcome",
-  { useNewUrlParser: true, useUnifiedTopology: true }
-);
+const courseOutcomeDb = mongoose.createConnection(coursedb, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 courseOutcomeDb.once("open", () => {
   console.log("Connected to course_outcome database");
