@@ -37,7 +37,7 @@ $(document).ready(() => {
   $(document).on("click", ".delete-buttonat", function () {
     const row = $(this).closest("tr");
     const moduleId = row.data("record-id");
-    deleteRowat(moduleId);
+    deleteRowat(moduleId, row);
   });
 
   $(document).on("click", ".save-buttonatu", function () {
@@ -113,6 +113,7 @@ $(document).ready(() => {
         tableHtml += "<thead><tr>";
         tableHtml += "<th>Running Subjects</th>";
         tableHtml += "<th>Year</th>";
+        tableHtml += "<th>Semester</th>";
         tableHtml += "<th>Department</th>";
         tableHtml += "<th>Credits</th>";
         tableHtml += "<th>Contact Hours</th>";
@@ -125,6 +126,7 @@ $(document).ready(() => {
           var x = data.co_name + " (" + data.co_code + ") ";
           tableHtml += `<td>${x}</td>`;
           tableHtml += `<td>${data.Year}</td>`;
+          tableHtml += `<td>${data.sem}</td>`;
           tableHtml += `<td>${data.Branch}</td>`;
           tableHtml += `<td>${data.credits}</td>`;
           tableHtml += `<td>${data.contact_hours}</td>`;
@@ -161,6 +163,7 @@ $(document).ready(() => {
     // parts[0] will contain the course name
     var courseName = parts[0];
     console.log("Course Name:", courseName);
+    -8;
 
     // parts[1] will contain the course code
     var courseCode = parts[1];
@@ -170,10 +173,11 @@ $(document).ready(() => {
       co_code: courseCode,
       co_name: courseName,
       Year: parseInt(cells.eq(1).text()),
-      Branch: cells.eq(2).text(),
-      credits: parseInt(cells.eq(3).text()),
-      contact_hours: cells.eq(4).text(),
-      NBAcode: cells.eq(5).text(),
+      sem: cells.eq(2).text(),
+      Branch: cells.eq(3).text(),
+      credits: parseInt(cells.eq(4).text()),
+      contact_hours: cells.eq(5).text(),
+      NBAcode: cells.eq(6).text(),
     };
 
     console.log(updatedData);
@@ -199,6 +203,36 @@ $(document).ready(() => {
     row.find(".save-buttonatu").hide();
     row.find(".update-buttonat").show();
     row.find(".delete-buttonat").show();
+  }
+
+  function deleteRowat(moduleId, row) {
+    const cells = row.find("td");
+    var inputString = cells.eq(0).text();
+
+    // Split the string using regex to separate the course name and course code
+    var parts = inputString.split(/\s+\(([^)]+)\)/);
+
+    // parts[0] will contain the course name
+    var courseName = parts[0];
+    console.log("Course Name:", courseName);
+    -8;
+
+    // parts[1] will contain the course code
+    var courseCode = parts[1];
+    //console.log("Course Code:", courseCode);
+    $.ajax({
+      url: `/api/course/${moduleId}?code=${courseCode}`, // Change this URL to match your Express route
+      type: "DELETE",
+      success: function (response) {
+        console.log("Data updated successfully:", response);
+        getDataButton()then.catch(function (error) {
+          console.error("Error:", error);
+        });
+      },
+      error: function (error) {
+        console.error("Error deleting data:", error);
+      },
+    });
   }
 
   $("#savesubjects").click(function () {
@@ -271,6 +305,43 @@ $(document).ready(() => {
   }
 });
 
+function confirmUpload() {
+  const fileInput = document.getElementById("file");
+  if (!fileInput.files[0]) {
+    alert("Please select a file.");
+    return;
+  }
+
+  // Optionally, you can ask the user for confirmation here.
+  const confirmation = confirm(
+    "Are you sure you want to upload the selected file?"
+  );
+  if (!confirmation) {
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("file", fileInput.files[0]);
+
+  fetch(`/upload?code=${window.selectedSubject}`, {
+    method: "POST",
+    body: formData,
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      alert("Upload successful");
+      location.reload(); // Reload the page
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      // Handle errors here
+    });
+}
+
+function confirmDownload() {
+  const url = `/generate-sample-excel?code=${window.selectedSubject}`;
+  window.location.href = url;
+}
 function fetchusername() {
   $.ajax({
     url: "/api/get-username",

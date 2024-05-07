@@ -32,7 +32,9 @@ educationalPlatformDb.on("error", (err) => {
   console.error("Error connecting to educational_platform database:", err);
 });
 
-const sessiondb = `${process.env.MONGODB_URL}/${process.env.SESSION_DB}`;
+const sessiondb = `${process.env.MONGODB_URL}/${process.env.SESSIONS_DB}`;
+
+console.log(sessiondb);
 
 const store = new MongoDBSession({
   uri: sessiondb,
@@ -81,6 +83,13 @@ const EduUser = educationalPlatformDb.model("User", eduUserSchema);
 
 const coursedb = `${process.env.MONGODB_URL}/${process.env.COURSE_DB}`;
 
+const evensem2024 = `${process.env.MONGODB_URL}/${process.env.EVENSEM2024}`;
+
+const evensem2024Db = mongoose.createConnection(evensem2024, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
 // Establish the connection to the course_outcome database
 const courseOutcomeDb = mongoose.createConnection(coursedb, {
   useNewUrlParser: true,
@@ -93,6 +102,14 @@ courseOutcomeDb.once("open", () => {
 
 courseOutcomeDb.on("error", (err) => {
   console.error("Error connecting to course_outcome database:", err);
+});
+
+evensem2024Db.once("open", () => {
+  console.log("Connected to evensem2024 database");
+});
+
+evensem2024Db.on("error", (err) => {
+  console.error("Error connecting to evensem2024 database:", err);
 });
 
 // Define module schema for course_outcome
@@ -800,6 +817,104 @@ app.get("/generate-sample-excelta", async (req, res) => {
     res.status(500).send("Error generating Excel file");
   }
 });
+
+app.post("/admin/uploadcourses", upload.single("file"), (req, res) => {
+  const c = req.query.code + "_at";
+  readXlsxFile(req.file.path)
+    .then(async (rows) => {
+      try {
+        //await courseOutcomeDb.collection(c).deleteMany({});
+
+        let headerIndex = -1;
+        let headers = [];
+        let foundHeader = false;
+
+        // Find the header row with the "SRMO" column
+        for (let i = 0; i < rows.length; i++) {
+          const row = rows[i];
+
+          if (!row) {
+            // Skip null or empty rows
+            continue;
+          }
+
+          if (
+            row.includes("ModuleNo") &&
+            row.includes("RollNo") &&
+            row.includes("Name")
+          ) {
+            // Save the index of the header row
+            headerIndex = i;
+            headers = row.map((header) => header.trim());
+            foundHeader = true;
+            break;
+          }
+        }
+
+        if (!foundHeader) {
+          throw new Error("Header row not found in the Excel file.");
+        }
+
+        const AttainmentModel = courseOutcomeDb.model(
+          "CourseOutcomeModule",
+          createSchema(headers),
+          c
+        );
+
+        const documents = [];
+
+        for (let i = headerIndex + 1; i < rows.length; i++) {
+          const row = rows[i];
+
+          if (!row) {
+            // Skip null or empty rows
+            continue;
+          }
+
+          const rowData = {};
+          // ...
+          headers.forEach((header, index) => {
+            const questionNumber = header.match(/Q(\d+)/i);
+            const total = header.match(/^Total(\d+)/i); // Check for "Total" at the beginning
+
+            if (questionNumber) {
+              const fieldName = `Q${questionNumber[1]}`;
+              rowData[fieldName] = isValidNumber(row[index])
+                ? parseFloat(row[index])
+                : 0;
+            } else if (total) {
+              const fieldName = "Total";
+              rowData[fieldName] = isValidNumber(row[index])
+                ? parseFloat(row[index])
+                : 0;
+            } else if (header.toLowerCase() === "sr.no.") {
+              rowData["ModuleNo"] = row[index];
+            } else if (header.toLowerCase() === "roll no.") {
+              rowData["RollNo"] = row[index];
+            } else {
+              rowData[header] = row[index];
+            }
+          });
+          // ...
+          documents.push(rowData);
+        }
+
+        console.log("Documents:", documents);
+
+        const insertResult = await AttainmentModel.insertMany(documents);
+
+        res.send({ rowCount: insertResult.length });
+      } catch (error) {
+        console.error("MongoDB Error:", error);
+        res.status(500).send("Error inserting data into MongoDB");
+      }
+    })
+    .catch((error) => {
+      console.error("Excel Parsing Error:", error);
+      res.status(500).send("Error parsing Excel file");
+    });
+});
+
 app.post("/upload", upload.single("file"), (req, res) => {
   const c = req.query.code + "_at";
   readXlsxFile(req.file.path)
@@ -1518,6 +1633,7 @@ app.post("/admin-login", checkSessionTimeout, async (req, res) => {
     const user = await EduUser.findOne({ username: req.body.username });
     if (user && (await bcrypt.compare(req.body.password, user.password))) {
       req.session.user = user;
+      console.log(req.session.user);
       if (req.session.user.Role.includes("Admin")) {
         res.sendFile(
           path.join(__dirname, "frontend", "adminHtml/home/adminhome.html")
@@ -3335,6 +3451,31 @@ app.delete("/api/courses/:id", async (req, res) => {
   } catch (error) {
     console.error("Error deleting data:", error);
     res.status(500).json({ error: "Error deleting data" });
+  }
+});
+
+app.delete("/api/course/:id", async (req, res) => {
+  const c = req.query.code + "_cd";
+  const courses = educationalPlatformDb.model(
+    "CourseOutcomeModule",
+    courseschema,
+    "courses"
+  );
+  const CourseOutcomeModule = courseOutcomeDb.model(
+    "CourseOutcomeModule",
+    cdSchema,
+    c
+  );
+  const moduleId = req.params.id;
+  const updatedModule = req.body;
+  console.log(updatedModule);
+  try {
+    await CourseOutcomeModule.findByIdAndDelete(moduleId);
+    await courses.findByIdAndDelete(moduleId);
+    res.json(updatedModule);
+  } catch (error) {
+    console.error("Error updating data:", error);
+    res.status(500).json({ error: "Error updating data" });
   }
 });
 

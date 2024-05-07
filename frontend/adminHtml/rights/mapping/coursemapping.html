@@ -136,6 +136,7 @@
             <option value="CSE">CSE</option>
             <option value="IT">IT</option>
             <option value="ECE">ECE</option>
+            <option value="HSS">HSS</option>
             <!-- Add more departments as needed -->
           </select>
         </div>
@@ -148,6 +149,7 @@
             <option value="2023ODDSEM">2023ODDSEM</option>
             <option value="2023ODDSEM">2022ODDSEM</option>
             <option value="2024EVENSEM">2024EVENSEM</option>
+            <option value="2024ODDSEM">2024ODDSEM</option>
           </select>
         </div>
       </div>
@@ -170,6 +172,23 @@
       <!-- Data will be added here dynamically -->
     </tbody>
   </table>
+
+  <div class="container mt-5">
+    <form id="uploadForm" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="file">Choose an Excel file:</label>
+        <input type="file" class="form-control-file" id="file" name="file" accept=".xlsx">
+      </div>
+      <button type="button" class="btn btn-primary" onclick="confirmUpload()">Confirm Upload</button>
+    </form>
+    <div class="container mt-5">
+      <button type="button" class="btn btn-primary" onclick="confirmDownload()">Download Sample Format</button>
+    </div>
+
+    <div id="tableContainer" class="mt-4">
+      <!-- The table will be displayed here -->
+    </div>
+  </div>
 
 
 
