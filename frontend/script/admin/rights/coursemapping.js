@@ -323,7 +323,7 @@ function confirmUpload() {
   const formData = new FormData();
   formData.append("file", fileInput.files[0]);
 
-  fetch(`/upload?code=${window.selectedSubject}`, {
+  fetch(`/uploadcourse`, {
     method: "POST",
     body: formData,
   })
@@ -339,7 +339,7 @@ function confirmUpload() {
 }
 
 function confirmDownload() {
-  const url = `/generate-sample-excel?code=${window.selectedSubject}`;
+  const url = `/generate-sample-excel-course`;
   window.location.href = url;
 }
 function fetchusername() {

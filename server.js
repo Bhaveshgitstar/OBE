@@ -449,6 +449,69 @@ app.post("/register", async (req, res) => {
     res.status(500).send(error.message);
   }
 });
+
+app.get("/generate-sample-excel-course", async (req, res) => {
+  try {
+    const columnsInOrder = [];
+    columnsInOrder.push(
+      "Course Name",
+      "Course Code",
+      "Year",
+      "Semester",
+      "Department",
+      "Credits",
+      "Contact Hours",
+      "NBA Code"
+    );
+    const workbook = new excel.Workbook();
+    const worksheet = workbook.addWorksheet("SampleData");
+
+    // Define cell border styles
+    const borderStyle = {
+      style: "thin",
+      color: { argb: "000000" }, // Black color for borders
+    };
+
+    // Apply borders to header row
+    const headerRow = worksheet.addRow(columnsInOrder);
+    headerRow.eachCell((cell) => {
+      cell.border = {
+        top: borderStyle,
+        left: borderStyle,
+        bottom: borderStyle,
+        right: borderStyle,
+      };
+    });
+
+    // Add 20 empty rows to the worksheet and apply borders
+    for (let i = 0; i < 20; i++) {
+      const emptyRow = worksheet.addRow([]);
+      emptyRow.eachCell((cell) => {
+        cell.border = {
+          top: borderStyle,
+          left: borderStyle,
+          bottom: borderStyle,
+          right: borderStyle,
+        };
+      });
+    }
+
+    const timestamp = new Date().getTime();
+    const filename = `sample_excel_${timestamp}.xlsx`;
+
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    );
+    res.setHeader("Content-Disposition", `attachment; filename=${filename}`);
+
+    await workbook.xlsx.write(res);
+    res.end();
+  } catch (error) {
+    console.error("Error generating sample Excel:", error);
+    res.status(500).send("Error generating Excel file");
+  }
+});
 app.get("/generate-sample-excel", async (req, res) => {
   try {
     const c = req.query.code + "_t1co";
