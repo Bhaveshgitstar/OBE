@@ -459,9 +459,9 @@ app.get("/generate-sample-excel-course", async (req, res) => {
       "Year",
       "Semester",
       "Department",
-      "Credits",
+      "credits",
       "Contact Hours",
-      "NBA Code"
+      "NBACode"
     );
     const workbook = new excel.Workbook();
     const worksheet = workbook.addWorksheet("SampleData");
@@ -881,8 +881,12 @@ app.get("/generate-sample-excelta", async (req, res) => {
   }
 });
 
-app.post("/admin/uploadcourses", upload.single("file"), (req, res) => {
-  const c = req.query.code + "_at";
+app.post("/uploadcourses", upload.single("file"), (req, res) => {
+  const course = educationalPlatformDb.model(
+    "CourseOutcomeModule",
+    courseschema,
+    "courses"
+  );
   readXlsxFile(req.file.path)
     .then(async (rows) => {
       try {
@@ -902,9 +906,10 @@ app.post("/admin/uploadcourses", upload.single("file"), (req, res) => {
           }
 
           if (
-            row.includes("ModuleNo") &&
-            row.includes("RollNo") &&
-            row.includes("Name")
+            row.includes("Course Name") &&
+            row.includes("Course Code") &&
+            row.includes("Year") &&
+            row.includes("Semester")
           ) {
             // Save the index of the header row
             headerIndex = i;
@@ -917,12 +922,6 @@ app.post("/admin/uploadcourses", upload.single("file"), (req, res) => {
         if (!foundHeader) {
           throw new Error("Header row not found in the Excel file.");
         }
-
-        const AttainmentModel = courseOutcomeDb.model(
-          "CourseOutcomeModule",
-          createSchema(headers),
-          c
-        );
 
         const documents = [];
 
@@ -937,23 +936,19 @@ app.post("/admin/uploadcourses", upload.single("file"), (req, res) => {
           const rowData = {};
           // ...
           headers.forEach((header, index) => {
-            const questionNumber = header.match(/Q(\d+)/i);
-            const total = header.match(/^Total(\d+)/i); // Check for "Total" at the beginning
-
-            if (questionNumber) {
-              const fieldName = `Q${questionNumber[1]}`;
+            if (header.toLowerCase() === "year") {
+              const fieldName = "Year";
               rowData[fieldName] = isValidNumber(row[index])
                 ? parseFloat(row[index])
                 : 0;
-            } else if (total) {
-              const fieldName = "Total";
-              rowData[fieldName] = isValidNumber(row[index])
-                ? parseFloat(row[index])
-                : 0;
-            } else if (header.toLowerCase() === "sr.no.") {
-              rowData["ModuleNo"] = row[index];
-            } else if (header.toLowerCase() === "roll no.") {
-              rowData["RollNo"] = row[index];
+            } else if (header.toLowerCase() === "course name") {
+              rowData["co_name"] = row[index];
+            } else if (header.toLowerCase() === "course code") {
+              rowData["co_code"] = row[index];
+            } else if (header.toLowerCase() === "semester") {
+              rowData["sem"] = row[index];
+            } else if (header.toLowerCase() === "Department") {
+              rowData["Branch"] = row[index];
             } else {
               rowData[header] = row[index];
             }
@@ -964,7 +959,7 @@ app.post("/admin/uploadcourses", upload.single("file"), (req, res) => {
 
         console.log("Documents:", documents);
 
-        const insertResult = await AttainmentModel.insertMany(documents);
+        const insertResult = await course.insertMany(documents);
 
         res.send({ rowCount: insertResult.length });
       } catch (error) {

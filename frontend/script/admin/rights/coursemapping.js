@@ -323,7 +323,7 @@ function confirmUpload() {
   const formData = new FormData();
   formData.append("file", fileInput.files[0]);
 
-  fetch(`/uploadcourse`, {
+  fetch(`/uploadcourses`, {
     method: "POST",
     body: formData,
   })
